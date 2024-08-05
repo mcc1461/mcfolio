@@ -4,14 +4,15 @@ import Intro from "./Intro";
 import Footer from "../../components/Footer";
 import About from "./About";
 import SectionTitle from "../../components/SectionTitle";
+import Experiences from "./Experiences";
 
 function Home() {
   return (
     <>
       <Header />
       <Intro />
-      <SectionTitle title="About" />
       <About />
+      <Experiences />
       <Footer />
     </>
   );

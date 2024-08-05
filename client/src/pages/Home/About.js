@@ -1,50 +1,94 @@
-import React from "react";
 import about from "../../assets/About_MusCo.png";
+import SectionTitle from "../../components/SectionTitle";
 
 const About = () => {
+  const skills = [
+    "JavaScript",
+    "React.js",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "Tailwind CSS",
+  ];
   return (
-    <div>
-      <div className="homepage h-[86vh] bg-mc-blue ml-2 pl-7 flex items-center justify-center">
-        <div className="gap-7 py-7 w-[70vw]">
-          <h1 className="p-3 text-5xl font-bold text-quaternary-100"></h1>
-          <p className="w-2/3 p-3 text-xs italic font-bold text-justify text-quinary-100">
-            MusCo, also known as Mustafa COSKUNCELEBI, is a dedicated full-stack
-            developer with a strong specialization in the MERN stack. With a
-            background in Management Information Systems, he brings a
-            disciplined and organized approach to his work. His expertise in
-            JavaScript, React.js, Node.js, and responsive web design showcases
-            his commitment to best practices and efficient code. MusCo's ability
-            to create maintainable, cross-browser compatible layouts highlights
-            his proficiency in front-end and back-end development. Transitioning
-            from a strategic role in the military to the dynamic field of web
-            development, MusCo leverages his experience to excel in IT projects.
-            His focus on continuous learning and innovation drives him to stay
-            updated with the latest industry trends. MusCo is passionate about
-            sharing his knowledge and insights, making him a valuable asset in
-            the tech community. Whether working on complex IT projects or
-            developing user-friendly web applications, MusCo consistently
-            delivers high-quality results that exceed expectations.
-          </p>
-          <p className="w-2/3 p-3 font-bold text-justify text-ms text-quinary-100">
-            Transitioning from a strategic role in the military to the dynamic
-            field of web development, MusCo leverages his experience to excel in
-            IT projects. His focus on continuous learning and innovation drives
-            him to stay updated with the latest industry trends. MusCo is
-            passionate about sharing his knowledge and insights, making him a
-            valuable asset in the tech community. Whether working on complex IT
-            projects or developing user-friendly web applications, MusCo
-            consistently delivers high-quality results that exceed expectations.
-          </p>
-          <button className="px-5 py-1 mx-3 text-xl font-bold tracking-wider border-2 rounded border-quinary-300 text-quinary-300 ">
-            Dive in
-          </button>
-        </div>
+    <>
+      <SectionTitle title="About" />
+      <div className="section-A">
+        <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
+          <div className="flex items-center justify-center w-full p-3 lg:w-1/2">
+            <img
+              src={about}
+              alt="About MusCo"
+              className="w-full h-auto max-w-[500px] rounded-lg bg-quaternary-100"
+            />
+          </div>
+          <div className="w-full p-3 overflow-y-auto lg:w-1/2">
+            <div>
+              <h1 className="p-3 text-3xl font-bold md:text-4xl lg:text-5xl xl:text-7xl 2xl:text-9xl text-quaternary-100">
+                MusCo
+              </h1>
+              <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+                I am also known as Mustafa COSKUNCELEBI, a dedicated full-stack
+                developer with a strong specialization in the MERN stack. With a
+                background in Management Information Systems, I bring a
+                disciplined and organized approach to my work. My expertise in
+                JavaScript, React.js, Node.js, and responsive web design
+                showcases my commitment to best practices and efficient code. My
+                ability to create maintainable, cross-browser compatible layouts
+                highlights my proficiency in front-end and back-end development.
+              </p>
 
-        <div>
-          <img src={about} alt="" />
+              <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+                Transitioning from a strategic role in the military to the
+                dynamic field of web development, I leverage my experience to
+                excel in IT projects. My focus on continuous learning and
+                innovation drives me to stay updated with the latest industry
+                trends. I am passionate about sharing my knowledge and insights,
+                making me a valuable asset in the tech community. Whether
+                working on complex IT projects or developing user-friendly web
+                applications, I consistently deliver high-quality results that
+                exceed expectations.
+              </p>
+
+              <p className="hidden p-3 text-sm font-bold text-justify lg:block xl:block xl2:block md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+                In addition to my technical expertise, I excel in project
+                management and strategic planning. My background in the military
+                has equipped me with unparalleled discipline and a structured
+                approach to problem-solving. This unique combination of skills
+                allows me to handle multiple projects efficiently while
+                maintaining high standards of quality.
+              </p>
+
+              <p className="hidden p-3 text-sm font-bold text-justify lg:block xl:block xl2:block md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+                My dedication to continuous improvement is evident in my
+                proactive approach to learning new technologies and
+                methodologies. I frequently engage with the developer community,
+                contributing to open-source projects and participating in tech
+                forums. My passion for technology and drive for excellence make
+                me a standout professional in the field of web development.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="section-B">
+        <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
+          <h1 className="text-xl font-bold text-primary-100">
+            Here are some of the technologies I work with:
+          </h1>
+          <ul className="flex flex-wrap gap-3 font-semibold text-md">
+            {skills.map((skill, index) => (
+              <li
+                key={index}
+                className="p-2 rounded-lg outline bg-quinary-100 text-secondary-700"
+              >
+                {skill}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 };
 

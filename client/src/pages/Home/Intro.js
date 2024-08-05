@@ -4,7 +4,7 @@ import photo from "../../assets/photo.jpg";
 const Intro = () => {
   return (
     <>
-      <div className="homepage h-[86vh] bg-mc-blue ml-2 pl-7 flex items-center justify-center  md:flex-col-reverse sm:flex-col-reverse ">
+      <div className="homepage h-[86vh] bg-mc-blue pl-7 flex items-center justify-center  md:flex-col-reverse sm:flex-col-reverse ">
         <div className="gap-7 py-7 w-[70vw] md:w-[90vw] sm:w-[90vw] md:text-center sm:text-center">
           <h1 className="p-3 text-5xl font-semibold sm:text-xl md:text-2xl lg:text-3xl text-quinary-100">
             Hi, I am
