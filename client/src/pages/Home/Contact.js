@@ -1,19 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SectionTitle from "../../components/SectionTitle";
+// import contactMe from "../../assets/MusCo_qr1.png";
+import contactVideo from "../../assets/MusCo_WebDev.mp4";
 
 const Contact = () => {
   const user = {
     name: "Mustafa COSKUNCELEBI",
     expertise: "Full Stack Web Developer",
-    email: "mcc1461a@gmail.com",
+    email: "musco.dev777@gmail.com",
     address: "Ankara, Turkey",
   };
 
   const [entered, setEntered] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (videoRef.current) {
+            videoRef.current.play();
+          }
+        } else {
+          if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.5, // Adjust this value as needed
+    });
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
       <SectionTitle title="Contact" />
+      {/* <div className="flex items-center justify-center h-full bg-mc-blue">
+        <img src={contactMe} alt="Contact QR" className="h-[40vh] rounded" />
+      </div> */}
+      <div className="flex items-center justify-center h-full py-9 bg-mc-blue">
+        <video
+          ref={videoRef}
+          src={contactVideo}
+          alt="Contact Video"
+          className="h-[40vh] rounded"
+          controls={false}
+          autoPlay={false}
+        />
+      </div>
       <div
         className="flex flex-col items-center justify-center h-full bg-mc-blue"
         onMouseEnter={() => setEntered(true)}
