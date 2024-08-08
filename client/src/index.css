@@ -7,6 +7,10 @@
 * {
   font-family: "Roboto", sans-serif;
 }
+body {
+  background-color: #ffaaff;
+  background-color: #06101a;
+}
 
 /* Custom Scrollbar Styles */
 ::-webkit-scrollbar {

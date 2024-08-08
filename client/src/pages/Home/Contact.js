@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import SectionTitle from "../../components/SectionTitle";
-// import contactMe from "../../assets/MusCo_qr1.png";
 import contactVideo from "../../assets/MusCo_WebDev.mp4";
 
 const Contact = () => {
@@ -19,13 +18,17 @@ const Contact = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (videoRef.current) {
-            videoRef.current.play();
+            videoRef.current
+              .play()
+              .catch((error) => console.error("Play error:", error));
           }
         } else {
-          if (videoRef.current) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-          }
+          setTimeout(() => {
+            if (videoRef.current) {
+              videoRef.current.pause();
+              videoRef.current.currentTime = 0;
+            }
+          }, 100); // Delay to avoid the conflict
         }
       });
     };
@@ -49,8 +52,8 @@ const Contact = () => {
   return (
     <>
       <SectionTitle title="Contact" />
-      <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-2 xl:flex-row xl2:flex-row xl:gap-2 xl2:gap-1 py-9 bg-mc-blue">
-        <div className="flex items-center justify-center w-full outline-dotted outline-yellow-300 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
+      <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
+        <div className="flex items-center justify-center w-full lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
           <video
             ref={videoRef}
             src={contactVideo}
@@ -86,7 +89,7 @@ const Contact = () => {
               {user.name}
               {entered && (
                 <span className="px-2">
-                  <button className="px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl outline outline-4 outline-secondary-300 text-mc-orange">
+                  <button className="px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl">
                     LinkedIn
                   </button>
                 </span>

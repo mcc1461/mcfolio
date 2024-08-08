@@ -23,4 +23,15 @@ xl: 1280px
 
 `https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp`
 
+## Icons
+
+`https://remixicon.com/`
+`https://github.com/Remix-Design/RemixIcon`
+
+In the second link, you can find the following code to add to the head of the HTML file:
+`<link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>`
+
 ## Tailwind CSS

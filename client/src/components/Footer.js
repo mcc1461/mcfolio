@@ -9,9 +9,9 @@ const Footer = () => {
       <p className="italic text-gray-400 text-md">Designed and developed by</p>
       <p className="text-lg text-gray-400">
         <p>
-          <span className="text-quinary-100">Mus</span>
+          <span className="font-bold text-quinary-100">Mus</span>
           <span>tafa</span> <span>{}</span>
-          <span className="text-quinary-100">Co</span>
+          <span className="font-bold text-quinary-100">Co</span>
           <span>skuncelebi</span> <span>{}</span>{" "}
           <span className="text-quinary-100">©</span>{" "}
           <span>{formattedDate}</span>
