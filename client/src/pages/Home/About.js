@@ -24,7 +24,7 @@ const About = () => {
           </div>
           <div className="w-full p-3 overflow-y-auto lg:w-1/2">
             <div>
-              <h1 className="p-3 text-3xl font-bold md:text-4xl lg:text-5xl xl:text-7xl 2xl:text-9xl text-quaternary-100">
+              <h1 className="p-3 text-3xl font-bold md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl text-quaternary-100">
                 MusCo
               </h1>
               <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
@@ -73,14 +73,18 @@ const About = () => {
       </div>
       <div className="section-B">
         <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
-          <h1 className="text-xl font-bold text-primary-100">
-            Here are some of the technologies I work with:
+          <h1 className="text-2xl font-bold text-primary-100 p-7">
+            ***{" "}
+            <span className="border-b-4 border-quaternary-200">
+              IT Tools I Use
+            </span>{" "}
+            ***
           </h1>
           <ul className="flex flex-wrap gap-3 font-semibold text-md">
             {skills.map((skill, index) => (
               <li
                 key={index}
-                className="p-2 rounded-lg outline bg-quinary-100 text-secondary-700"
+                className="p-2 rounded-lg outline bg-quinary-200 text-secondary-700"
               >
                 {skill}
               </li>

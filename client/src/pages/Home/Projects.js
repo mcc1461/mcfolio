@@ -6,7 +6,7 @@ const Projects = () => {
   const [hoveredId, setHoveredId] = useState(null);
 
   return (
-    <>
+    <div id="Projects">
       <SectionTitle title="Projects" />
       <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row scrollable-container">
         <div className="flex flex-col w-full max-w-6xl">
@@ -69,7 +69,7 @@ const Projects = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

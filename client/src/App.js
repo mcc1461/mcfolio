@@ -1,9 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./pages/Home";
+import Loader from "./components/Loader";
+import { useState } from "react";
 
 const App = () => {
+  const [showLoader, setShowLoader] = useState(true);
   return (
     <Router>
+      {showLoader && <Loader />}
       <Routes>
         <Route path="/" element={<Header />}></Route>
         <Route path="/about" element={<div>About</div>}></Route>
