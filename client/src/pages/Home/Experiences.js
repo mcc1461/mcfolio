@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
-import { experiences } from "../../resources/experiences";
+const { experiences } = require("../../resources/experiences");
 
 const Experiences = () => {
   const [hoveredId, setHoveredId] = useState(null);

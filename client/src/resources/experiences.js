@@ -1,4 +1,4 @@
-export const experiences = [
+const experiences = [
   {
     role: "MERN Developer",
     company: "Freelance",
@@ -21,3 +21,5 @@ export const experiences = [
     desc: "During my tenure in the Turkish Armed Forces, I served as a Manager and Commander, leading diverse teams and managing complex projects. My role included strategic planning, operational management, and IT-driven scenario planning for NATO exercises, with 4 conducted in Germany and 1 in France. I was recognized by superiors for my ability to manage multiple projects efficiently while maintaining high standards of quality and discipline. My background in military leadership has equipped me with unparalleled discipline and a structured approach to problem-solving.",
   },
 ];
+
+module.exports = { experiences };

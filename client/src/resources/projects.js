@@ -1,4 +1,4 @@
-export const projects = [
+const projects = [
   {
     type: "Frontend Project-1",
     title: "MCC Todo List App",
@@ -40,3 +40,5 @@ export const projects = [
     link: "https://github.com/mcc1461/backend-contacts",
   },
 ];
+
+module.exports = { projects };

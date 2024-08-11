@@ -42,7 +42,7 @@ In the second link, you can find the following code to add to the head of the HT
 
 `npm init -y`
 `npm i express`
-`npm i mongoose dotenv`
+`npm i mongoose dotenv cors`
 
 ### Gitignore
 
