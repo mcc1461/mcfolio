@@ -1,6 +1,8 @@
 # INFO
 
-## Font Size
+## FRONT-END
+
+### Font Size
 
 `To make the font size of the paragraphs adjust automatically according to screen sizes, you can use responsive typography utilities provided by Tailwind CSS. This can be achieved using the text-xs, text-sm, text-base, text-lg, text-xl, etc., classes for different screen sizes.`
 
@@ -10,7 +12,7 @@
 
 `You can also use the text-8xl, ... text-30xl ... classes to set the font size to 6rem, ... 29rem ..., respectively.`
 
-## Tailwind Breakpoints
+### Tailwind Breakpoints
 
 `The default breakpoints in Tailwind CSS are as follows:
 sm: 640px
@@ -19,11 +21,11 @@ lg: 1024px
 xl: 1280px
 2xl: 1536px`
 
-## Custom Scrollbar CSS
+### Custom Scrollbar CSS
 
 `https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp`
 
-## Icons
+### Icons
 
 `https://remixicon.com/`
 `https://github.com/Remix-Design/RemixIcon`
@@ -34,4 +36,18 @@ In the second link, you can find the following code to add to the head of the HT
     rel="stylesheet"
 />`
 
-## Tailwind CSS
+## BACK-END
+
+### Installation
+
+`npm init -y`
+`npm i express`
+`npm i mongoose dotenv`
+
+### Gitignore
+
+`https://www.toptal.com/developers/gitignore` for node
+
+### MongoDB
+
+``
