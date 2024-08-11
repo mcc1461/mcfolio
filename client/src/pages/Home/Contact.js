@@ -103,7 +103,7 @@ const Contact = () => {
                 Expertise: {user.expertise}
               </p>
               <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                Address: {user.address}
+                Location: {user.address}
               </p>
             </div>
           </div>

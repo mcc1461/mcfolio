@@ -4,7 +4,7 @@ import Loader from "./components/Loader";
 import { useState } from "react";
 
 const App = () => {
-  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
   return (
     <Router>
       {showLoader && <Loader />}
