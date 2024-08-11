@@ -1,7 +1,16 @@
+import React, { useState } from "react";
 import about from "../../assets/About_MusCo.png";
 import SectionTitle from "../../components/SectionTitle";
 
 const About = () => {
+  const [imgSrc, setImgSrc] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/About_MusCo.png?alt=media&token=3fa1bd96-5bbd-4fe2-8d00-8c44165748c3"
+  );
+
+  const handleImgError = () => {
+    setImgSrc(about);
+  };
+
   const skills = [
     "JavaScript",
     "React.js",
@@ -17,8 +26,9 @@ const About = () => {
         <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
           <div className="flex items-center justify-center w-full p-3 lg:w-1/2">
             <img
-              src={about}
-              alt="About MusCo"
+              src={imgSrc}
+              alt="MusCo"
+              onError={handleImgError}
               className="w-full h-auto max-w-[500px] rounded-lg bg-quaternary-100"
             />
           </div>

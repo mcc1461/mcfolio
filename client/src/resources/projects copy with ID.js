@@ -1,6 +1,7 @@
 export const projects = [
   {
-    type: "Frontend Project-1",
+    _id: "11112222333344445555aab1",
+    name: "Frontend Project-1",
     title: "MCC Todo List App",
     image:
       "https://raw.githubusercontent.com/mcc1461/react-todo/main/react-todo.gif",
@@ -8,7 +9,8 @@ export const projects = [
     link: "https://github.com/mcc1461/react-todo",
   },
   {
-    type: "Frontend Project-2",
+    _id: "11112222333344445555aab2",
+    name: "Frontend Project-2",
     title: "Select",
     image:
       "https://raw.githubusercontent.com/mcc1461/selection/main/selection.gif",
@@ -16,7 +18,8 @@ export const projects = [
     link: "https://github.com/mcc1461/selection",
   },
   {
-    type: "Frontend Project-3",
+    _id: "11112222333344445555aab3",
+    name: "Frontend Project-3",
     title: "Redux Counter",
     image:
       "https://raw.githubusercontent.com/mcc1461/redux-counter/main/redux-counter.gif",
@@ -24,7 +27,8 @@ export const projects = [
     link: "https://github.com/mcc1461/redux-counter",
   },
   {
-    type: "Backend Project-1",
+    _id: "11112222333344445555aab4",
+    name: "Backend Project-1",
     title: "Express Routers",
     image:
       "https://raw.githubusercontent.com/mcc1461/express-routers/main/express-routers.gif",
@@ -32,7 +36,8 @@ export const projects = [
     link: "https://github.com/mcc1461/express-routers",
   },
   {
-    type: "Backend Project-2",
+    _id: "11112222333344445555aab5",
+    name: "Backend Project-2",
     title: "Backend Contacts",
     image:
       "https://raw.githubusercontent.com/mcc1461/backend-contacts/main/backend-contacts.gif",

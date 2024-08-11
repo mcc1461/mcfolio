@@ -48,6 +48,17 @@ In the second link, you can find the following code to add to the head of the HT
 
 `https://www.toptal.com/developers/gitignore` for node
 
-### MongoDB
+### JSON Formatter and Validator
+
+`https://jsonformatter.curiousconcept.com/`
+
+### Images
+
+Both local images and firebase links are used.
+
+useState Hook: It initializes the imgSrc state with the Firebase URL.
+handleImageError Function: This function sets the imgSrc state to the local image (photo) when the onError event is triggered (i.e., when the image fails to load).
+onError Prop in img: This triggers the handleImageError function if the image URL fails to load, thus switching to the fallback image.
+This approach ensures that your image will load from Firebase if possible, and if it fails, the local image will be displayed instead.
 
 ``

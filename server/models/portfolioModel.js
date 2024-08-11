@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 import { experiences } from "../../client/src/resources/experiences";
 import { projects } from "../../client/src/resources/projects";
 
-const portfolioSchema = new mongoose.Schema(
+const introSchema = new mongoose.Schema(
   {
     welcomeText: {
       type: String,
@@ -35,6 +35,10 @@ const portfolioSchema = new mongoose.Schema(
       min: 6,
       max: 255,
     },
+    details: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -43,26 +47,35 @@ const portfolioSchema = new mongoose.Schema(
 
 const aboutSchema = new mongoose.Schema(
   {
-    lotttieURL: {
+    imageUrl: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
 
-    aboutTitle: {
+    title: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
 
-    aboutDescription: {
+    desc1: {
       type: String,
       required: true,
     },
+    desc2: {
+      type: String,
+    },
+    desc3: {
+      type: String,
+    },
+    desc4: {
+      type: String,
+    },
 
-    aboutSkills: {
+    skills: {
       type: Array,
       required: true,
     },
@@ -74,23 +87,23 @@ const aboutSchema = new mongoose.Schema(
 
 const experiencesSchema = new mongoose.Schema(
   {
-    experiencePeriod: {
+    period: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
-    experienceLocation: {
+    location: {
       type: Array,
       required: true,
     },
-    experienceRole: {
+    role: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
-    experienceDescription: {
+    desc: {
       type: String,
       required: true,
     },
@@ -102,27 +115,27 @@ const experiencesSchema = new mongoose.Schema(
 
 const projectsSchema = new mongoose.Schema(
   {
-    projectType: {
+    type: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
-    projectTitle: {
+    title: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
-    projectDescription: {
+    desc: {
       type: String,
       required: true,
     },
-    projectLink: {
+    link: {
       type: String,
       required: true,
     },
-    projectImage_Url: {
+    image: {
       type: String,
       required: true,
     },
@@ -134,40 +147,39 @@ const projectsSchema = new mongoose.Schema(
 
 const contactSchema = new mongoose.Schema(
   {
-    contactLogoImage_Url: {
+    videoUrl: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
-    contactDeveloperName: {
+    name: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
-
-    contactLinkedInAddress: {
-      type: String,
-      required: true,
-      min: 6,
-      max: 255,
-    },
-
-    contactDeveloperEmail: {
-      type: String,
-      required: true,
-      min: 6,
-      max: 255,
-    },
-    contactDeveloperExpertise: {
+    linkedinUrl: {
       type: String,
       required: true,
       min: 6,
       max: 255,
     },
 
-    contactDeveloperLocation: {
+    location: {
+      type: String,
+      required: true,
+      min: 6,
+      max: 255,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      min: 6,
+      max: 255,
+    },
+    expertise: {
       type: String,
       required: true,
       min: 6,
@@ -180,14 +192,14 @@ const contactSchema = new mongoose.Schema(
   }
 );
 
-const Portfolio = mongoose.model("Portfolio", portfolioSchema);
+const Intro = mongoose.model("Portfolio", introSchema);
 const About = mongoose.model("About", aboutSchema);
 const Experiences = mongoose.model("Experiences", experiencesSchema);
 const Projects = mongoose.model("Projects", projectsSchema);
 const Contact = mongoose.model("Contact", contactSchema);
 
 module.exports = {
-  Portfolio,
+  Intro,
   About,
   Experiences,
   Projects,

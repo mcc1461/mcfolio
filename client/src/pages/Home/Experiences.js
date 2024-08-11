@@ -34,7 +34,7 @@ const Experiences = () => {
                   {experience.period}
                 </h2>
                 <div className="flex flex-col text-lg">
-                  {experience.place.map((place, index) => (
+                  {experience.location.map((location, index) => (
                     <p
                       key={index}
                       className={`${
@@ -43,14 +43,14 @@ const Experiences = () => {
                           : "text-secondary-100"
                       }`}
                     >
-                      {place}
+                      {location}
                     </p>
                   ))}
                 </div>
               </div>
               <div className="w-full lg:w-[65%]">
                 <p className="mb-3 text-2xl font-bold text-quaternary-200">
-                  {experience.title}
+                  {experience.role}
                 </p>
                 {hoveredId === experience._id && (
                   <p className="text-lg text-justify transition-opacity duration-300 text-quaternary-100">

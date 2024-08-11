@@ -5,9 +5,10 @@ import contactVideo from "../../assets/MusCo_WebDev.mp4";
 const Contact = () => {
   const user = {
     name: "Mustafa COSKUNCELEBI",
+    linkedinUrl: "https://www.linkedin.com/in/mcoskuncelebi/",
     expertise: "Full Stack Web Developer",
     email: "musco.dev777@gmail.com",
-    address: "Ankara, Turkey",
+    location: "Ankara, Turkey",
   };
 
   const [entered, setEntered] = useState(false);
@@ -17,18 +18,18 @@ const Contact = () => {
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          console.log("Video is in view");
           if (videoRef.current) {
-            videoRef.current
-              .play()
-              .catch((error) => console.error("Play error:", error));
+            videoRef.current.play().catch((error) => {
+              console.error("Play error:", error);
+            });
           }
         } else {
-          setTimeout(() => {
-            if (videoRef.current) {
-              videoRef.current.pause();
-              videoRef.current.currentTime = 0;
-            }
-          }, 100); // Delay to avoid the conflict
+          console.log("Video is out of view");
+          if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+          }
         }
       });
     };
@@ -37,12 +38,14 @@ const Contact = () => {
       threshold: 0.5, // Adjust this value as needed
     });
 
+    // Capture the ref value in a variable
     const currentVideoRef = videoRef.current;
     if (currentVideoRef) {
       observer.observe(currentVideoRef);
     }
 
     return () => {
+      // Use the captured variable in the cleanup function
       if (currentVideoRef) {
         observer.unobserve(currentVideoRef);
       }
@@ -56,13 +59,18 @@ const Contact = () => {
         <div className="flex items-center justify-center w-full lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
           <video
             ref={videoRef}
-            src={contactVideo}
-            alt="Contact Video"
             className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
             controls={false}
-            autoPlay={true}
+            autoPlay
             muted
-          />
+          >
+            <source
+              src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
+              type="video/mp4"
+            />
+            <source src={contactVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div
           className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start"
@@ -77,7 +85,7 @@ const Contact = () => {
             } border-l-4 pl-2`}
           >
             <a
-              href="https://www.linkedin.com/in/mcoskuncelebi/"
+              href={user.linkedinUrl}
               target="_blank"
               rel="noreferrer"
               className={`flex items-center text-lg md:text-xl lg:text-2xl font-semibold ${
@@ -95,15 +103,15 @@ const Contact = () => {
                 </span>
               )}
             </a>
+            <p className="mt-5 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
+              Expertise: {user.expertise}
+            </p>
             <div className="w-full">
               <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
                 Email: {user.email}
               </p>
               <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                Expertise: {user.expertise}
-              </p>
-              <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                Location: {user.address}
+                Location: {user.location}
               </p>
             </div>
           </div>

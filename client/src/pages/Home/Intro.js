@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import photo from "../../assets/photo.jpg";
 
 const Intro = () => {
+  const [imgSrc, setImgSrc] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/photo.jpg?alt=media&token=bf7055f0-a54d-4302-ae4c-ddf672167b4e"
+  );
+
+  const handleImageError = () => {
+    setImgSrc(photo);
+  };
+
   return (
     <>
       <div className="homepage h-[93vh] bg-mc-blue pl-7 flex items-center justify-center  md:flex-col-reverse sm:flex-col-reverse">
@@ -30,10 +38,11 @@ const Intro = () => {
             </button>
           </a>
         </div>
-        <div className="photo w-[40vw] ">
+        <div className="photo w-[40vw]">
           <img
-            src={photo}
-            alt=""
+            src={imgSrc}
+            alt="Mustafa COSKUNCELEBI"
+            onError={handleImageError}
             className="h-[40vh] md:h-[25vh] sm:h-[25vh] rounded-full -mx-5"
           />
         </div>

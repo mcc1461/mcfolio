@@ -31,7 +31,7 @@ const Projects = () => {
                       : "text-mc-white"
                   }`}
                 >
-                  {project.name}
+                  {project.type}
                 </h2>
               </div>
               {hoveredId === project._id && (
