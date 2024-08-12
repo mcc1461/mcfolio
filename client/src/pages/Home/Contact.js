@@ -1,16 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import contactVideo from "../../assets/MusCo_WebDev.mp4";
+import { useSelector } from "react-redux";
 
 const Contact = () => {
-  const user = {
-    name: "Mustafa COSKUNCELEBI",
-    linkedinUrl: "https://www.linkedin.com/in/mcoskuncelebi/",
-    expertise: "Full Stack Web Developer",
-    email: "musco.dev777@gmail.com",
-    location: "Ankara, Turkey",
-  };
-
   const [entered, setEntered] = useState(false);
   const videoRef = useRef(null);
 
@@ -51,6 +44,10 @@ const Contact = () => {
       }
     };
   }, []);
+
+  const { portfolioData } = useSelector((state) => state.root);
+  const user = portfolioData?.contacts?.[0] || {};
+  // const {videoUrl, name, linkedinUrl, expertise, email, location} = contacts;
 
   return (
     <>

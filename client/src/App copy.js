@@ -1,4 +1,4 @@
-import Header from "./pages/Home";
+import Header from "./pages/Home/Home";
 
 function App() {
   return (

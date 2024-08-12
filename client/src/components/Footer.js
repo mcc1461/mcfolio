@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <div className="text-center h-[7vh] border-t-2 bg-mc-blue-darker1 border-white py-3">
       <p className="italic text-gray-400 text-md">Designed and developed by</p>
-      <p className="text-lg text-gray-400">
+      <div className="text-lg text-gray-400">
         <p>
           <span className="font-bold text-quinary-100">Mus</span>
           <span>tafa</span> <span>{}</span>
@@ -16,7 +16,7 @@ const Footer = () => {
           <span className="text-quinary-100">©</span>{" "}
           <span>{formattedDate}</span>
         </p>
-      </p>
+      </div>
     </div>
   );
 };

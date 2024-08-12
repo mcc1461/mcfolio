@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
-import { projects } from "../../resources/projects";
+import { useSelector } from "react-redux";
 
 const Projects = () => {
   const [hoveredId, setHoveredId] = useState(null);
+
+  // Correctly access the projects array from portfolioData
+  const { portfolioData } = useSelector((state) => state.root);
+  console.log("portfolioData", portfolioData);
+  const projects = portfolioData?.projects || [];
+  console.log("projects", projects);
 
   return (
     <div id="Projects">
@@ -12,7 +18,7 @@ const Projects = () => {
         <div className="flex flex-col w-full max-w-6xl">
           {projects.map((project) => (
             <div
-              key={project._id}
+              key={project._id} // Use the actual _id from each project as the key
               className="flex flex-col items-center justify-center p-4 m-4 rounded-lg shadow-lg lg:flex-row xl:flex-row xl2:flex-row gap-7 bg-mc-blue-darker1"
               onMouseEnter={() => setHoveredId(project._id)}
               onMouseLeave={() => setHoveredId(null)}

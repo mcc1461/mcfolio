@@ -2,6 +2,11 @@
 
 ## FRONT-END
 
+### Installations
+
+`npx create-react-app .`
+`npm i axios redux react-redux @reduxjs/toolkit`
+
 ### Font Size
 
 `To make the font size of the paragraphs adjust automatically according to screen sizes, you can use responsive typography utilities provided by Tailwind CSS. This can be achieved using the text-xs, text-sm, text-base, text-lg, text-xl, etc., classes for different screen sizes.`
@@ -35,6 +40,13 @@ In the second link, you can find the following code to add to the head of the HT
     href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
     rel="stylesheet"
 />`
+
+### Ant Design
+
+`https://ant.design/docs/react/introduce`
+`https://www.npmjs.com/package/antd`
+
+`npm install antd --save`
 
 ## BACK-END
 

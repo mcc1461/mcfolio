@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import SectionTitle from "../../components/SectionTitle";
-const { experiences } = require("../../resources/experiences");
 
 const Experiences = () => {
   const [hoveredId, setHoveredId] = useState(null);
+
+  // Correctly access the experiences array from portfolioData
+  const { portfolioData } = useSelector((state) => state.root);
+  console.log("portfolioData", portfolioData);
+  const experiences = portfolioData?.experiences || [];
+  console.log("experiences", experiences);
 
   return (
     <>
@@ -12,7 +18,7 @@ const Experiences = () => {
         <div className="flex flex-col w-full max-w-6xl">
           {experiences.map((experience) => (
             <div
-              key={experience._id}
+              key={experience._id} // Unique key for each experience using _id
               className="flex flex-col items-center justify-center p-4 m-4 rounded-lg shadow-lg lg:flex-row xl:flex-row xl2:flex-row gap-7 bg-mc-blue-darker1"
               onMouseEnter={() => setHoveredId(experience._id)}
               onMouseLeave={() => setHoveredId(null)}
@@ -36,7 +42,7 @@ const Experiences = () => {
                 <div className="flex flex-col text-lg">
                   {experience.location.map((location, index) => (
                     <p
-                      key={index}
+                      key={`${experience._id}-location-${index}`} // Unique key combining _id and index for locations
                       className={`${
                         hoveredId === experience._id
                           ? "text-secondary-300 font-semibold"
