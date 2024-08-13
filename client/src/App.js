@@ -7,7 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setPortfolioData, showLoader } from "./redux/rootSlice";
 import Home from "./pages/Home/Home"; // Adjust the path if needed
-import AdminAbout from "./pages/Admin/AdminAbout";
+import Admin from "./pages/Admin"; // Adjust the path if needed
 
 const App = () => {
   const state = useSelector((state) => state.root || {});
@@ -52,7 +52,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<div>About</div>} />
-        <Route path="/admin" element={<AdminAbout />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/projects" element={<div>Projects</div>} />
         <Route path="/contact" element={<div>Contact</div>} />
       </Routes>

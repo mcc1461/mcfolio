@@ -44,6 +44,11 @@ In the second link, you can find the following code to add to the head of the HT
 ### Ant Design
 
 `https://ant.design/docs/react/introduce`
+Note: You should import react、react-dom、dayjs before using antd.js.
+
+`npm i dayjs`
+
+`https://ant.design/docs/react/introduce`
 `https://www.npmjs.com/package/antd`
 
 `npm install antd --save`
