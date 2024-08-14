@@ -4,21 +4,25 @@ import AdminAbout from "./AdminAbout";
 import AdminIntro from "./AdminIntro";
 import { Tabs } from "antd";
 
-const { TabPane } = Tabs; // Correctly destructuring TabPane from Tabs
-
 const Admin = () => {
+  const items = [
+    {
+      key: "1",
+      label: "Intro",
+      children: <AdminIntro />,
+    },
+    {
+      key: "2",
+      label: "About",
+      children: <AdminAbout />,
+    },
+  ];
+
   return (
     <main className="bg-mc-white">
       <Header />
       <div className="p-5 mt-5 font-semibold">
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Intro" key="1">
-            <AdminIntro />
-          </TabPane>
-          <TabPane tab="About" key="2">
-            <AdminAbout />
-          </TabPane>
-        </Tabs>
+        <Tabs defaultActiveKey="1" items={items} />
       </div>
     </main>
   );

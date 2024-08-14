@@ -78,4 +78,26 @@ handleImageError Function: This function sets the imgSrc state to the local imag
 onError Prop in img: This triggers the handleImageError function if the image URL fails to load, thus switching to the fallback image.
 This approach ensures that your image will load from Firebase if possible, and if it fails, the local image will be displayed instead.
 
-``
+```Info
+Previous render            Next render
+   ------------------------------------------------------
+1. useContext                 useContext
+2. useRef                     useRef
+3. useCallback                useCallback
+4. useRef                     useRef
+5. useMemo                    useMemo
+6. useSyncExternalStore       useSyncExternalStore
+7. useEffect                  useEffect
+8. useDebugValue              useDebugValue
+9. useDebugValue              useDebugValue
+10. useRef                    useRef
+11. useState                  useState
+12. useRef                    useRef
+13. useMemo                   useMemo
+14. undefined                 useEffect
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+Attention!:
+`form.setFieldsValue(portfolioData.intros[0]`
+`This will not get the initial values without [0]`

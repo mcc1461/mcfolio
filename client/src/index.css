@@ -116,3 +116,41 @@ body {
     transform: translateY(0);
   }
 }
+
+.form-item {
+  margin-bottom: 1rem;
+  background-color: rgb(201, 194, 207);
+  padding: 0.15rem;
+  border-radius: 5px;
+  width: 50%;
+  border: 1px solid rgb(5, 55, 55) !important;
+  flex-wrap: wrap !important;
+}
+
+.form-item:focus-within {
+  background-color: #4196ff;
+  outline: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .form-item {
+    width: 100% !important;
+  }
+}
+
+/* Tailwind CSS Breakpoints */
+/* 
+  
+  sm: 640px
+  md: 768px
+  lg: 1024px
+  xl: 1280px
+  2xl: 1536px
+  Breakpoint prefix	Minimum width	CSS
+  sm	640px	@media (min-width: 640px) { ... }
+  md	768px	@media (min-width: 768px) { ... }
+  lg	1024px	@media (min-width: 1024px) { ... }
+  xl	1280px	@media (min-width: 1280px) { ... }
+  2xl	1536px	@media (min-width: 1536px) { ... }
+ 
+  */

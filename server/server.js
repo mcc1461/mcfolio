@@ -1,10 +1,14 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 require("dotenv").config();
 
-const cors = require("cors");
-app.use(cors());
-
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(express.json());
 
 // Import and use routes
