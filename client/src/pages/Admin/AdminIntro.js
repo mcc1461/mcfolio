@@ -82,9 +82,11 @@ const AdminIntro = () => {
           <Input.TextArea type="text" placeholder="Details" rows={10} />
         </Form.Item>
         <Form.Item className="flex justify-end w-1/2 pr-3 lg:w-full md:w-full sm:w-full">
-          <Button type="primary" htmlType="submit">
-            SAVE
-          </Button>
+          <div className="flex justify-end w-full gap-1 pr-1">
+            <Button type="primary" htmlType="submit" className="rounded-lg ">
+              SAVE
+            </Button>
+          </div>{" "}
         </Form.Item>
       </Form>
     </div>

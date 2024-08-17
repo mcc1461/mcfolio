@@ -1,60 +1,62 @@
-// src/App.js
-
 import React, { useEffect, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Loader from "./components/Loader";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setPortfolioData, showLoader } from "./redux/rootSlice";
-import Home from "./pages/Home/Home"; // Adjust the path if needed
-import Admin from "./pages/Admin"; // Adjust the path if needed
+import axios from "axios";
+import Loader from "./components/Loader";
+import Home from "./pages/Home/Home";
+import Admin from "./pages/Admin";
+import About from "./pages/Home/About";
+import Projects from "./pages/Home/Projects";
+import Experiences from "./pages/Home/Experiences";
+import Contact from "./pages/Home/Contact";
+import { setPortfolioData, showLoader, setError } from "./redux/rootSlice";
 
 const App = () => {
-  const state = useSelector((state) => state.root || {});
-  const { loaderVisible = false, portfolioData = null } = state;
+  const { loaderVisible, reloadData, error } = useSelector(
+    (state) => state.root || {}
+  );
   const dispatch = useDispatch();
+
+  const API_URL =
+    process.env.REACT_APP_API_URL || "http://localhost:8061/api/portfolio/data";
 
   const getPortfolioData = useCallback(async () => {
     try {
-      dispatch(showLoader(true)); // Show loader before data fetch
-      const response = await axios.get("/api/portfolio/data");
-      const { data } = response; // Extract only the data part of the response
-
-      // Filter or sanitize data if needed
-      const sanitizedData = {
-        intros: data.intros || [],
-        abouts: data.abouts || [],
-        experiences: data.experiences || [],
-        projects: data.projects || [],
-        contacts: data.contacts || [],
-      };
-
-      dispatch(setPortfolioData(sanitizedData)); // Dispatch sanitized data
-      console.log(sanitizedData);
+      dispatch(showLoader(true));
+      dispatch(setError(null));
+      const response = await axios.get(API_URL);
+      dispatch(setPortfolioData(response.data));
     } catch (error) {
-      console.error(error);
+      dispatch(
+        setError("Failed to load portfolio data. Please try again later.")
+      );
     } finally {
-      dispatch(showLoader(false)); // Hide loader after data fetch
+      dispatch(showLoader(false));
     }
-  }, [dispatch]);
+  }, [dispatch, API_URL]);
 
   useEffect(() => {
     getPortfolioData();
   }, [getPortfolioData]);
 
   useEffect(() => {
-    console.log(portfolioData);
-  }, [portfolioData]);
+    if (reloadData) {
+      getPortfolioData();
+    }
+  }, [reloadData, getPortfolioData]);
 
   return (
     <Router>
       {loaderVisible && <Loader />}
+      {error && <div className="error-message">{error}</div>}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<div>About</div>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/intro" element={<Home />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/experiences" element={<Experiences />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/projects" element={<div>Projects</div>} />
-        <Route path="/contact" element={<div>Contact</div>} />
       </Routes>
     </Router>
   );

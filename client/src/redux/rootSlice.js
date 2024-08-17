@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   portfolioData: null,
   loaderVisible: false,
+  error: null,
 };
 
 const rootSlice = createSlice({
@@ -21,8 +22,11 @@ const rootSlice = createSlice({
     hideLoader: (state) => {
       state.loaderVisible = false;
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { setPortfolioData, showLoader } = rootSlice.actions;
+export const { setPortfolioData, showLoader, setError } = rootSlice.actions;
 export default rootSlice.reducer;
