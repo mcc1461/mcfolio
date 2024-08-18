@@ -18,7 +18,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const API_URL =
-    process.env.REACT_APP_API_URL || "http://localhost:8061/api/portfolio/data";
+    process.env.REACT_APP_API_URL || "http://localhost:8061/api/portfolio";
 
   const getPortfolioData = useCallback(async () => {
     try {

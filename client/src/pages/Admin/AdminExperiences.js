@@ -35,7 +35,7 @@ const AdminExperience = () => {
       dispatch(showLoader(true));
 
       const response = await axios.delete(
-        `http://localhost:8061/api/portfolio/data/experience/${experience._id}`
+        `http://localhost:8061/api/experience/${experience._id}`
       );
 
       if (response.status === 200 && response.data.success) {
@@ -60,8 +60,8 @@ const AdminExperience = () => {
     try {
       dispatch(showLoader(true));
       const url = selectedExperience
-        ? `http://localhost:8061/api/portfolio/data/experience/${selectedExperience._id}`
-        : "http://localhost:8061/api/portfolio/data/experience";
+        ? `http://localhost:8061/api/experience/${selectedExperience._id}`
+        : "http://localhost:8061/api/experience";
 
       const method = selectedExperience ? "put" : "post";
       const response = await axios[method](url, values);
@@ -86,9 +86,7 @@ const AdminExperience = () => {
   const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoader(true));
-      const response = await axios.get(
-        "http://localhost:8061/api/portfolio/data"
-      );
+      const response = await axios.get("http://localhost:8061/api/portfolio");
       dispatch(setPortfolioData(response.data));
     } catch (error) {
       message.error("Failed to fetch portfolio data: " + error.message);

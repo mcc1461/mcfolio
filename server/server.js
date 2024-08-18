@@ -15,7 +15,7 @@ app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000" }));
 app.use(express.json());
 
 // Routes
-app.use("/api/portfolio", portfolioRoutes);
+app.use("/api", portfolioRoutes);
 
 // Default route
 app.get("/", (req, res) => {

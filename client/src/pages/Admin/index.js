@@ -4,6 +4,7 @@ import AdminAbout from "./AdminAbout";
 import AdminIntro from "./AdminIntro";
 import { Tabs } from "antd";
 import AdminExperiences from "./AdminExperiences";
+import AdminProjects from "./AdminProjects";
 
 const Admin = () => {
   const items = [
@@ -25,7 +26,7 @@ const Admin = () => {
     {
       key: "4",
       label: "Projects",
-      children: <AdminExperiences />,
+      children: <AdminProjects />,
     },
   ];
 
@@ -33,7 +34,7 @@ const Admin = () => {
     <main className="bg-mc-white">
       <Header />
       <div className="p-5 mt-5 font-semibold">
-        <Tabs defaultActiveKey="3" items={items} />
+        <Tabs defaultActiveKey="4" items={items} />
       </div>
     </main>
   );

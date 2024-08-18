@@ -12,6 +12,7 @@ const {
 
 // @desc    Get all portfolio data
 router.get("/portfolio", async (req, res) => {
+  console.log("Request received at /api/portfolio");
   try {
     const intros = await Intro.find();
     const abouts = await About.find();
@@ -100,6 +101,81 @@ router.delete("/experience/:id", async (req, res) => {
   }
 });
 
+// *********** PROJECT ROUTES *********** //
+
+// @desc Get all projects
+router.get("/projects", async (req, res) => {
+  try {
+    const projects = await Project.find();
+    res.json(projects);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// @desc Get project by ID
+router.get("/projects/:id", async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    res.json(project);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// @desc Add project data
+router.post("/projects", async (req, res) => {
+  console.log("POST /projects request received with data:", req.body);
+  try {
+    const project = new Project(req.body);
+    const data = await project.save();
+    res.status(201).json({
+      data,
+      success: true,
+      message: "Project added successfully",
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// @desc Update project data
+router.put("/projects/:id", async (req, res) => {
+  try {
+    const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    res.status(200).json({
+      data: project,
+      success: true,
+      message: "Project updated successfully",
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// @desc Delete project data
+router.delete("/projects/:id", async (req, res) => {
+  try {
+    const project = await Project.findByIdAndDelete(req.params.id);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Project deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // *********** INTRO ROUTES *********** //
 
 // @desc    Update intro data
@@ -138,28 +214,6 @@ router.post("/about", async (req, res) => {
       data: about,
       success: true,
       message: "About updated successfully",
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-// *********** PROJECT ROUTES *********** //
-
-// @desc    Update project data
-router.post("/project", async (req, res) => {
-  try {
-    const project = await Project.findOneAndUpdate(
-      { _id: req.body._id },
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
-    res.status(200).json({
-      data: project,
-      success: true,
-      message: "Project updated successfully",
     });
   } catch (error) {
     res.status(400).json({ message: error.message });

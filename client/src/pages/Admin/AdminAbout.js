@@ -25,13 +25,10 @@ const AdminAbout = () => {
       dispatch(showLoader(true));
 
       // **Ensure correct API URL is used**
-      const response = await axios.post(
-        "http://localhost:8061/api/portfolio/data/about",
-        {
-          ...values,
-          _id: portfolioData.abouts[0]._id, // **Pass correct ID for updating the document**
-        }
-      );
+      const response = await axios.post("http://localhost:8061/api/about", {
+        ...values,
+        _id: portfolioData.abouts[0]._id, // **Pass correct ID for updating the document**
+      });
 
       dispatch(showLoader(false));
 
