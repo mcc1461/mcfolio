@@ -61,9 +61,9 @@ const contactSchema = new mongoose.Schema(
 
 // Export models
 module.exports = {
-  Intro: mongoose.model("Intro", introSchema),
-  About: mongoose.model("About", aboutSchema),
-  Experience: mongoose.model("Experience", experienceSchema),
-  Project: mongoose.model("Project", projectSchema),
-  Contact: mongoose.model("Contact", contactSchema),
+  Intro: mongoose.model("Intro", introSchema, "intro"),
+  About: mongoose.model("About", aboutSchema, "about"),
+  Experience: mongoose.model("Experience", experienceSchema, "experiences"),
+  Project: mongoose.model("Project", projectSchema, "projects"),
+  Contact: mongoose.model("Contact", contactSchema, "contact"),
 };

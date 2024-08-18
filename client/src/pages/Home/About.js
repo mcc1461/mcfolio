@@ -13,8 +13,10 @@ const About = () => {
   };
 
   const { portfolioData } = useSelector((state) => state.root);
+  console.log("portfolioData", portfolioData);
 
-  const aboutData = portfolioData?.abouts?.[0] || {};
+  const aboutData = portfolioData?.abouts[0] || {};
+  console.log("aboutData", aboutData);
   const {
     desc1,
     desc2,

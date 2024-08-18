@@ -7,9 +7,7 @@ const Projects = () => {
 
   // Correctly access the projects array from portfolioData
   const { portfolioData } = useSelector((state) => state.root);
-  console.log("portfolioData", portfolioData);
   const projects = portfolioData?.projects || [];
-  console.log("projects", projects);
 
   return (
     <div id="Projects">

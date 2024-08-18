@@ -66,9 +66,7 @@ const AdminProject = () => {
           dispatch(showLoader(false));
         }
       },
-      onCancel() {
-        console.log("Delete operation canceled");
-      },
+      onCancel() {},
     });
   };
 
@@ -139,64 +137,74 @@ const AdminProject = () => {
           Add Project
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-4 border-spacing-1">
-        {memoizedProjects.map((project) => (
-          <div
-            key={project._id}
-            className="col-span-1 p-5 border-2 border-gray-700 rounded-lg shadow-rounded-lg shadow-gray-900"
-          >
-            <h1 className="text-2xl font-bold text-quaternary-900">
-              {project.type}
-            </h1>
-            <hr className="h-[3px] bg-gray-800" />
-            <h3 className="text-xl font-semibold text-quaternary-700">
-              {project.title}
-            </h3>
-            <p className="text-justify">{project.desc}</p>
 
-            <div className="relative my-2">
-              <div
-                className="h-[3px] w-full bg-[length:12px_3px] bg-repeat-x"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 3px, red 1.5px, transparent 1.5px), radial-gradient(circle at 9px, blue 1.5px, transparent 1.5px)",
-                }}
-              ></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="grid grid-cols-1 gap-4 border-spacing-1 ">
+          {memoizedProjects.map((project) => (
+            <div
+              key={project._id}
+              className="col-span-1 p-5 border-2 border-gray-700 rounded-lg shadow-rounded-lg shadow-gray-900"
+            >
+              <div className="flex justify-center mb-4">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-[50%] h-auto rounded-lg"
+                />
+              </div>
+              <h1 className="text-2xl font-bold text-quaternary-900">
+                {project.type}
+              </h1>
+              <hr className="h-[3px] bg-gray-800" />
+              <h3 className="text-xl font-semibold text-quaternary-700">
+                {project.title}
+              </h3>
+              <p className="text-justify">{project.desc}</p>
+
+              <div className="relative my-2">
+                <div
+                  className="h-[3px] w-full bg-[length:12px_3px] bg-repeat-x"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(circle at 3px, red 1.5px, transparent 1.5px), radial-gradient(circle at 9px, blue 1.5px, transparent 1.5px)",
+                  }}
+                ></div>
+              </div>
+
+              <h1 className="italic font-bold text-md text-quaternary-900">
+                Project Image Url:
+                <span className="text-mc-blue-darker3"> {project.image}</span>
+              </h1>
+              <h3 className="font-semibold text-normal text-quaternary-700">
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer" // Added rel attribute here
+                  className="p-1 rounded-md bg-mc-blue text-mc-white"
+                >
+                  {`Project Link: ${project.link}`}
+                </a>
+              </h3>
+
+              <div className="flex justify-end gap-3 mb-5">
+                <Button
+                  className="px-5 py-1 rounded-md bg-primary-700 text-mc-white"
+                  type="button"
+                  onClick={() => handleEditClick(project)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  className="px-3 py-1 bg-red-700 rounded-md text-mc-white"
+                  type="button"
+                  onClick={() => handleDeleteClick(project)}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
-
-            <h1 className="italic font-bold text-md text-quaternary-900">
-              Project Image Url:
-              <span className="text-mc-blue-darker3"> {project.image}</span>
-            </h1>
-            <h3 className="font-semibold text-normal text-quaternary-700">
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer" // Added rel attribute here
-                className="p-1 rounded-md bg-mc-blue text-mc-white"
-              >
-                {`Project Link: ${project.link}`}
-              </a>
-            </h3>
-
-            <div className="flex justify-end gap-3 mb-5">
-              <Button
-                className="px-5 py-1 rounded-md bg-primary-700 text-mc-white"
-                type="button"
-                onClick={() => handleEditClick(project)}
-              >
-                Edit
-              </Button>
-              <Button
-                className="px-3 py-1 bg-red-700 rounded-md text-mc-white"
-                type="button"
-                onClick={() => handleDeleteClick(project)}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <Modal

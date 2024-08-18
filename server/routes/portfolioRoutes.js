@@ -12,13 +12,18 @@ const {
 
 // @desc    Get all portfolio data
 router.get("/portfolio", async (req, res) => {
-  console.log("Request received at /api/portfolio");
   try {
     const intros = await Intro.find();
     const abouts = await About.find();
     const experiences = await Experience.find();
     const projects = await Project.find();
     const contacts = await Contact.find();
+
+    // Log to check if data is retrieved
+    console.log("Intro:", intros);
+    console.log("About:", abouts);
+    console.log("Contact:", contacts);
+
     res.json({ intros, abouts, experiences, projects, contacts });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -51,7 +56,7 @@ router.get("/experiences/:id", async (req, res) => {
 });
 
 // @desc Add experience data
-router.post("/experience", async (req, res) => {
+router.post("/experiences", async (req, res) => {
   try {
     const experience = new Experience(req.body);
     const data = await experience.save();
@@ -66,7 +71,7 @@ router.post("/experience", async (req, res) => {
 });
 
 // @desc Update experience data
-router.put("/experience/:id", async (req, res) => {
+router.put("/experiences/:id", async (req, res) => {
   try {
     const experience = await Experience.findByIdAndUpdate(
       req.params.id,
@@ -87,7 +92,7 @@ router.put("/experience/:id", async (req, res) => {
 });
 
 // @desc Delete experience data
-router.delete("/experience/:id", async (req, res) => {
+router.delete("/experiences/:id", async (req, res) => {
   try {
     const experience = await Experience.findByIdAndDelete(req.params.id);
     if (!experience) {
@@ -128,7 +133,6 @@ router.get("/projects/:id", async (req, res) => {
 
 // @desc Add project data
 router.post("/projects", async (req, res) => {
-  console.log("POST /projects request received with data:", req.body);
   try {
     const project = new Project(req.body);
     const data = await project.save();
@@ -178,10 +182,23 @@ router.delete("/projects/:id", async (req, res) => {
 
 // *********** INTRO ROUTES *********** //
 
-// @desc    Update intro data
-router.post("/intro", async (req, res) => {
+// @desc  Get intro data
+router.get("/intro", async (req, res) => {
   try {
-    const intro = await Intro.findOneAndUpdate(
+    const intros = await Intro.find();
+    res.status(200).send({
+      data: intros,
+      success: true,
+      message: "Intro Info is taken successfully",
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+// @desc    Update intro data
+router.put("/intro", async (req, res) => {
+  try {
+    const intros = await Intro.findOneAndUpdate(
       { _id: req.body._id },
       {
         $set: req.body,
@@ -189,7 +206,7 @@ router.post("/intro", async (req, res) => {
       { new: true }
     );
     res.status(200).send({
-      data: intro,
+      data: intros,
       success: true,
       message: "Intro updated successfully",
     });
@@ -200,8 +217,21 @@ router.post("/intro", async (req, res) => {
 
 // *********** ABOUT ROUTES *********** //
 
+// @desc  Get about data
+router.get("/about", async (req, res) => {
+  try {
+    const about = await About.find();
+    res.status(200).json({
+      data: about,
+      success: true,
+      message: "About info is taken successfully",
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 // @desc    Update about data
-router.post("/about", async (req, res) => {
+router.put("/about", async (req, res) => {
   try {
     const about = await About.findOneAndUpdate(
       { _id: req.body._id },
@@ -222,10 +252,23 @@ router.post("/about", async (req, res) => {
 
 // *********** CONTACT ROUTES *********** //
 
-// @desc    Update contact data
-router.post("/contact", async (req, res) => {
+// @desc    Get contact data
+router.get("/contact", async (req, res) => {
   try {
-    const contact = await Contact.findOneAndUpdate(
+    const contacts = await Contact.find();
+    res.status(200).json({
+      data: contacts,
+      success: true,
+      message: "Contact info is taken successfully",
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+// @desc    Update contact data
+router.put("/contact", async (req, res) => {
+  try {
+    const contacts = await Contact.findOneAndUpdate(
       { _id: req.body._id },
       {
         $set: req.body,
@@ -233,7 +276,7 @@ router.post("/contact", async (req, res) => {
       { new: true }
     );
     res.status(200).json({
-      data: contact,
+      data: contacts,
       success: true,
       message: "Contact updated successfully",
     });

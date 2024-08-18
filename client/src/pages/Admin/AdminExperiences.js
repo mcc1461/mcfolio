@@ -4,9 +4,11 @@ import { Form, Input, Button, Modal, message } from "antd";
 import { setPortfolioData, showLoader } from "../../redux/rootSlice";
 import axios from "axios";
 
+const { confirm } = Modal;
+
 const AdminExperience = () => {
-  const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   // Memoize the experiences array
   const experiences = useSelector(
@@ -18,50 +20,71 @@ const AdminExperience = () => {
   const [selectedExperience, setSelectedExperience] = useState(null);
 
   useEffect(() => {
-    if (selectedExperience) {
-      form.setFieldsValue(selectedExperience);
-    } else {
-      form.resetFields();
+    if (showEditModal) {
+      if (selectedExperience) {
+        // For editing, populate the form with the selected experience
+        form.setFieldsValue({
+          ...selectedExperience,
+          location: selectedExperience.location.join(", "),
+        });
+      } else {
+        form.resetFields();
+      }
     }
-  }, [selectedExperience, form]);
+  }, [showEditModal, selectedExperience, form]);
 
   const handleEditClick = (experience) => {
     setSelectedExperience(experience);
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = async (experience) => {
-    try {
-      dispatch(showLoader(true));
+  const handleDeleteClick = (experience) => {
+    confirm({
+      title: "Are you sure you want to delete this experience?",
+      content: "Once deleted, this action cannot be undone.",
+      okText: "Yes, delete it",
+      okType: "danger",
+      cancelText: "No, keep it",
+      onOk: async () => {
+        try {
+          dispatch(showLoader(true));
 
-      const response = await axios.delete(
-        `http://localhost:8061/api/experience/${experience._id}`
-      );
+          const response = await axios.delete(
+            `http://localhost:8061/api/experiences/${experience._id}`
+          );
 
-      if (response.status === 200 && response.data.success) {
-        message.success(response.data.message);
-        getPortfolioData();
-      } else {
-        message.error("Failed to delete experience.");
-      }
-    } catch (error) {
-      message.error("Failed to delete experience: " + error.message);
-    } finally {
-      dispatch(showLoader(false));
-    }
+          if (response.status === 200 && response.data.success) {
+            message.success(response.data.message);
+            getPortfolioData();
+          } else {
+            message.error("Failed to delete experience.");
+          }
+        } catch (error) {
+          message.error("Failed to delete experience: " + error.message);
+        } finally {
+          dispatch(showLoader(false));
+        }
+      },
+      onCancel() {},
+    });
   };
 
   const handleCloseModal = () => {
     setShowEditModal(false);
     setSelectedExperience(null);
+    form.resetFields(); // Reset form fields after closing the modal
   };
 
   const onFinish = async (values) => {
     try {
       dispatch(showLoader(true));
+
+      // Convert location back to an array
+      values.location = values.location.split(",").map((loc) => loc.trim());
+
       const url = selectedExperience
-        ? `http://localhost:8061/api/experience/${selectedExperience._id}`
-        : "http://localhost:8061/api/experience";
+        ? `http://localhost:8061/api/experiences/${selectedExperience._id}`
+        : "http://localhost:8061/api/experiences";
 
       const method = selectedExperience ? "put" : "post";
       const response = await axios[method](url, values);
@@ -162,57 +185,57 @@ const AdminExperience = () => {
         open={showEditModal}
         onCancel={handleCloseModal}
         footer={null}
+        afterClose={() => form.resetFields()} // Reset form fields after modal is closed
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish}
-          // onFieldsChange={() => console.log("Form fields changed")}
-        >
-          <Form.Item
-            name="role"
-            label="Role"
-            rules={[{ required: true, message: "Please input the role!" }]}
-          >
-            <Input placeholder="Role" />
-          </Form.Item>
-          <Form.Item
-            name="period"
-            label="Period"
-            rules={[{ required: true, message: "Please input the period!" }]}
-          >
-            <Input placeholder="Period" />
-          </Form.Item>
-          <Form.Item
-            name="desc"
-            label="Description"
-            rules={[
-              { required: true, message: "Please input the description!" },
-            ]}
-          >
-            <Input.TextArea placeholder="Description" rows={5} />
-          </Form.Item>
-          <Form.Item
-            name="location"
-            label="Location"
-            rules={[{ required: true, message: "Please input the location!" }]}
-          >
-            <Input placeholder="Location" />
-          </Form.Item>
-          <Form.Item className="flex justify-end">
-            <Button type="primary" htmlType="submit" className="rounded-lg">
-              {selectedExperience ? "Update" : "Add"}
-            </Button>
-            <Button
-              type="danger"
-              htmlType="button"
-              className="ml-4 rounded-lg"
-              onClick={handleCloseModal}
+        {showEditModal && (
+          <Form form={form} layout="vertical" onFinish={onFinish}>
+            <Form.Item
+              name="role"
+              label="Role"
+              rules={[{ required: true, message: "Please input the role!" }]}
             >
-              Cancel
-            </Button>
-          </Form.Item>
-        </Form>
+              <Input placeholder="Role" />
+            </Form.Item>
+            <Form.Item
+              name="period"
+              label="Period"
+              rules={[{ required: true, message: "Please input the period!" }]}
+            >
+              <Input placeholder="Period" />
+            </Form.Item>
+            <Form.Item
+              name="desc"
+              label="Description"
+              rules={[
+                { required: true, message: "Please input the description!" },
+              ]}
+            >
+              <Input.TextArea placeholder="Description" rows={5} />
+            </Form.Item>
+            <Form.Item
+              name="location"
+              label="Location"
+              rules={[
+                { required: true, message: "Please input the location!" },
+              ]}
+            >
+              <Input placeholder="Location" />
+            </Form.Item>
+            <Form.Item className="flex justify-end">
+              <Button type="primary" htmlType="submit" className="rounded-lg">
+                {selectedExperience ? "Update" : "Add"}
+              </Button>
+              <Button
+                type="danger"
+                htmlType="button"
+                className="ml-4 rounded-lg"
+                onClick={handleCloseModal}
+              >
+                Cancel
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
       </Modal>
     </>
   );

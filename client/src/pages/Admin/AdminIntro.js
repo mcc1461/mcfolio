@@ -11,8 +11,7 @@ const AdminIntro = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (portfolioData?.intros) {
-      console.log("Setting form fields with:", portfolioData.intros);
+    if (portfolioData?.intros[0]) {
       form.setFieldsValue(portfolioData.intros[0]); // **Use correct data structure for form fields**
     }
   }, [portfolioData, form]);
@@ -22,7 +21,7 @@ const AdminIntro = () => {
       dispatch(showLoader(true));
 
       // **Ensure correct API URL is used**
-      const response = await axios.post("http://localhost:8061/api/intro", {
+      const response = await axios.put("http://localhost:8061/api/intro", {
         ...values,
         _id: portfolioData.intros[0]._id, // **Pass correct ID for updating the document**
       });
@@ -43,7 +42,7 @@ const AdminIntro = () => {
     }
   };
 
-  if (!portfolioData || !portfolioData.intros) {
+  if (!portfolioData || !portfolioData.intros[0]) {
     return <div>Loading...</div>; // **Ensure correct loading state display**
   }
 

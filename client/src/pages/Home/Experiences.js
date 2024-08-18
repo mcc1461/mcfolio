@@ -7,9 +7,7 @@ const Experiences = () => {
 
   // Correctly access the experiences array from portfolioData
   const { portfolioData } = useSelector((state) => state.root);
-  console.log("portfolioData", portfolioData);
   const experiences = portfolioData?.experiences || [];
-  console.log("experiences", experiences);
 
   return (
     <>

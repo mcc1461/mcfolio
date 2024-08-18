@@ -11,14 +11,12 @@ const Contact = () => {
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log("Video is in view");
           if (videoRef.current) {
             videoRef.current.play().catch((error) => {
               console.error("Play error:", error);
             });
           }
         } else {
-          console.log("Video is out of view");
           if (videoRef.current) {
             videoRef.current.pause();
             videoRef.current.currentTime = 0;
@@ -46,8 +44,9 @@ const Contact = () => {
   }, []);
 
   const { portfolioData } = useSelector((state) => state.root);
-  const user = portfolioData?.contacts?.[0] || {};
-  // const {videoUrl, name, linkedinUrl, expertise, email, location} = contacts;
+  const user = portfolioData?.contacts[0] || {};
+
+  console.log(user);
 
   return (
     <>

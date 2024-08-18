@@ -1,4 +1,4 @@
-const intros = [
+const intro = [
   {
     welcomeText: "Hi, I am",
     firstName: "Mustafa",

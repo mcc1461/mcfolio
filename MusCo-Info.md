@@ -99,5 +99,5 @@ Previous render            Next render
 ```
 
 Attention!:
-`form.setFieldsValue(portfolioData.intros[0]`
-`This will not get the initial values without [0]`
+`form.setFieldsValue(portfolioData.intro`
+`This will not get the initial values without `
