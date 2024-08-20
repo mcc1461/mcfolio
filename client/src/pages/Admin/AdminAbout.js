@@ -7,8 +7,6 @@ import axios from "axios";
 const AdminAbout = () => {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
-  console.log(portfolioData);
-
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const AdminAbout = () => {
       dispatch(showLoader(true));
 
       // Ensure correct API URL is used
-      const response = await axios.put("http://localhost:8061/api/about", {
+      const response = await axios.put("http://localhost:8001/api/about", {
         ...values,
         _id: portfolioData.abouts[0]._id, // Pass correct ID for updating the document
       });

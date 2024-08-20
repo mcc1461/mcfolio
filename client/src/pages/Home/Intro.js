@@ -11,10 +11,8 @@ const Intro = () => {
   // Retrieve portfolioData from the Redux store
   const { portfolioData } = useSelector((state) => state.root);
 
-  console.log("portfolioData", portfolioData);
-
   // Safely access the intro array and check if it has any data
-  const intro = portfolioData?.intros?.length ? portfolioData.intros[0] : {};
+  const intro = portfolioData?.intros?.length ? portfolioData?.intros[0] : {};
 
   // Destructure values with default empty strings
   const {

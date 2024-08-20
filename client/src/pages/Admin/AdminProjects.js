@@ -51,7 +51,7 @@ const AdminProject = () => {
           dispatch(showLoader(true));
 
           const response = await axios.delete(
-            `http://localhost:8061/api/projects/${project._id}`
+            `http://localhost:8001/api/projects/${project._id}`
           );
 
           if (response.status === 200 && response.data.success) {
@@ -79,8 +79,8 @@ const AdminProject = () => {
     try {
       dispatch(showLoader(true));
       const url = selectedProject
-        ? `http://localhost:8061/api/projects/${selectedProject._id}`
-        : "http://localhost:8061/api/projects";
+        ? `http://localhost:8001/api/projects/${selectedProject._id}`
+        : "http://localhost:8001/api/projects";
 
       const method = selectedProject ? "put" : "post";
       const response = await axios[method](url, values);
@@ -105,7 +105,7 @@ const AdminProject = () => {
   const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoader(true));
-      const response = await axios.get("http://localhost:8061/api/portfolio");
+      const response = await axios.get("http://localhost:8001/api/portfolio");
       dispatch(setPortfolioData(response.data));
     } catch (error) {
       message.error("Failed to fetch portfolio data: " + error.message);

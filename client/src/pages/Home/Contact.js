@@ -44,9 +44,15 @@ const Contact = () => {
   }, []);
 
   const { portfolioData } = useSelector((state) => state.root);
-  const user = portfolioData?.contacts[0] || {};
 
-  console.log(user);
+  // Safely access the first contact or provide an empty object as default
+  const user = portfolioData?.contacts?.[0] || {
+    name: "Unavailable",
+    linkedinUrl: "#",
+    expertise: "Information not available",
+    email: "No email provided",
+    location: "Location not available",
+  };
 
   return (
     <>

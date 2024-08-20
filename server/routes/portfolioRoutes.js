@@ -8,9 +8,7 @@ const {
   Contact,
 } = require("../models/portfolioModel");
 
-// Define routes
-
-// @desc    Get all portfolio data
+// @desc Get all portfolio data
 router.get("/portfolio", async (req, res) => {
   try {
     const intros = await Intro.find();
@@ -18,16 +16,18 @@ router.get("/portfolio", async (req, res) => {
     const experiences = await Experience.find();
     const projects = await Project.find();
     const contacts = await Contact.find();
-
-    // Log to check if data is retrieved
-    console.log("Intro:", intros);
-    console.log("About:", abouts);
-    console.log("Contact:", contacts);
-
-    res.json({ intros, abouts, experiences, projects, contacts });
+    res.status(200).json({
+      intros,
+      abouts,
+      experiences,
+      projects,
+      contacts,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
+  console.log("Portfolio data is taken successfully");
+  console.log(Intro);
 });
 
 // *********** EXPERIENCE ROUTES *********** //
@@ -36,6 +36,7 @@ router.get("/portfolio", async (req, res) => {
 router.get("/experiences", async (req, res) => {
   try {
     const experiences = await Experience.find();
+    console.log(experiences);
     res.json(experiences);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -98,9 +99,10 @@ router.delete("/experiences/:id", async (req, res) => {
     if (!experience) {
       return res.status(404).json({ message: "Experience not found" });
     }
-    res
-      .status(200)
-      .json({ success: true, message: "Experience deleted successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Experience deleted successfully",
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -172,9 +174,10 @@ router.delete("/projects/:id", async (req, res) => {
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
-    res
-      .status(200)
-      .json({ success: true, message: "Project deleted successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Project deleted successfully",
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -195,7 +198,8 @@ router.get("/intro", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-// @desc    Update intro data
+
+// @desc Update intro data
 router.put("/intro", async (req, res) => {
   try {
     const intros = await Intro.findOneAndUpdate(
@@ -217,7 +221,7 @@ router.put("/intro", async (req, res) => {
 
 // *********** ABOUT ROUTES *********** //
 
-// @desc  Get about data
+// @desc Get about data
 router.get("/about", async (req, res) => {
   try {
     const about = await About.find();
@@ -230,7 +234,8 @@ router.get("/about", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-// @desc    Update about data
+
+// @desc Update about data
 router.put("/about", async (req, res) => {
   try {
     const about = await About.findOneAndUpdate(
@@ -252,7 +257,7 @@ router.put("/about", async (req, res) => {
 
 // *********** CONTACT ROUTES *********** //
 
-// @desc    Get contact data
+// @desc Get contact data
 router.get("/contact", async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -265,7 +270,8 @@ router.get("/contact", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-// @desc    Update contact data
+
+// @desc Update contact data
 router.put("/contact", async (req, res) => {
   try {
     const contacts = await Contact.findOneAndUpdate(

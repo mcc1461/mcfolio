@@ -9,6 +9,9 @@ import About from "./pages/Home/About";
 import Projects from "./pages/Home/Projects";
 import Experiences from "./pages/Home/Experiences";
 import Contact from "./pages/Home/Contact";
+import AdminLogin from "./pages/Admin/AdminLogin";
+import Register from "./pages/Home/Register";
+import Login from "./pages/Home/Login";
 import { setPortfolioData, showLoader, setError } from "./redux/rootSlice";
 
 const App = () => {
@@ -17,8 +20,7 @@ const App = () => {
   );
   const dispatch = useDispatch();
 
-  const API_URL =
-    process.env.REACT_APP_API_URL || "http://localhost:8061/api/portfolio";
+  const API_URL = "http://localhost:8001/api/portfolio";
 
   const getPortfolioData = useCallback(async () => {
     try {
@@ -57,6 +59,10 @@ const App = () => {
         <Route path="/experiences" element={<Experiences />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </Router>
   );

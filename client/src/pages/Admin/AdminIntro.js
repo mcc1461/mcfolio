@@ -21,7 +21,7 @@ const AdminIntro = () => {
       dispatch(showLoader(true));
 
       // **Ensure correct API URL is used**
-      const response = await axios.put("http://localhost:8061/api/intro", {
+      const response = await axios.put("http://localhost:8001/api/intro", {
         ...values,
         _id: portfolioData.intros[0]._id, // **Pass correct ID for updating the document**
       });
@@ -47,7 +47,7 @@ const AdminIntro = () => {
   }
 
   return (
-    <div className="lg:w-full md:w-full sm:w-full">
+    <div className=" lg:w-full md:w-full sm:w-full">
       <Form
         form={form}
         layout="vertical"

@@ -8,9 +8,6 @@ const AdminContact = () => {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
 
-  console.log(portfolioData);
-  console.log(portfolioData?.contacts[0]);
-
   const [form] = Form.useForm();
 
   useEffect(() => {

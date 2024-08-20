@@ -40,7 +40,21 @@ const Admin = () => {
     <main className="bg-mc-white">
       <Header />
       <div className="p-5 mx-auto mt-5 font-semibold lg:w-2/3 xl:w-2/3 xl2:w-1/2">
-        <Tabs defaultActiveKey="5" items={items} />
+        <Tabs
+          defaultActiveKey="1"
+          items={items}
+          centered
+          size="large"
+          type="card"
+          tabBarGutter={10}
+          tabBarStyle={{
+            backgroundColor: "#99aab5",
+            padding: "7px",
+            borderRadius: "7px",
+          }}
+          tabPosition="top"
+          className="bg-mc-white custom-tabs"
+        />
       </div>
     </main>
   );

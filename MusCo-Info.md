@@ -6,6 +6,7 @@
 
 `npx create-react-app .`
 `npm i axios redux react-redux @reduxjs/toolkit`
+`npm i bcrypt`
 
 ### Font Size
 

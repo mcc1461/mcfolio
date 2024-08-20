@@ -1,17 +1,19 @@
 const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
 const dbConnection = require("./config/dbConnection");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 
 const app = express();
-const port = process.env.PORT || 8061;
+const cors = require("cors");
+const port = process.env.PORT || 8001;
+
+const allowedOrigins = ["http://localhost:3000", "https://127.0.0.1:3000"];
 
 // Database connection
 dbConnection();
 
 // Middleware
-app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000" }));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 // Routes

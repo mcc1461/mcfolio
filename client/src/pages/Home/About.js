@@ -13,19 +13,19 @@ const About = () => {
   };
 
   const { portfolioData } = useSelector((state) => state.root);
-  console.log("portfolioData", portfolioData);
 
-  const aboutData = portfolioData?.abouts[0] || {};
-  console.log("aboutData", aboutData);
-  const {
-    desc1,
-    desc2,
-    desc3,
-    desc4,
-    imageUrl,
-    skills = [],
-    title,
-  } = aboutData;
+  // Provide default values to prevent errors
+  const aboutData = portfolioData?.abouts?.[0] || {
+    desc1: "",
+    desc2: "",
+    desc3: "",
+    desc4: "",
+    imageUrl: "",
+    skills: [],
+    title: "",
+  };
+
+  const { desc1, desc2, desc3, desc4, imageUrl, skills, title } = aboutData;
 
   return (
     <>
@@ -43,20 +43,17 @@ const About = () => {
           <div className="w-full p-3 overflow-y-auto lg:w-1/2">
             <div>
               <h1 className="p-3 text-3xl font-bold md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl text-quaternary-100">
-                {title}
+                {title || "About Me"}
               </h1>
               <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
                 {desc1}
               </p>
-
               <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
                 {desc2}
               </p>
-
               <p className="hidden p-3 text-sm font-bold text-justify lg:block xl:block xl2:block md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
                 {desc3}
               </p>
-
               <p className="hidden p-3 text-sm font-bold text-justify lg:block xl:block xl2:block md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
                 {desc4}
               </p>
@@ -74,14 +71,18 @@ const About = () => {
             ***
           </h1>
           <ul className="flex flex-wrap gap-3 font-semibold text-md">
-            {skills.map((skill, index) => (
-              <li
-                key={index}
-                className="p-2 rounded-lg outline bg-quinary-200 text-secondary-700"
-              >
-                {skill}
-              </li>
-            ))}
+            {skills.length > 0 ? (
+              skills.map((skill, index) => (
+                <li
+                  key={index}
+                  className="p-2 rounded-lg outline bg-quinary-200 text-secondary-700"
+                >
+                  {skill}
+                </li>
+              ))
+            ) : (
+              <li>No skills available</li>
+            )}
           </ul>
         </div>
       </div>
