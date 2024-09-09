@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const Footer = () => {
   const currentDate = new Date();
@@ -16,6 +17,12 @@ const Footer = () => {
           <span className="text-quinary-100">©</span>{" "}
           <span>{formattedDate}</span>
         </p>
+      </div>
+      <div className="mt-2">
+        {/* Add Admin Login Link */}
+        <Link to="/login" className="text-blue-400 hover:underline">
+          Admin Login
+        </Link>
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ app.use("/api", portfolioRoutes);
 
 // Default route
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send("Hello World from MusCo Portfolio API");
 });
 
 // Start server

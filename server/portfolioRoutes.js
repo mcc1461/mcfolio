@@ -1,6 +1,6 @@
+//portfolioRoutes.js will contain all the routes for the portfolio data.
+
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
@@ -11,39 +11,14 @@ const {
   Project,
   Contact,
 } = require("../models/portfolioModel");
-const Admin = require("../models/adminModel"); // Assuming you have an Admin model
 
 // *********** AUTH ROUTES *********** //
 
-// @desc Admin login
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const admin = await Admin.findOne({ email });
-    if (!admin) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-
-    // Create a JWT token
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    return res.status(200).json({ token });
-  } catch (error) {
-    return res.status(500).json({ message: "Server error" });
-  }
+router.get("/login", async (req, res) => {
+  res.send("Login page");
 });
 
-// *********** PORTFOLIO ROUTES *********** //
-
-// @desc Get all portfolio data (Public)
+// @desc Get all portfolio data
 router.get("/portfolio", async (req, res) => {
   try {
     const intros = await Intro.find();
@@ -65,9 +40,9 @@ router.get("/portfolio", async (req, res) => {
   console.log(Intro);
 });
 
-// *********** EXPERIENCE ROUTES (Protected) *********** //
+// *********** EXPERIENCE ROUTES *********** //
 
-// @desc Get all experiences (Protected)
+// @desc Get all experiences
 router.get("/experiences", authMiddleware, async (req, res) => {
   try {
     const experiences = await Experience.find();
@@ -78,7 +53,7 @@ router.get("/experiences", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Get experience by ID (Protected)
+// @desc Get experience by ID
 router.get("/experiences/:id", authMiddleware, async (req, res) => {
   try {
     const experience = await Experience.findById(req.params.id);
@@ -91,7 +66,7 @@ router.get("/experiences/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Add experience data (Protected)
+// @desc Add experience data
 router.post("/experiences", authMiddleware, async (req, res) => {
   try {
     const experience = new Experience(req.body);
@@ -106,7 +81,7 @@ router.post("/experiences", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Update experience data (Protected)
+// @desc Update experience data
 router.put("/experiences/:id", authMiddleware, async (req, res) => {
   try {
     const experience = await Experience.findByIdAndUpdate(
@@ -127,7 +102,7 @@ router.put("/experiences/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Delete experience data (Protected)
+// @desc Delete experience data
 router.delete("/experiences/:id", authMiddleware, async (req, res) => {
   try {
     const experience = await Experience.findByIdAndDelete(req.params.id);
@@ -143,9 +118,9 @@ router.delete("/experiences/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// *********** PROJECT ROUTES (Protected) *********** //
+// *********** PROJECT ROUTES *********** //
 
-// @desc Get all projects (Protected)
+// @desc Get all projects
 router.get("/projects", authMiddleware, async (req, res) => {
   try {
     const projects = await Project.find();
@@ -155,7 +130,7 @@ router.get("/projects", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Get project by ID (Protected)
+// @desc Get project by ID
 router.get("/projects/:id", authMiddleware, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -168,7 +143,7 @@ router.get("/projects/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Add project data (Protected)
+// @desc Add project data
 router.post("/projects", authMiddleware, async (req, res) => {
   try {
     const project = new Project(req.body);
@@ -183,7 +158,7 @@ router.post("/projects", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Update project data (Protected)
+// @desc Update project data
 router.put("/projects/:id", authMiddleware, async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
@@ -202,7 +177,7 @@ router.put("/projects/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Delete project data (Protected)
+// @desc Delete project data
 router.delete("/projects/:id", authMiddleware, async (req, res) => {
   try {
     const project = await Project.findByIdAndDelete(req.params.id);
@@ -218,9 +193,9 @@ router.delete("/projects/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// *********** INTRO ROUTES (Protected) *********** //
+// *********** INTRO ROUTES *********** //
 
-// @desc Get intro data (Protected)
+// @desc  Get intro data
 router.get("/intro", authMiddleware, async (req, res) => {
   try {
     const intros = await Intro.find();
@@ -234,7 +209,7 @@ router.get("/intro", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Update intro data (Protected)
+// @desc Update intro data
 router.put("/intro", authMiddleware, async (req, res) => {
   try {
     const intros = await Intro.findOneAndUpdate(
@@ -254,9 +229,9 @@ router.put("/intro", authMiddleware, async (req, res) => {
   }
 });
 
-// *********** ABOUT ROUTES (Protected) *********** //
+// *********** ABOUT ROUTES *********** //
 
-// @desc Get about data (Protected)
+// @desc Get about data
 router.get("/about", authMiddleware, async (req, res) => {
   try {
     const about = await About.find();
@@ -270,7 +245,7 @@ router.get("/about", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Update about data (Protected)
+// @desc Update about data
 router.put("/about", authMiddleware, async (req, res) => {
   try {
     const about = await About.findOneAndUpdate(
@@ -290,9 +265,9 @@ router.put("/about", authMiddleware, async (req, res) => {
   }
 });
 
-// *********** CONTACT ROUTES (Protected) *********** //
+// *********** CONTACT ROUTES *********** //
 
-// @desc Get contact data (Protected)
+// @desc Get contact data
 router.get("/contact", authMiddleware, async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -306,7 +281,7 @@ router.get("/contact", authMiddleware, async (req, res) => {
   }
 });
 
-// @desc Update contact data (Protected)
+// @desc Update contact data
 router.put("/contact", authMiddleware, async (req, res) => {
   try {
     const contacts = await Contact.findOneAndUpdate(
