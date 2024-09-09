@@ -26,17 +26,15 @@ const Contact = () => {
     };
 
     const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.5, // Adjust this value as needed
+      threshold: 0.5,
     });
 
-    // Capture the ref value in a variable
     const currentVideoRef = videoRef.current;
     if (currentVideoRef) {
       observer.observe(currentVideoRef);
     }
 
     return () => {
-      // Use the captured variable in the cleanup function
       if (currentVideoRef) {
         observer.unobserve(currentVideoRef);
       }
@@ -45,7 +43,6 @@ const Contact = () => {
 
   const { portfolioData } = useSelector((state) => state.root);
 
-  // Safely access the first contact or provide an empty object as default
   const user = portfolioData?.contacts?.[0] || {
     name: "Unavailable",
     linkedinUrl: "#",
@@ -89,7 +86,7 @@ const Contact = () => {
             <a
               href={user.linkedinUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className={`flex items-center text-lg md:text-xl lg:text-2xl font-semibold ${
                 entered
                   ? "text-quaternary-300 underline cursor-pointer"
@@ -97,18 +94,20 @@ const Contact = () => {
               }`}
             >
               {user.name}
-              {entered && (
-                <span className="px-2">
-                  <button className="px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl">
-                    LinkedIn
-                  </button>
-                </span>
-              )}
+              <span className="inline-block px-2">
+                <button
+                  className={`px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl transition-opacity duration-300 ${
+                    entered ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  LinkedIn
+                </button>
+              </span>
             </a>
-            <p className="mt-5 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-              Expertise: {user.expertise}
-            </p>
-            <div className="w-full">
+            <div className="w-full mt-5">
+              <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
+                Expertise: {user.expertise}
+              </p>
               <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
                 Email: {user.email}
               </p>
