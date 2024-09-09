@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const dbConnection = require("./config/dbConnection");
 const portfolioRoutes = require("./routes/portfolioRoutes");
+const authRoutes = require("./routes/authRoutes"); // Import auth routes
 
 const app = express();
 const cors = require("cors");
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api", portfolioRoutes);
+app.use("/api", authRoutes); // Add the auth routes
 
 // Default route
 app.get("/", (req, res) => {

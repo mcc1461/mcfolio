@@ -1,64 +1,86 @@
-import React, { useState } from "react"; // Import the React library
-import axios from "axios"; // Import the axios library
-import { message } from "antd"; // Import the message component from the antd library
-import { useDispatch } from "react-redux"; // Import the useDispatch hook from the react-redux library
-import { showLoader } from "../../redux/rootSlice"; // Import the showLoader action creator
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const AdminLogin = () => {
+const Login = () => {
   const [user, setUser] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-  const dispatch = useDispatch(); // Import the useDispatch hook from the react-redux library
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const login = async () => {
+  const loginUser = async (e) => {
+    e.preventDefault();
+
     try {
-      dispatch(showLoader(true));
-      const response = await axios.post(
-        "http://localhost:8001/api/login",
-        user
-      );
-      if (response.status === 200 && response.data.success) {
-        message.success(response.data.message);
-        // Redirect to the admin page
-      } else {
-        message.error("Failed to login.");
-      }
+      const response = await axios.post("http://localhost:8001/api/login", {
+        email: user.email,
+        password: user.password,
+      });
+
+      // Save the token in localStorage
+      localStorage.setItem("authToken", response.data.token);
+
+      // Navigate to the admin dashboard or other protected route
+      navigate("/admin-dashboard");
     } catch (error) {
-      message.error("Failed to login: " + error.message);
-    } finally {
-      dispatch(showLoader(false));
+      setError("Invalid credentials");
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col gap-5 p-5 border border-gray-500 shadow w-96">
-        <h1 className="text-xl font-semibold text-white">Musco - Login</h1>
-        <input
-          type="text"
-          placeholder="Username"
-          value={user.username}
-          onChange={(e) => setUser({ ...user, username: e.target.value })}
-          className="p-2"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-          className="p-2"
-        />
-        <button
-          type="button"
-          onClick={login}
-          className="p-2 text-white bg-blue-500"
-        >
-          Login
-        </button>
+    <div className="flex items-center justify-center h-screen bg-gray-800">
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="mb-4 text-2xl font-bold text-center text-red-500">
+          Admin Access Only
+        </h2>
+        <p className="mb-4 text-sm text-center text-gray-700">
+          This section is restricted to authorized personnel. If you are not an
+          admin, please go back to the homepage.
+        </p>
+        {error && <p className="mb-4 text-red-500">{error}</p>}
+        <form onSubmit={loginUser} className="grid gap-4">
+          <div>
+            <label className="block mb-1 text-left text-gray-600">Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-left text-gray-600">
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full p-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+          >
+            Login
+          </button>
+        </form>
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => navigate("/")}
+            className="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-700"
+          >
+            Go Back to Home
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default AdminLogin; // Export the AdminLogin component
+export default Login;
