@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentDate = new Date();
-  const formattedDate = currentDate.getFullYear(); // Format the date as needed
+  const formattedDate = currentDate.getFullYear();
 
   return (
-    <div className="text-center h-[7vh] border-t-2 bg-mc-blue-darker1 border-white py-3">
+    <div className="h-auto py-3 text-center border-t-2 border-white bg-mc-blue-darker1">
       <p className="italic text-gray-400 text-md">Designed and developed by</p>
       <div className="text-lg text-gray-400">
         <p>
@@ -18,12 +18,29 @@ const Footer = () => {
           <span>{formattedDate}</span>
         </p>
       </div>
-      <div className="mt-2">
-        {/* Add Admin Login Link */}
-        <Link to="/login" className="text-blue-400 hover:underline">
+      <div className="flex items-center justify-center mt-4 space-x-4">
+        {/* Admin Login Link */}
+        <Link
+          to="/login"
+          className="px-3 py-1 text-white transition duration-300 bg-blue-500 rounded-full hover:bg-blue-600"
+        >
           Admin Login
         </Link>
+
+        {/* Separator */}
+        <span className="text-3xl font-extrabold text-white">||</span>
+
+        {/* Admin Register Link */}
+        <Link
+          to="/register"
+          className="px-3 py-1 text-white transition duration-300 bg-green-500 rounded-full hover:bg-green-600"
+        >
+          Admin Register
+        </Link>
       </div>
+
+      {/* Empty Space Below */}
+      <div className="mt-8"></div>
     </div>
   );
 };
