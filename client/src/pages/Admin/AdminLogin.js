@@ -8,6 +8,7 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Start with password hidden (false)
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
@@ -55,13 +56,22 @@ const Login = () => {
             <label className="block mb-1 text-left text-gray-600">
               Password
             </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full p-2 border border-gray-300 rounded"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"} // Password hidden by default
+                placeholder="Enter your password"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+              />
+              <span
+                className="absolute text-gray-500 cursor-pointer right-2 top-2"
+                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              >
+                {showPassword ? "👁️" : "🙈"}{" "}
+                {/* Show eye icon based on password visibility */}
+              </span>
+            </div>
           </div>
           <button
             type="submit"

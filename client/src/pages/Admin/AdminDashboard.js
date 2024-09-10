@@ -6,7 +6,8 @@ import AdminIntro from "./AdminIntro";
 import AdminExperiences from "./AdminExperiences";
 import AdminProjects from "./AdminProjects";
 import AdminContact from "./AdminContact";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
+import "./AdminDashboard.css"; // Import your CSS file
 
 const AdminDashboard = () => {
   const navigate = useNavigate(); // Hook to programmatically navigate
@@ -57,33 +58,33 @@ const AdminDashboard = () => {
         </p>
       </div>
 
-      {/* Add buttons for return to homepage and logout */}
+      {/* Buttons for returning to homepage and logout */}
       <div className="flex justify-center gap-4 mt-8 text-center">
         <button
-          onClick={() => navigate("/")} // Navigate to homepage
-          className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+          onClick={() => navigate("/")}
+          className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-900"
         >
           Return to Homepage
         </button>
 
         <button
-          onClick={handleLogout} // Handle logout
+          onClick={handleLogout}
           className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
         >
           Logout
         </button>
       </div>
 
+      {/* Tabs for different sections of the admin dashboard */}
       <div className="p-5 mx-auto mt-5 font-semibold lg:w-2/3 xl:w-2/3 xl2:w-1/2">
         <Tabs
           defaultActiveKey="1"
           items={items}
           centered
           size="large"
-          type="card"
+          type="button"
           tabBarGutter={10}
           tabBarStyle={{
-            backgroundColor: "#99aab5",
             padding: "7px",
             borderRadius: "7px",
           }}

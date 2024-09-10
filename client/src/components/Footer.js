@@ -21,7 +21,7 @@ const Footer = () => {
       <div className="flex items-center justify-center mt-4 space-x-4">
         {/* Admin Login Link */}
         <Link
-          to="/login"
+          to="/admin-login"
           className="px-3 py-1 text-white transition duration-300 bg-blue-500 rounded-full hover:bg-blue-600"
         >
           Admin Login
@@ -32,7 +32,7 @@ const Footer = () => {
 
         {/* Admin Register Link */}
         <Link
-          to="/register"
+          to="/admin-register"
           className="px-3 py-1 text-white transition duration-300 bg-green-500 rounded-full hover:bg-green-600"
         >
           Admin Register
