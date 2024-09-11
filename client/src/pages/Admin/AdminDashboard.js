@@ -7,7 +7,6 @@ import AdminExperiences from "./AdminExperiences";
 import AdminProjects from "./AdminProjects";
 import AdminContact from "./AdminContact";
 import { useNavigate } from "react-router-dom";
-import "./AdminDashboard.css"; // Import your CSS file
 
 const AdminDashboard = () => {
   const navigate = useNavigate(); // Hook to programmatically navigate

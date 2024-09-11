@@ -219,6 +219,7 @@ const AdminProject = () => {
           onFinish={onFinish}
         >
           <Form.Item
+            id="type"
             name="type"
             label="Type"
             rules={[
@@ -228,6 +229,7 @@ const AdminProject = () => {
             <Input placeholder="Type" />
           </Form.Item>
           <Form.Item
+            id="title"
             name="title"
             label="Title"
             rules={[
@@ -237,6 +239,7 @@ const AdminProject = () => {
             <Input placeholder="Title" />
           </Form.Item>
           <Form.Item
+            id="desc"
             name="desc"
             label="Description"
             rules={[
@@ -249,6 +252,7 @@ const AdminProject = () => {
             <Input.TextArea placeholder="Description" rows={5} />
           </Form.Item>
           <Form.Item
+            id="image"
             name="image"
             label="Project Image URL"
             rules={[
@@ -261,6 +265,7 @@ const AdminProject = () => {
             <Input placeholder="URL" />
           </Form.Item>
           <Form.Item
+            id="link"
             name="link"
             label="Project Link"
             rules={[

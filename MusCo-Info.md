@@ -101,4 +101,7 @@ Previous render            Next render
 
 Attention!:
 `form.setFieldsValue(portfolioData.intro`
-`This will not get the initial values without `
+`This will not get the initial values without`
+
+Importing favicon should be like this not to have css access problem...
+`<link rel="icon" href="%PUBLIC_URL%/assets/favicon.png"/>`

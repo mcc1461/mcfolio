@@ -51,26 +51,42 @@ const AdminContact = () => {
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 24 }}
       >
-        <Form.Item name="videoUrl" className="form-item" label="Video URL">
+        <Form.Item
+          id="videoUrl"
+          name="videoUrl"
+          className="form-item"
+          label="Video URL"
+        >
           <Input type="text" placeholder="Video URL" />
         </Form.Item>
-        <Form.Item name="name" className="form-item" label="Name">
+        <Form.Item id="name" name="name" className="form-item" label="Name">
           <Input type="text" placeholder="Name" />
         </Form.Item>
         <Form.Item
+          id="linkedinUrl"
           name="linkedinUrl"
           className="form-item"
           label="LinkedIn URL"
         >
           <Input type="text" placeholder="LinkedIn URL" />
         </Form.Item>
-        <Form.Item name="expertise" className="form-item" label="Expertise">
+        <Form.Item
+          id="expertise"
+          name="expertise"
+          className="form-item"
+          label="Expertise"
+        >
           <Input type="text" placeholder="Expertise" />
         </Form.Item>
-        <Form.Item name="email" className="form-item" label="Email">
+        <Form.Item id="email" name="email" className="form-item" label="Email">
           <Input type="email" placeholder="Email" />
         </Form.Item>
-        <Form.Item name="location" className="form-item" label="Location">
+        <Form.Item
+          id="location"
+          name="location"
+          className="form-item"
+          label="Location"
+        >
           <Input type="text" placeholder="Location" />
         </Form.Item>
         <Form.Item className="flex justify-end w-1/2 pr-3 lg:w-full md:w-full sm:w-full">

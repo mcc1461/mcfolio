@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Loader from "./components/Loader";
 import Home from "./pages/Home/Home";
-import Admin from "./pages/Admin/AdminDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 import About from "./pages/Home/About";
 import Intro from "./pages/Home/Intro";
 import Projects from "./pages/Home/Projects";
@@ -12,9 +12,8 @@ import Experiences from "./pages/Home/Experiences";
 import Contact from "./pages/Home/Contact";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import Register from "./pages/Admin/AdminRegister";
-import PrivateRoute from "./components/PrivateRoutes";
+// import PrivateRoute from "./components/PrivateRoutes";
 import { setPortfolioData, showLoader, setError } from "./redux/rootSlice";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 const App = () => {
   const { loaderVisible, reloadData, error } = useSelector(
@@ -55,15 +54,10 @@ const App = () => {
       {error && <div className="error-message">{error}</div>}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/intro" element={<Intro />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/experiences" element={<Experiences />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<Register />} />
-        <Route path="*" element={<Home />} />
+        {/* <Route path="*" element={<Home />} /> */}
       </Routes>
     </Router>
   );

@@ -4,12 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global Styles */
 * {
   font-family: "Roboto", sans-serif;
 }
-
 body {
+  background-color: #ffaaff;
   background-color: #06101a;
 }
 
@@ -38,7 +37,6 @@ body {
   opacity: 1;
 }
 
-/* Animations */
 .xx-m {
   animation: xx-m 1s infinite;
 }
@@ -119,7 +117,6 @@ body {
   }
 }
 
-/* Form Items */
 .form-item {
   margin-bottom: 1rem;
   background-color: rgb(201, 194, 207);
@@ -139,58 +136,6 @@ body {
   .form-item {
     width: 100% !important;
   }
-}
-
-/* Admin Dashboard Styles */
-
-/* General style for all tabs */
-.custom-tabs .ant-tabs-tab-btn {
-  background-color: #2563eb; /* Blue background for all tabs */
-  color: white; /* White text */
-  border-radius: 10px; /* Rounded corners for modern look */
-  padding: 10px 20px; /* Consistent padding for all tabs */
-  transition: all 0.3s ease; /* Smooth transitions for hover effects */
-  font-weight: 600; /* Slightly bold font */
-}
-
-/* Hover effect for all tabs */
-.custom-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
-  background-color: #1d4ed8; /* Darker blue on hover */
-  color: rgb(239, 247, 11);
-  text-decoration: underline;
-}
-
-/* Active tab styling for all tabs */
-.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-  background-color: #031b5c; /* Dark blue for active tab */
-  color: rgb(239, 247, 11) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for the active tab */
-}
-
-/* Buttons */
-button {
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for buttons */
-  border-radius: 5px; /* Rounded corners for buttons */
-}
-
-/* Return to Homepage button */
-button.bg-blue-600 {
-  background-color: #2563eb; /* Bright blue */
-}
-
-button.bg-blue-600:hover {
-  background-color: #1d4ed8; /* Darker blue on hover */
-  transform: scale(1.05); /* Slight scale-up on hover */
-}
-
-/* Logout button */
-button.bg-red-600 {
-  background-color: #dc2626; /* Bright red */
-}
-
-button.bg-red-600:hover {
-  background-color: #b91c1c; /* Darker red on hover */
-  transform: scale(1.05); /* Slight scale-up on hover */
 }
 
 /* Tailwind CSS Breakpoints */

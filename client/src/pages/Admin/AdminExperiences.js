@@ -190,6 +190,7 @@ const AdminExperience = () => {
         {showEditModal && (
           <Form form={form} layout="vertical" onFinish={onFinish}>
             <Form.Item
+              id="role"
               name="role"
               label="Role"
               rules={[{ required: true, message: "Please input the role!" }]}
@@ -197,6 +198,7 @@ const AdminExperience = () => {
               <Input placeholder="Role" />
             </Form.Item>
             <Form.Item
+              id="period"
               name="period"
               label="Period"
               rules={[{ required: true, message: "Please input the period!" }]}
@@ -204,6 +206,7 @@ const AdminExperience = () => {
               <Input placeholder="Period" />
             </Form.Item>
             <Form.Item
+              id="desc"
               name="desc"
               label="Description"
               rules={[
@@ -213,6 +216,7 @@ const AdminExperience = () => {
               <Input.TextArea placeholder="Description" rows={5} />
             </Form.Item>
             <Form.Item
+              id="location"
               name="location"
               label="Location"
               rules={[

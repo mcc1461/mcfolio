@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [user, setUser] = useState({
+  const [admin, setAdmin] = useState({
     email: "",
     password: "",
   });
@@ -15,10 +15,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8001/api/login", {
-        email: user.email,
-        password: user.password,
-      });
+      const response = await axios.post(
+        "http://localhost:8001/api/admin-login",
+        {
+          email: admin.email,
+          password: admin.password,
+        }
+      );
 
       // Save the token in localStorage
       localStorage.setItem("authToken", response.data.token);
@@ -43,33 +46,49 @@ const Login = () => {
         {error && <p className="mb-4 text-red-500">{error}</p>}
         <form onSubmit={loginUser} className="grid gap-4">
           <div>
-            <label className="block mb-1 text-left text-gray-600">Email</label>
+            <label
+              htmlFor="email"
+              className="block mb-1 text-left text-gray-600"
+            >
+              Email
+            </label>
             <input
+              id="email"
+              name="email"
               type="email"
               placeholder="Enter your email"
+              autoComplete="email" // Added autoComplete for email
               className="w-full p-2 border border-gray-300 rounded"
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              value={admin.email}
+              onChange={(e) => setAdmin({ ...admin, email: e.target.value })}
             />
           </div>
           <div>
-            <label className="block mb-1 text-left text-gray-600">
+            <label
+              htmlFor="password"
+              className="block mb-1 text-left text-gray-600"
+            >
               Password
             </label>
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"} // Password hidden by default
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
+                autoComplete="current-password" // Added autoComplete for password
                 className="w-full p-2 border border-gray-300 rounded"
-                value={user.password}
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                value={admin.password}
+                onChange={(e) =>
+                  setAdmin({ ...admin, password: e.target.value })
+                }
               />
               <span
                 className="absolute text-gray-500 cursor-pointer right-2 top-2"
-                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? "👁️" : "🙈"}{" "}
-                {/* Show eye icon based on password visibility */}
+                {showPassword ? "🙈" : "👁️"}{" "}
+                {/* Toggle between hide/show icon */}
               </span>
             </div>
           </div>

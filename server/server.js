@@ -17,6 +17,8 @@ dbConnection();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+app.use(express.static("public")); // Serve static files from the public folder
+
 // Routes
 app.use("/api", portfolioRoutes);
 app.use("/api", authRoutes); // Add the auth routes

@@ -54,6 +54,8 @@ const AdminRegistration = () => {
           <div>
             <label className="block mb-1 text-left text-gray-600">Email</label>
             <input
+              id="email"
+              name="email"
               type="email"
               placeholder="Enter admin email"
               className="w-full p-2 border border-gray-300 rounded"
@@ -68,6 +70,8 @@ const AdminRegistration = () => {
               Password
             </label>
             <input
+              id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter password"
               className="w-full p-2 border border-gray-300 rounded"
@@ -90,6 +94,8 @@ const AdminRegistration = () => {
               Confirm Password
             </label>
             <input
+              id="confirmPassword"
+              name="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm your password"
               className="w-full p-2 border border-gray-300 rounded"
@@ -114,6 +120,8 @@ const AdminRegistration = () => {
               Special Code
             </label>
             <input
+              id="specialCode"
+              name="specialCode"
               type={showSpecialCode ? "text" : "password"}
               placeholder="Enter the special code"
               className="w-full p-2 border border-gray-300 rounded"

@@ -53,25 +53,55 @@ const AdminAbout = () => {
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 24 }}
       >
-        <Form.Item name="imageUrl" className="form-item" label="Image Url">
+        <Form.Item
+          id="imageUrl"
+          name="imageUrl"
+          className="form-item"
+          label="Image Url"
+        >
           <Input type="text" placeholder="Image Url" />
         </Form.Item>
-        <Form.Item name="title" className="form-item" label="Title">
+        <Form.Item id="title" name="title" className="form-item" label="Title">
           <Input type="text" placeholder="Title" />
         </Form.Item>
-        <Form.Item name="desc1" className="form-item" label="Description 1">
+        <Form.Item
+          id="desc1"
+          name="desc1"
+          className="form-item"
+          label="Description 1"
+        >
           <Input.TextArea type="text" placeholder="Description 1" rows={5} />
         </Form.Item>
-        <Form.Item name="desc2" className="form-item" label="Description 2">
+        <Form.Item
+          id="desc2"
+          name="desc2"
+          className="form-item"
+          label="Description 2"
+        >
           <Input.TextArea type="text" placeholder="Description 2" rows={5} />
         </Form.Item>
-        <Form.Item name="desc3" className="form-item" label="Description 3">
+        <Form.Item
+          id="desc3"
+          name="desc3"
+          className="form-item"
+          label="Description 3"
+        >
           <Input.TextArea type="text" placeholder="Description 3" rows={5} />
         </Form.Item>
-        <Form.Item name="desc4" className="form-item" label="Description 4">
+        <Form.Item
+          id="desc4"
+          name="desc4"
+          className="form-item"
+          label="Description 4"
+        >
           <Input.TextArea type="text" placeholder="Description 4" rows={5} />
         </Form.Item>
-        <Form.Item name="skills" className="form-item" label="Skills">
+        <Form.Item
+          id="skills"
+          name="skills"
+          className="form-item"
+          label="Skills"
+        >
           <Input.TextArea type="text" placeholder="Skills" rows={10} />
         </Form.Item>
         <Form.Item className="flex justify-end w-1/2 pr-3 lg:w-full md:w-full sm:w-full">
