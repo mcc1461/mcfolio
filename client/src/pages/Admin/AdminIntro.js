@@ -47,6 +47,7 @@ const AdminIntro = () => {
           label="Welcome Text"
           name="welcomeText"
           rules={[{ required: true, message: "Please enter welcome text" }]}
+          autoComplete="off"
         >
           <Input id="welcomeText" placeholder="Intro" />
         </Form.Item>
@@ -56,6 +57,7 @@ const AdminIntro = () => {
           label="First Name"
           name="firstName"
           rules={[{ required: true, message: "Please enter first name" }]}
+          autoComplete="off"
         >
           <Input id="firstName" placeholder="First Name" />
         </Form.Item>
@@ -65,6 +67,7 @@ const AdminIntro = () => {
           label="Last Name"
           name="lastName"
           rules={[{ required: true, message: "Please enter last name" }]}
+          autoComplete="off"
         >
           <Input id="lastName" placeholder="Last Name" />
         </Form.Item>
@@ -74,6 +77,7 @@ const AdminIntro = () => {
           label="Caption"
           name="caption"
           rules={[{ required: true, message: "Please enter caption" }]}
+          autoComplete="off"
         >
           <Input id="caption" placeholder="Caption" />
         </Form.Item>
@@ -83,6 +87,7 @@ const AdminIntro = () => {
           label="Description"
           name="description"
           rules={[{ required: true, message: "Please enter description" }]}
+          autoComplete="off"
         >
           <Input.TextArea id="description" placeholder="Description" rows={3} />
         </Form.Item>
@@ -92,6 +97,7 @@ const AdminIntro = () => {
           label="Details"
           name="details"
           rules={[{ required: true, message: "Please enter details" }]}
+          autoComplete="off"
         >
           <Input.TextArea id="details" placeholder="Details" rows={10} />
         </Form.Item>

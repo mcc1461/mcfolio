@@ -45,7 +45,7 @@ const AdminAbout = () => {
   }
 
   return (
-    <div className="lg:w-full md:w-full sm:w-full">
+    <div className="lg:w-full md:w-full sm:w-full xl:w-[200%] xl2:w-[200%]">
       <Form
         form={form}
         layout="vertical"
@@ -58,6 +58,7 @@ const AdminAbout = () => {
           name="imageUrl"
           className="form-item"
           label="Image Url"
+          autoComplete="off"
         >
           <Input type="text" placeholder="Image Url" />
         </Form.Item>
@@ -69,6 +70,7 @@ const AdminAbout = () => {
           name="desc1"
           className="form-item"
           label="Description 1"
+          autoComplete="off"
         >
           <Input.TextArea type="text" placeholder="Description 1" rows={5} />
         </Form.Item>
@@ -77,6 +79,7 @@ const AdminAbout = () => {
           name="desc2"
           className="form-item"
           label="Description 2"
+          autoComplete="off"
         >
           <Input.TextArea type="text" placeholder="Description 2" rows={5} />
         </Form.Item>
@@ -85,6 +88,7 @@ const AdminAbout = () => {
           name="desc3"
           className="form-item"
           label="Description 3"
+          autoComplete="off"
         >
           <Input.TextArea type="text" placeholder="Description 3" rows={5} />
         </Form.Item>
@@ -93,6 +97,7 @@ const AdminAbout = () => {
           name="desc4"
           className="form-item"
           label="Description 4"
+          autoComplete="off"
         >
           <Input.TextArea type="text" placeholder="Description 4" rows={5} />
         </Form.Item>
@@ -101,6 +106,7 @@ const AdminAbout = () => {
           name="skills"
           className="form-item"
           label="Skills"
+          autoComplete="off"
         >
           <Input.TextArea type="text" placeholder="Skills" rows={10} />
         </Form.Item>

@@ -6,7 +6,7 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 
 // Admin login route
-router.post("/login", async (req, res) => {
+router.post("/admin-login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
 
 // Admin registration route
 // Admin registration route
-router.post("/register", async (req, res) => {
+router.post("/admin-register", async (req, res) => {
   const { email, password, specialCode } = req.body;
 
   // Validate special code

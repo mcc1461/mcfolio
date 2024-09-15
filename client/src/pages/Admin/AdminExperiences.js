@@ -194,6 +194,7 @@ const AdminExperience = () => {
               name="role"
               label="Role"
               rules={[{ required: true, message: "Please input the role!" }]}
+              autoComplete="off"
             >
               <Input placeholder="Role" />
             </Form.Item>
@@ -202,6 +203,7 @@ const AdminExperience = () => {
               name="period"
               label="Period"
               rules={[{ required: true, message: "Please input the period!" }]}
+              autoComplete="off"
             >
               <Input placeholder="Period" />
             </Form.Item>
@@ -212,6 +214,7 @@ const AdminExperience = () => {
               rules={[
                 { required: true, message: "Please input the description!" },
               ]}
+              autoComplete="off"
             >
               <Input.TextArea placeholder="Description" rows={5} />
             </Form.Item>
@@ -222,6 +225,7 @@ const AdminExperience = () => {
               rules={[
                 { required: true, message: "Please input the location!" },
               ]}
+              autoComplete="off"
             >
               <Input placeholder="Location" />
             </Form.Item>

@@ -225,6 +225,7 @@ const AdminProject = () => {
             rules={[
               { required: true, message: "Please input the project type!" },
             ]}
+            autoComplete="off"
           >
             <Input placeholder="Type" />
           </Form.Item>
@@ -235,6 +236,7 @@ const AdminProject = () => {
             rules={[
               { required: true, message: "Please input the project title!" },
             ]}
+            autoComplete="off"
           >
             <Input placeholder="Title" />
           </Form.Item>
@@ -248,6 +250,7 @@ const AdminProject = () => {
                 message: "Please input the project description!",
               },
             ]}
+            autoComplete="off"
           >
             <Input.TextArea placeholder="Description" rows={5} />
           </Form.Item>
@@ -261,6 +264,7 @@ const AdminProject = () => {
                 message: "Please input the project image URL!",
               },
             ]}
+            autoComplete="off"
           >
             <Input placeholder="URL" />
           </Form.Item>
@@ -274,6 +278,7 @@ const AdminProject = () => {
                 message: "Please input the project link!",
               },
             ]}
+            autoComplete="off"
           >
             <Input placeholder="Link" />
           </Form.Item>

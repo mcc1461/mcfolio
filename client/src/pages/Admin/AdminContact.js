@@ -43,7 +43,7 @@ const AdminContact = () => {
   }
 
   return (
-    <div className="lg:w-full md:w-full sm:w-full">
+    <div className="lg:w-full md:w-full sm:w-full xl:w-[200%] xl2:w-[200%]">
       <Form
         form={form}
         layout="vertical"
@@ -56,6 +56,7 @@ const AdminContact = () => {
           name="videoUrl"
           className="form-item"
           label="Video URL"
+          autoComplete="off" // Disable browser autocomplete
         >
           <Input type="text" placeholder="Video URL" />
         </Form.Item>
@@ -67,6 +68,7 @@ const AdminContact = () => {
           name="linkedinUrl"
           className="form-item"
           label="LinkedIn URL"
+          autoComplete="off"
         >
           <Input type="text" placeholder="LinkedIn URL" />
         </Form.Item>
@@ -75,6 +77,7 @@ const AdminContact = () => {
           name="expertise"
           className="form-item"
           label="Expertise"
+          autoComplete="off"
         >
           <Input type="text" placeholder="Expertise" />
         </Form.Item>
@@ -86,6 +89,7 @@ const AdminContact = () => {
           name="location"
           className="form-item"
           label="Location"
+          autoComplete="off"
         >
           <Input type="text" placeholder="Location" />
         </Form.Item>

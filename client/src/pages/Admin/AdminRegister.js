@@ -61,6 +61,7 @@ const AdminRegistration = () => {
               className="w-full p-2 border border-gray-300 rounded"
               value={admin.email}
               onChange={(e) => setAdmin({ ...admin, email: e.target.value })}
+              autoComplete="email"
             />
           </div>
 
@@ -77,6 +78,7 @@ const AdminRegistration = () => {
               className="w-full p-2 border border-gray-300 rounded"
               value={admin.password}
               onChange={(e) => setAdmin({ ...admin, password: e.target.value })}
+              autoComplete="new-password"
             />
             {/* Toggle Password Visibility */}
             <button
@@ -103,6 +105,7 @@ const AdminRegistration = () => {
               onChange={(e) =>
                 setAdmin({ ...admin, confirmPassword: e.target.value })
               }
+              autoComplete="new-password"
             />
             {/* Toggle Confirm Password Visibility */}
             <button
@@ -129,6 +132,7 @@ const AdminRegistration = () => {
               onChange={(e) =>
                 setAdmin({ ...admin, specialCode: e.target.value })
               }
+              autoComplete="off"
             />
             {/* Toggle Special Code Visibility */}
             <button
