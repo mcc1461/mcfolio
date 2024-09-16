@@ -11,22 +11,46 @@ const AdminAbout = () => {
 
   useEffect(() => {
     if (portfolioData?.abouts[0]) {
-      form.setFieldsValue(portfolioData.abouts[0]); // Ensure correct data structure for form fields
+      form.setFieldsValue(portfolioData.abouts[0]); // Populate form with data
     }
   }, [portfolioData, form]);
 
   const onFinish = async (values) => {
     try {
-      const tempSkills = values.skills.split(",").map((skill) => skill.trim());
-      values.skills = tempSkills;
+      // Ensure skills is a string before splitting
+      if (typeof values.skills === "string") {
+        const tempSkills = values.skills
+          .split(",")
+          .map((skill) => skill.trim());
+        values.skills = tempSkills;
+      } else if (Array.isArray(values.skills)) {
+        // If it's already an array, use it as is
+        values.skills = values.skills.map((skill) => skill.trim());
+      }
 
       dispatch(showLoader(true));
 
-      // Ensure correct API URL is used
-      const response = await axios.put("http://localhost:8001/api/about", {
-        ...values,
-        _id: portfolioData.abouts[0]._id, // Pass correct ID for updating the document
-      });
+      // Get token from localStorage (or Redux if needed)
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        message.error("Authentication token is missing.");
+        return;
+      }
+
+      // Make the PUT request with the Bearer token in the headers
+      const response = await axios.put(
+        "http://localhost:8001/api/about",
+        {
+          ...values,
+          _id: portfolioData.abouts[0]._id, // Use correct ID for update
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add the Bearer token
+          },
+        }
+      );
 
       if (response.data.success) {
         message.success(response.data.message);
@@ -41,7 +65,7 @@ const AdminAbout = () => {
   };
 
   if (!portfolioData || !portfolioData.abouts[0]) {
-    return <div>Loading...</div>; // Ensure correct loading state display
+    return <div>Loading...</div>; // Loading state
   }
 
   return (

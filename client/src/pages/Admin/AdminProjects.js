@@ -50,8 +50,15 @@ const AdminProject = () => {
         try {
           dispatch(showLoader(true));
 
+          const token = localStorage.getItem("authToken"); // Get the Bearer token
+
           const response = await axios.delete(
-            `http://localhost:8001/api/projects/${project._id}`
+            `http://localhost:8001/api/projects/${project._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Add the token to the headers
+              },
+            }
           );
 
           if (response.status === 200 && response.data.success) {
@@ -78,12 +85,19 @@ const AdminProject = () => {
   const onFinish = async (values) => {
     try {
       dispatch(showLoader(true));
+
+      const token = localStorage.getItem("authToken"); // Get the Bearer token
+
       const url = selectedProject
         ? `http://localhost:8001/api/projects/${selectedProject._id}`
         : "http://localhost:8001/api/projects";
 
       const method = selectedProject ? "put" : "post";
-      const response = await axios[method](url, values);
+      const response = await axios[method](url, values, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
+        },
+      });
 
       if (
         response.status === 201 ||
@@ -105,7 +119,14 @@ const AdminProject = () => {
   const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoader(true));
-      const response = await axios.get("http://localhost:8001/api/portfolio");
+
+      const token = localStorage.getItem("authToken"); // Get the Bearer token
+
+      const response = await axios.get("http://localhost:8001/api/portfolio", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
+        },
+      });
       dispatch(setPortfolioData(response.data));
     } catch (error) {
       message.error("Failed to fetch portfolio data: " + error.message);

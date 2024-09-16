@@ -54,7 +54,7 @@ router.post("/admin-register", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
 
     return res.status(201).json({ token });

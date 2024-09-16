@@ -20,11 +20,27 @@ const AdminContact = () => {
     try {
       dispatch(showLoader(true));
 
-      // Send a PUT request to update the contact data
-      const response = await axios.put("/api/contact", {
-        ...values,
-        _id: portfolioData?.contacts[0]._id,
-      });
+      // Get the authentication token from localStorage or Redux
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        message.error("Authentication token is missing.");
+        return;
+      }
+
+      // Send a PUT request to update the contact data with Bearer token in headers
+      const response = await axios.put(
+        "/api/contact",
+        {
+          ...values,
+          _id: portfolioData?.contacts[0]._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the Bearer token in the headers
+          },
+        }
+      );
 
       if (response.data.success) {
         message.success(response.data.message);
@@ -56,7 +72,7 @@ const AdminContact = () => {
           name="videoUrl"
           className="form-item"
           label="Video URL"
-          autoComplete="off" // Disable browser autocomplete
+          autoComplete="off"
         >
           <Input type="text" placeholder="Video URL" />
         </Form.Item>
