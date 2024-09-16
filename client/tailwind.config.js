@@ -3,6 +3,7 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      width: { "content-fit": "fit-content" },
       colors: {
         "mc-blue": "#0D2C54",
         "mc-blue-darker1": "#0A1D33",

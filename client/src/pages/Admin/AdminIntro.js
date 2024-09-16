@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { showLoader } from "../../redux/rootSlice";
 import axios from "axios";
-import { message } from "antd";
+import { showLoader } from "../../redux/rootSlice";
 
 const AdminIntro = () => {
   const dispatch = useDispatch();
@@ -12,94 +11,100 @@ const AdminIntro = () => {
 
   useEffect(() => {
     if (portfolioData?.intros?.[0]) {
-      form.setFieldsValue(portfolioData.intros[0]);
+      form.setFieldsValue(portfolioData.intros[0]); // Populate the form with intro data
     }
   }, [portfolioData, form]);
 
   const onFinish = async (values) => {
     try {
       dispatch(showLoader(true));
-      const response = await axios.put("http://localhost:8001/api/intro", {
-        ...values,
-        _id: portfolioData.intros[0]._id,
-      });
+
+      // Get token from Redux or any other place where it's stored
+      const token = localStorage.getItem("authToken"); // Adjust this line based on your token storage
+
+      const response = await axios.put(
+        "http://localhost:8001/api/intro",
+        {
+          ...values,
+          _id: portfolioData.intros[0]._id, // Ensure to send the ID of the intro
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add the token to the Authorization header
+          },
+        }
+      );
+
       dispatch(showLoader(false));
+
       if (response.data.success) {
-        message.success(response.data.message);
+        message.success("Intro updated successfully.");
       } else {
-        message.error(response.data.message);
+        message.error(response.data.message || "Failed to update intro.");
       }
     } catch (error) {
       dispatch(showLoader(false));
-      message.error("Request failed: " + error.message);
+      message.error(`Request failed: ${error.message}`);
     }
   };
 
   if (!portfolioData || !portfolioData.intros?.[0]) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // Show loading state if data is not available
   }
 
   return (
     <div className="lg:w-full md:w-full sm:w-full">
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
-          id="welcomeText"
           label="Welcome Text"
           name="welcomeText"
           rules={[{ required: true, message: "Please enter welcome text" }]}
-          autoComplete="off"
         >
-          <Input id="welcomeText" placeholder="Intro" />
+          <Input placeholder="Enter Welcome Text" />
         </Form.Item>
 
         <Form.Item
-          id="firstName"
           label="First Name"
           name="firstName"
           rules={[{ required: true, message: "Please enter first name" }]}
-          autoComplete="off"
         >
-          <Input id="firstName" placeholder="First Name" />
+          <Input placeholder="Enter First Name" />
         </Form.Item>
 
         <Form.Item
-          id="lastName"
           label="Last Name"
           name="lastName"
           rules={[{ required: true, message: "Please enter last name" }]}
-          autoComplete="off"
         >
-          <Input id="lastName" placeholder="Last Name" />
+          <Input placeholder="Enter Last Name" />
         </Form.Item>
 
         <Form.Item
-          id="caption"
           label="Caption"
           name="caption"
           rules={[{ required: true, message: "Please enter caption" }]}
-          autoComplete="off"
         >
-          <Input id="caption" placeholder="Caption" />
+          <Input placeholder="Enter Caption" />
         </Form.Item>
 
         <Form.Item
-          id="description"
           label="Description"
           name="description"
           rules={[{ required: true, message: "Please enter description" }]}
-          autoComplete="off"
         >
-          <Input.TextArea id="description" placeholder="Description" rows={3} />
+          <Input.TextArea placeholder="Enter Description" rows={3} />
         </Form.Item>
 
         <Form.Item
-          id="details"
           label="Details"
           name="details"
           rules={[{ required: true, message: "Please enter details" }]}
-          autoComplete="off"
         >
-          <Input.TextArea id="details" placeholder="Details" rows={10} />
+          <Input.TextArea placeholder="Enter Details" rows={10} />
+        </Form.Item>
+
+        <Form.Item label="CV Link" name="cvLink">
+          <Input type="text" placeholder="Enter CV Link" />
         </Form.Item>
 
         <Form.Item className="flex justify-end">

@@ -208,15 +208,40 @@ button.bg-red-600:hover {
  
   */
 .responsive-tabs .ant-tabs-nav-list {
-  display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .responsive-tabs .ant-tabs-tab {
   margin: 5px !important;
+  flex: 0 1 auto;
+  white-space: nowrap;
 }
 
+/* Responsive gutter */
+.responsive-gutter .ant-tabs-nav-list {
+  gap: 4px; /* Default small gap */
+}
+
+@media (min-width: 480px) {
+  .responsive-gutter .ant-tabs-nav-list {
+    gap: 8px;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-gutter .ant-tabs-nav-list {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-gutter .ant-tabs-nav-list {
+    gap: 24px;
+  }
+}
+
+/* Responsive tab sizes */
 @media (max-width: 768px) {
   .responsive-tabs .ant-tabs-tab {
     flex: 1 1 calc(50% - 10px);
@@ -228,5 +253,35 @@ button.bg-red-600:hover {
   .responsive-tabs .ant-tabs-tab {
     flex: 1 1 100%;
     max-width: 100%;
+  }
+}
+/* Add this to your global CSS file */
+.admin-dashboard-tabs .ant-tabs-nav {
+  margin-bottom: 1.25rem;
+}
+
+.admin-dashboard-tabs .ant-tabs-tab {
+  padding: 0.75rem 1rem;
+}
+
+.admin-dashboard-tabs .ant-tabs-tab-btn {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.admin-dashboard-tabs .ant-tabs-ink-bar {
+  background-color: #3b82f6; /* Tailwind's blue-500 */
+}
+
+@media (max-width: 640px) {
+  .admin-dashboard-tabs .ant-tabs-nav-list {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .admin-dashboard-tabs .ant-tabs-tab {
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 0.25rem;
   }
 }
