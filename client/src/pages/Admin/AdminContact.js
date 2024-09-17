@@ -77,8 +77,8 @@ const AdminContact = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 sm:p-10 bg-white shadow-xl rounded-2xl">
-      <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
+    <div className="max-w-4xl p-6 mx-auto bg-white shadow-xl sm:p-10 rounded-2xl">
+      <h2 className="mb-8 text-4xl font-extrabold text-center text-gray-800">
         Manage Contact Information
       </h2>
 
@@ -97,80 +97,110 @@ const AdminContact = () => {
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="col-span-2 sm:col-span-1">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="videoUrl"
+            className="block mb-2 text-lg font-medium text-gray-700"
+          >
             Video URL
           </label>
           <input
             type="text"
+            id="videoUrl"
             name="videoUrl"
             value={formData.videoUrl}
             onChange={handleInputChange}
-            className="w-full p-3 bg-gray-50 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400 text-gray-800 placeholder-gray-400"
+            autoComplete="off"
+            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
             placeholder="Enter video URL"
           />
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="name"
+            className="block mb-2 text-lg font-medium text-gray-700"
+          >
             Name
           </label>
           <input
             type="text"
+            id="name"
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full p-3 bg-gray-50 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400 text-gray-800 placeholder-gray-400"
+            autoComplete="off"
+            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
             placeholder="Enter name"
           />
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="linkedinUrl"
+            className="block mb-2 text-lg font-medium text-gray-700"
+          >
             LinkedIn URL
           </label>
           <input
             type="text"
+            id="linkedinUrl"
             name="linkedinUrl"
             value={formData.linkedinUrl}
             onChange={handleInputChange}
-            className="w-full p-3 bg-gray-50 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400 text-gray-800 placeholder-gray-400"
+            autoComplete="off"
+            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
             placeholder="Enter LinkedIn URL"
           />
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="expertise"
+            className="block mb-2 text-lg font-medium text-gray-700"
+          >
             Expertise
           </label>
           <input
             type="text"
+            id="expertise"
             name="expertise"
             value={formData.expertise}
             onChange={handleInputChange}
-            className="w-full p-3 bg-gray-50 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400 text-gray-800 placeholder-gray-400"
+            autoComplete="off"
+            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
             placeholder="Enter expertise"
           />
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-lg font-medium text-gray-700"
+          >
             Email
           </label>
           <input
             type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="w-full p-3 bg-gray-50 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400 text-gray-800 placeholder-gray-400"
+            autoComplete="off"
+            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
             placeholder="Enter email"
           />
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="location"
+            className="block mb-2 text-lg font-medium text-gray-700"
+          >
             Location
           </label>
           <input
             type="text"
+            id="location"
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="w-full p-3 bg-gray-50 border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400 text-gray-800 placeholder-gray-400"
+            autoComplete="off"
+            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
             placeholder="Enter location"
           />
         </div>
@@ -178,7 +208,7 @@ const AdminContact = () => {
       <div className="flex justify-end mt-8">
         <button
           onClick={onFinish}
-          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in-out duration-300 transform hover:scale-105"
+          className="px-6 py-3 font-semibold text-white transition duration-300 ease-in-out transform bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 hover:scale-105"
         >
           Save
         </button>

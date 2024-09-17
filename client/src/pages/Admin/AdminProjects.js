@@ -5,13 +5,15 @@ import axios from "axios";
 
 const AdminProject = () => {
   const dispatch = useDispatch();
+  const projects = useSelector(
+    (state) => state.root.portfolioData?.projects || []
+  );
 
-  // Move projects initialization inside useMemo
-  const memoizedProjects = useMemo(() => {
-    const portfolioData = useSelector((state) => state.root.portfolioData);
-    const projects = portfolioData?.projects || [];
-    return [...projects].sort((a, b) => a.order - b.order);
-  }, [useSelector((state) => state.root.portfolioData)]);
+  // Sort projects by order
+  const memoizedProjects = useMemo(
+    () => [...projects].sort((a, b) => a.order - b.order),
+    [projects]
+  );
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -21,7 +23,7 @@ const AdminProject = () => {
     desc: "",
     image: "",
     link: "",
-    order: 0, // Add order field
+    order: 0, // Added order field
   });
   const [alert, setAlert] = useState({ message: "", type: "" });
 
@@ -136,7 +138,7 @@ const AdminProject = () => {
       {/* Alert Message */}
       {alert.message && (
         <div
-          className={`p-4 mb-4 text-sm rounded relative ${
+          className={`p-4 mb-4 text-sm rounded ${
             alert.type === "success"
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-700"
@@ -145,7 +147,7 @@ const AdminProject = () => {
           <span>{alert.message}</span>
           <button
             onClick={() => setAlert({ message: "", type: "" })}
-            className="absolute top-0 right-0 p-2 text-lg font-bold leading-none"
+            className="float-right text-lg font-bold"
           >
             &times;
           </button>
@@ -231,12 +233,13 @@ const AdminProject = () => {
                   </label>
                   <input
                     type="text"
-                    name="type"
+                    id="type"
                     value={formData.type}
                     onChange={(e) =>
                       setFormData({ ...formData, type: e.target.value })
                     }
                     required
+                    autoComplete="off"
                     className="block w-full mt-1 border-gray-300 rounded-md"
                   />
                 </div>
@@ -249,12 +252,13 @@ const AdminProject = () => {
                   </label>
                   <input
                     type="text"
-                    name="title"
+                    id="title"
                     value={formData.title}
                     onChange={(e) =>
                       setFormData({ ...formData, title: e.target.value })
                     }
                     required
+                    autoComplete="off"
                     className="block w-full mt-1 border-gray-300 rounded-md"
                   />
                 </div>
@@ -266,12 +270,13 @@ const AdminProject = () => {
                     Description
                   </label>
                   <textarea
-                    name="desc"
+                    id="desc"
                     value={formData.desc}
                     onChange={(e) =>
                       setFormData({ ...formData, desc: e.target.value })
                     }
                     required
+                    autoComplete="off"
                     className="block w-full mt-1 border-gray-300 rounded-md"
                     rows={4}
                   ></textarea>
@@ -285,12 +290,13 @@ const AdminProject = () => {
                   </label>
                   <input
                     type="text"
-                    name="image"
+                    id="image"
                     value={formData.image}
                     onChange={(e) =>
                       setFormData({ ...formData, image: e.target.value })
                     }
                     required
+                    autoComplete="off"
                     className="block w-full mt-1 border-gray-300 rounded-md"
                   />
                 </div>
@@ -303,12 +309,13 @@ const AdminProject = () => {
                   </label>
                   <input
                     type="text"
-                    name="link"
+                    id="link"
                     value={formData.link}
                     onChange={(e) =>
                       setFormData({ ...formData, link: e.target.value })
                     }
                     required
+                    autoComplete="off"
                     className="block w-full mt-1 border-gray-300 rounded-md"
                   />
                 </div>
@@ -321,7 +328,7 @@ const AdminProject = () => {
                   </label>
                   <input
                     type="number"
-                    name="order"
+                    id="order"
                     value={formData.order}
                     onChange={(e) =>
                       setFormData({
@@ -330,6 +337,7 @@ const AdminProject = () => {
                       })
                     }
                     required
+                    autoComplete="off"
                     className="block w-full mt-1 border-gray-300 rounded-md"
                   />
                 </div>
