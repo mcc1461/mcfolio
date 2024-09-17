@@ -285,3 +285,35 @@ button.bg-red-600:hover {
     margin: 0.25rem;
   }
 }
+
+@keyframes runningColor {
+  0% {
+    background-position: 0%;
+  }
+  50% {
+    background-position: 200%;
+  }
+  100% {
+    background-position: 0%;
+  }
+}
+
+.gradient-text {
+  font-size: 3rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 300%;
+  background-position: -100px;
+  background-image: linear-gradient(
+    90deg,
+    theme("colors.indigo.500"),
+    /* Indigo from Tailwind */ theme("colors.blue.500"),
+    /* Blue from Tailwind */ theme("colors.green.500"),
+    /* Green from Tailwind */ theme("colors.yellow.500"),
+    /* Yellow from Tailwind */ theme("colors.purple.500")
+      /* Purple from Tailwind */
+  );
+  animation: runningColor 10s infinite ease-out;
+}

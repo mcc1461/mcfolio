@@ -39,6 +39,7 @@ const experienceSchema = new mongoose.Schema(
 
 const projectSchema = new mongoose.Schema(
   {
+    order: { type: Number, required: true, unique: true },
     type: { type: String, required: true, min: 6, max: 255 },
     title: { type: String, required: true, min: 6, max: 255 },
     desc: { type: String, required: true },

@@ -2,25 +2,55 @@ import React, { useState, useEffect, useRef } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import contactVideo from "../../assets/MusCo_WebDev.mp4";
 import { useSelector } from "react-redux";
+import { Modal, Button, Input, message } from "antd";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [entered, setEntered] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [emailData, setEmailData] = useState({
+    user_name: "",
+    user_email: "",
+    message: "",
+  });
+
   const videoRef = useRef(null);
+  const formRef = useRef(null); // Ref for the form
+  const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY; // Replace with your EmailJS public key
+
+  // Initialize EmailJS (use your actual public key)
+  useEffect(() => {
+    emailjs.init(publicKey);
+  }, [publicKey]);
+
+  // Add utility function to check if video is playing
+  const isVideoPlaying = (video) => {
+    return !!(
+      video.currentTime > 0 &&
+      !video.paused &&
+      !video.ended &&
+      video.readyState > 2
+    );
+  };
 
   useEffect(() => {
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (videoRef.current) {
-            videoRef.current.play().catch((error) => {
-              console.error("Play error:", error);
-            });
-          }
-        } else {
-          if (videoRef.current) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-          }
+        if (
+          entry.isIntersecting &&
+          videoRef.current &&
+          !isVideoPlaying(videoRef.current)
+        ) {
+          videoRef.current.play().catch((error) => {
+            console.error("Play error:", error);
+          });
+        } else if (
+          !entry.isIntersecting &&
+          videoRef.current &&
+          isVideoPlaying(videoRef.current)
+        ) {
+          videoRef.current.pause();
+          videoRef.current.currentTime = 0;
         }
       });
     };
@@ -49,6 +79,51 @@ const Contact = () => {
     expertise: "Information not available",
     email: "No email provided",
     location: "Location not available",
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEmailData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handling the form submission using emailjs.sendForm()
+  const handleSendEmail = (e) => {
+    e.preventDefault(); // Prevent page refresh
+
+    if (!emailData.user_name || !emailData.user_email || !emailData.message) {
+      message.error("Please fill in all fields.");
+      return;
+    }
+
+    emailjs
+      .sendForm(
+        "service_ldfrkag", // Replace with your EmailJS service ID
+        "template_n19oxg6", // Replace with your EmailJS template ID
+        formRef.current // Reference to the form
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          message.success("Email sent successfully!");
+          setIsModalVisible(false);
+          setEmailData({ user_name: "", user_email: "", message: "" }); // Reset form data
+        },
+        (error) => {
+          console.log("FAILED...", error);
+          message.error("Failed to send email.");
+        }
+      );
   };
 
   return (
@@ -114,10 +189,61 @@ const Contact = () => {
               <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
                 Location: {user.location}
               </p>
+              {/* Add Write to Me button */}
+              <Button
+                type="primary"
+                className="mt-4 rounded-lg"
+                onClick={showModal}
+              >
+                Write to Me
+              </Button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal for Email */}
+      <Modal
+        title="Send an Email"
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null} // Custom footer with form
+      >
+        {/* Form for EmailJS */}
+        <form ref={formRef} onSubmit={handleSendEmail}>
+          <input type="hidden" name="contact_number" value="697483" />
+          <div className="flex flex-col gap-4">
+            <Input
+              placeholder="Your Name"
+              name="user_name"
+              value={emailData.user_name}
+              onChange={handleInputChange}
+              required
+            />
+            <Input
+              placeholder="Your Email"
+              name="user_email"
+              value={emailData.user_email}
+              onChange={handleInputChange}
+              required
+            />
+            <Input.TextArea
+              placeholder="Your Message"
+              name="message"
+              rows={4}
+              value={emailData.message}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="flex justify-end mt-4">
+            <Button onClick={handleCancel}>Cancel</Button>
+            <Button type="primary" htmlType="submit" className="ml-4">
+              Send
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </>
   );
 };

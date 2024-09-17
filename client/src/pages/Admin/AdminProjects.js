@@ -1,116 +1,111 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Input, Button, Modal, message } from "antd";
 import { setPortfolioData, showLoader } from "../../redux/rootSlice";
-import { createSelector } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const { confirm } = Modal;
 
 const AdminProject = () => {
   const dispatch = useDispatch();
 
-  // Memoized selector for projects
-  const selectPortfolioData = (state) => state.root.portfolioData;
-  const selectProjects = createSelector(
-    [selectPortfolioData],
-    (portfolioData) => portfolioData?.projects || []
-  );
-
-  const projects = useSelector(selectProjects);
-  const memoizedProjects = useMemo(() => projects, [projects]);
+  // Move projects initialization inside useMemo
+  const memoizedProjects = useMemo(() => {
+    const portfolioData = useSelector((state) => state.root.portfolioData);
+    const projects = portfolioData?.projects || [];
+    return [...projects].sort((a, b) => a.order - b.order);
+  }, [useSelector((state) => state.root.portfolioData)]);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [form] = Form.useForm(); // Move the form instance inside the component
+  const [formData, setFormData] = useState({
+    type: "",
+    title: "",
+    desc: "",
+    image: "",
+    link: "",
+    order: 0, // Add order field
+  });
+  const [alert, setAlert] = useState({ message: "", type: "" });
 
   useEffect(() => {
     if (showEditModal) {
       if (selectedProject) {
-        form.setFieldsValue(selectedProject);
+        setFormData(selectedProject);
       } else {
-        form.resetFields();
+        setFormData({
+          type: "",
+          title: "",
+          desc: "",
+          image: "",
+          link: "",
+          order: 0, // Reset order field
+        });
       }
     }
-  }, [showEditModal, selectedProject, form]);
+  }, [showEditModal, selectedProject]);
 
   const handleEditClick = (project) => {
     setSelectedProject(project);
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = (project) => {
-    confirm({
-      title: "Are you sure you want to delete this project?",
-      content: "Once deleted, this action cannot be undone.",
-      okText: "Yes, delete it",
-      okType: "danger",
-      cancelText: "No, keep it",
-      onOk: async () => {
-        try {
-          dispatch(showLoader(true));
-
-          const token = localStorage.getItem("authToken"); // Get the Bearer token
-
-          const response = await axios.delete(
-            `http://localhost:8001/api/projects/${project._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`, // Add the token to the headers
-              },
-            }
-          );
-
-          if (response.status === 200 && response.data.success) {
-            message.success(response.data.message);
-            getPortfolioData();
-          } else {
-            message.error("Failed to delete project.");
+  const handleDeleteClick = async (project) => {
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      try {
+        dispatch(showLoader(true));
+        const token = localStorage.getItem("authToken");
+        const response = await axios.delete(
+          `http://localhost:8001/api/projects/${project._id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
           }
-        } catch (error) {
-          message.error("Failed to delete project: " + error.message);
-        } finally {
-          dispatch(showLoader(false));
+        );
+
+        if (response.status === 200 && response.data.success) {
+          setAlert({
+            message: "Project deleted successfully.",
+            type: "success",
+          });
+          getPortfolioData();
+        } else {
+          setAlert({ message: "Failed to delete project.", type: "error" });
         }
-      },
-      onCancel() {},
-    });
+      } catch (error) {
+        setAlert({ message: `Error: ${error.message}`, type: "error" });
+      } finally {
+        dispatch(showLoader(false));
+      }
+    }
   };
 
-  const handleCloseModal = () => {
-    setShowEditModal(false);
-    setSelectedProject(null);
-  };
-
-  const onFinish = async (values) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       dispatch(showLoader(true));
-
-      const token = localStorage.getItem("authToken"); // Get the Bearer token
+      const token = localStorage.getItem("authToken");
 
       const url = selectedProject
         ? `http://localhost:8001/api/projects/${selectedProject._id}`
         : "http://localhost:8001/api/projects";
-
       const method = selectedProject ? "put" : "post";
-      const response = await axios[method](url, values, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
-        },
+
+      const response = await axios({
+        method,
+        url,
+        data: formData,
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (
         response.status === 201 ||
         (response.status === 200 && response.data.success)
       ) {
-        message.success(response.data.message);
+        setAlert({ message: "Project saved successfully.", type: "success" });
         getPortfolioData();
-        handleCloseModal();
+        setShowEditModal(false);
       } else {
-        message.error("Failed to save project.");
+        setAlert({ message: "Failed to save project.", type: "error" });
       }
     } catch (error) {
-      message.error("Request failed: " + error.message);
+      setAlert({ message: `Error: ${error.message}`, type: "error" });
     } finally {
       dispatch(showLoader(false));
     }
@@ -119,17 +114,14 @@ const AdminProject = () => {
   const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoader(true));
-
-      const token = localStorage.getItem("authToken"); // Get the Bearer token
+      const token = localStorage.getItem("authToken");
 
       const response = await axios.get("http://localhost:8001/api/portfolio", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(setPortfolioData(response.data));
     } catch (error) {
-      message.error("Failed to fetch portfolio data: " + error.message);
+      setAlert({ message: `Error: ${error.message}`, type: "error" });
     } finally {
       dispatch(showLoader(false));
     }
@@ -139,185 +131,228 @@ const AdminProject = () => {
     getPortfolioData();
   }, [getPortfolioData]);
 
-  if (!memoizedProjects || memoizedProjects.length === 0) {
-    return <p>No projects available</p>;
-  }
-
   return (
     <>
+      {/* Alert Message */}
+      {alert.message && (
+        <div
+          className={`p-4 mb-4 text-sm rounded relative ${
+            alert.type === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          <span>{alert.message}</span>
+          <button
+            onClick={() => setAlert({ message: "", type: "" })}
+            className="absolute top-0 right-0 p-2 text-lg font-bold leading-none"
+          >
+            &times;
+          </button>
+        </div>
+      )}
+
+      {/* Add Project Button */}
       <div className="flex justify-end mb-5">
-        <Button
-          className="px-5 py-1 rounded-md bg-primary-700 text-mc-white"
+        <button
+          className="px-5 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
           type="button"
           onClick={() => {
             setSelectedProject(null);
-            form.resetFields();
+            setFormData({
+              type: "",
+              title: "",
+              desc: "",
+              image: "",
+              link: "",
+              order: 0, // Reset order field
+            });
             setShowEditModal(true);
           }}
         >
           Add Project
-        </Button>
+        </button>
       </div>
 
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="grid grid-cols-1 gap-4 border-spacing-1 ">
-          {memoizedProjects.map((project) => (
-            <div
-              key={project._id}
-              className="col-span-1 p-5 border-2 border-gray-700 rounded-lg shadow-rounded-lg shadow-gray-900"
-            >
-              <div className="flex justify-center mb-4">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-[50%] h-auto rounded-lg"
-                />
-              </div>
-              <h1 className="text-2xl font-bold text-quaternary-900">
-                {project.type}
-              </h1>
-              <hr className="h-[3px] bg-gray-800" />
-              <h3 className="text-xl font-semibold text-quaternary-700">
-                {project.title}
-              </h3>
-              <p className="text-justify">{project.desc}</p>
-
-              <div className="relative my-2">
-                <div
-                  className="h-[3px] w-full bg-[length:12px_3px] bg-repeat-x"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle at 3px, red 1.5px, transparent 1.5px), radial-gradient(circle at 9px, blue 1.5px, transparent 1.5px)",
-                  }}
-                ></div>
-              </div>
-
-              <h1 className="italic font-bold text-md text-quaternary-900">
-                Project Image Url:
-                <span className="text-mc-blue-darker3"> {project.image}</span>
-              </h1>
-              <h3 className="font-semibold text-normal text-quaternary-700">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer" // Added rel attribute here
-                  className="p-1 rounded-md bg-mc-blue text-mc-white"
-                >
-                  {`Project Link: ${project.link}`}
-                </a>
-              </h3>
-
-              <div className="flex justify-end gap-3 mb-5">
-                <Button
-                  className="px-5 py-1 rounded-md bg-primary-700 text-mc-white"
-                  type="button"
-                  onClick={() => handleEditClick(project)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  className="px-3 py-1 bg-red-700 rounded-md text-mc-white"
-                  type="button"
-                  onClick={() => handleDeleteClick(project)}
-                >
-                  Delete
-                </Button>
-              </div>
+      {/* Projects List */}
+      <div className="grid grid-cols-1 gap-4">
+        {memoizedProjects.map((project) => (
+          <div
+            key={project._id}
+            className="p-5 bg-white border rounded-lg shadow-lg"
+          >
+            <div className="flex justify-center mb-4">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-[50%] h-auto rounded-lg"
+              />
             </div>
-          ))}
-        </div>
+            <h1 className="text-2xl font-bold text-gray-800">{project.type}</h1>
+            <hr className="my-2" />
+            <h3 className="text-xl font-semibold text-gray-700">
+              {project.title}
+            </h3>
+            <p className="mt-2 text-gray-600">{project.desc}</p>
+            <p className="mt-2 text-gray-500">Order: {project.order}</p>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                onClick={() => handleEditClick(project)}
+              >
+                Edit
+              </button>
+              <button
+                className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
+                onClick={() => handleDeleteClick(project)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <Modal
-        title={selectedProject ? "Update Project" : "Add Project"}
-        open={showEditModal}
-        onCancel={handleCloseModal}
-        footer={null}
-      >
-        <Form
-          form={form} // Connect form instance here
-          layout="vertical"
-          onFinish={onFinish}
-        >
-          <Form.Item
-            id="type"
-            name="type"
-            label="Type"
-            rules={[
-              { required: true, message: "Please input the project type!" },
-            ]}
-            autoComplete="off"
-          >
-            <Input placeholder="Type" />
-          </Form.Item>
-          <Form.Item
-            id="title"
-            name="title"
-            label="Title"
-            rules={[
-              { required: true, message: "Please input the project title!" },
-            ]}
-            autoComplete="off"
-          >
-            <Input placeholder="Title" />
-          </Form.Item>
-          <Form.Item
-            id="desc"
-            name="desc"
-            label="Description"
-            rules={[
-              {
-                required: true,
-                message: "Please input the project description!",
-              },
-            ]}
-            autoComplete="off"
-          >
-            <Input.TextArea placeholder="Description" rows={5} />
-          </Form.Item>
-          <Form.Item
-            id="image"
-            name="image"
-            label="Project Image URL"
-            rules={[
-              {
-                required: true,
-                message: "Please input the project image URL!",
-              },
-            ]}
-            autoComplete="off"
-          >
-            <Input placeholder="URL" />
-          </Form.Item>
-          <Form.Item
-            id="link"
-            name="link"
-            label="Project Link"
-            rules={[
-              {
-                required: true,
-                message: "Please input the project link!",
-              },
-            ]}
-            autoComplete="off"
-          >
-            <Input placeholder="Link" />
-          </Form.Item>
-          <Form.Item className="flex justify-end">
-            <Button type="primary" htmlType="submit" className="rounded-lg">
-              {selectedProject ? "Update" : "Add"}
-            </Button>
-            <Button
-              type="danger"
-              htmlType="button"
-              className="ml-4 rounded-lg"
-              onClick={handleCloseModal}
-            >
-              Cancel
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+      {/* Edit/Add Project Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+              <h2 className="mb-4 text-2xl font-bold">
+                {selectedProject ? "Update Project" : "Add Project"}
+              </h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label
+                    htmlFor="type"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Type
+                  </label>
+                  <input
+                    type="text"
+                    name="type"
+                    value={formData.type}
+                    onChange={(e) =>
+                      setFormData({ ...formData, type: e.target.value })
+                    }
+                    required
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={(e) =>
+                      setFormData({ ...formData, title: e.target.value })
+                    }
+                    required
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="desc"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Description
+                  </label>
+                  <textarea
+                    name="desc"
+                    value={formData.desc}
+                    onChange={(e) =>
+                      setFormData({ ...formData, desc: e.target.value })
+                    }
+                    required
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    rows={4}
+                  ></textarea>
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="image"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Project Image URL
+                  </label>
+                  <input
+                    type="text"
+                    name="image"
+                    value={formData.image}
+                    onChange={(e) =>
+                      setFormData({ ...formData, image: e.target.value })
+                    }
+                    required
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="link"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Project Link
+                  </label>
+                  <input
+                    type="text"
+                    name="link"
+                    value={formData.link}
+                    onChange={(e) =>
+                      setFormData({ ...formData, link: e.target.value })
+                    }
+                    required
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="order"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Order
+                  </label>
+                  <input
+                    type="number"
+                    name="order"
+                    value={formData.order}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        order: parseInt(e.target.value),
+                      })
+                    }
+                    required
+                    className="block w-full mt-1 border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    className="px-4 py-2 mr-2 text-white bg-gray-500 rounded-md"
+                    onClick={() => setShowEditModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                  >
+                    {selectedProject ? "Update" : "Add"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

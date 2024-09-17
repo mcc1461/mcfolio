@@ -1,102 +1,79 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Input, Button, Modal, message } from "antd";
 import { setPortfolioData, showLoader } from "../../redux/rootSlice";
 import axios from "axios";
 
-const { confirm } = Modal;
-
 const AdminExperience = () => {
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
-
-  // Memoize the experiences array
   const experiences = useSelector(
     (state) => state.root.portfolioData?.experiences || []
   );
   const memoizedExperiences = useMemo(() => experiences, [experiences]);
 
+  const [formData, setFormData] = useState({
+    role: "",
+    period: "",
+    desc: "",
+    location: "",
+  });
+
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExperience, setSelectedExperience] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [experienceToDelete, setExperienceToDelete] = useState(null);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [alertType, setAlertType] = useState("");
 
   useEffect(() => {
     if (showEditModal) {
       if (selectedExperience) {
-        form.setFieldsValue({
+        setFormData({
           ...selectedExperience,
           location: selectedExperience.location.join(", "),
         });
       } else {
-        form.resetFields();
+        setFormData({
+          role: "",
+          period: "",
+          desc: "",
+          location: "",
+        });
       }
     }
-  }, [showEditModal, selectedExperience, form]);
+  }, [showEditModal, selectedExperience]);
 
-  const handleEditClick = (experience) => {
-    setSelectedExperience(experience);
-    setShowEditModal(true);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
-  const handleDeleteClick = (experience) => {
-    confirm({
-      title: "Are you sure you want to delete this experience?",
-      content: "Once deleted, this action cannot be undone.",
-      okText: "Yes, delete it",
-      okType: "danger",
-      cancelText: "No, keep it",
-      onOk: async () => {
-        try {
-          dispatch(showLoader(true));
-
-          const token = localStorage.getItem("authToken"); // Get the Bearer token
-          const response = await axios.delete(
-            `http://localhost:8001/api/experiences/${experience._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`, // Add the token to the headers
-              },
-            }
-          );
-
-          if (response.status === 200 && response.data.success) {
-            message.success(response.data.message);
-            getPortfolioData();
-          } else {
-            message.error("Failed to delete experience.");
-          }
-        } catch (error) {
-          message.error("Failed to delete experience: " + error.message);
-        } finally {
-          dispatch(showLoader(false));
-        }
-      },
-      onCancel() {},
-    });
-  };
-
-  const handleCloseModal = () => {
-    setShowEditModal(false);
-    setSelectedExperience(null);
-    form.resetFields(); // Reset form fields after closing the modal
-  };
-
-  const onFinish = async (values) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       dispatch(showLoader(true));
 
-      // Convert location back to an array
-      values.location = values.location.split(",").map((loc) => loc.trim());
+      const values = {
+        ...formData,
+        location: formData.location.split(",").map((loc) => loc.trim()),
+      };
 
-      const token = localStorage.getItem("authToken"); // Get the Bearer token
+      const token = localStorage.getItem("authToken");
 
       const url = selectedExperience
         ? `http://localhost:8001/api/experiences/${selectedExperience._id}`
         : "http://localhost:8001/api/experiences";
 
       const method = selectedExperience ? "put" : "post";
-      const response = await axios[method](url, values, {
+
+      const response = await axios({
+        method,
+        url,
+        data: values,
         headers: {
-          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -104,32 +81,98 @@ const AdminExperience = () => {
         response.status === 201 ||
         (response.status === 200 && response.data.success)
       ) {
-        message.success(response.data.message);
+        setAlertMessage(response.data.message);
+        setAlertType("success");
         getPortfolioData();
-        handleCloseModal();
+        setShowEditModal(false);
       } else {
-        message.error("Failed to save experience.");
+        setAlertMessage("Failed to save experience.");
+        setAlertType("error");
       }
     } catch (error) {
-      message.error("Request failed: " + error.message);
+      setAlertMessage("Request failed: " + error.message);
+      setAlertType("error");
     } finally {
       dispatch(showLoader(false));
     }
   };
 
+  const handleEditClick = (experience) => {
+    setSelectedExperience(experience);
+    setFormData({
+      ...experience,
+      location: experience.location.join(", "),
+    });
+    setShowEditModal(true);
+  };
+
+  const handleAddClick = () => {
+    setSelectedExperience(null);
+    setFormData({
+      role: "",
+      period: "",
+      desc: "",
+      location: "",
+    });
+    setShowEditModal(true);
+  };
+
+  const handleDeleteClick = (experience) => {
+    setExperienceToDelete(experience);
+    setShowConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      dispatch(showLoader(true));
+
+      const token = localStorage.getItem("authToken");
+      const response = await axios.delete(
+        `http://localhost:8001/api/experiences/${experienceToDelete._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200 && response.data.success) {
+        setAlertMessage(response.data.message);
+        setAlertType("success");
+        getPortfolioData();
+      } else {
+        setAlertMessage("Failed to delete experience.");
+        setAlertType("error");
+      }
+    } catch (error) {
+      setAlertMessage("Failed to delete experience: " + error.message);
+      setAlertType("error");
+    } finally {
+      dispatch(showLoader(false));
+      setShowConfirmModal(false);
+      setExperienceToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setExperienceToDelete(null);
+    setShowConfirmModal(false);
+  };
+
   const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoader(true));
-      const token = localStorage.getItem("authToken"); // Get the Bearer token
+      const token = localStorage.getItem("authToken");
 
       const response = await axios.get("http://localhost:8001/api/portfolio", {
         headers: {
-          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
+          Authorization: `Bearer ${token}`,
         },
       });
       dispatch(setPortfolioData(response.data));
     } catch (error) {
-      message.error("Failed to fetch portfolio data: " + error.message);
+      setAlertMessage("Failed to fetch portfolio data: " + error.message);
+      setAlertType("error");
     } finally {
       dispatch(showLoader(false));
     }
@@ -139,129 +182,250 @@ const AdminExperience = () => {
     getPortfolioData();
   }, [getPortfolioData]);
 
-  if (!memoizedExperiences || memoizedExperiences.length === 0) {
-    return <p>No experiences available</p>;
-  }
-
   return (
     <>
+      {/* Alert message */}
+      {alertMessage && (
+        <div
+          className={`p-4 mb-4 text-sm rounded ${
+            alertType === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {alertMessage}
+          <button
+            onClick={() => setAlertMessage({ message: "", type: "" })}
+            className="float-right text-lg font-bold"
+          >
+            &times;
+          </button>
+        </div>
+      )}
+
+      {/* Add Experience Button */}
       <div className="flex justify-end mb-5">
-        <Button
-          className="px-5 py-1 rounded-md bg-primary-700 text-mc-white"
+        <button
+          className="px-5 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
           type="button"
-          onClick={() => {
-            setSelectedExperience(null);
-            form.resetFields();
-            setShowEditModal(true);
-          }}
+          onClick={handleAddClick}
         >
           Add Experience
-        </Button>
+        </button>
       </div>
-      <div className="grid grid-cols-1 gap-4 border-spacing-1">
+
+      {/* Experiences list */}
+      <div className="grid grid-cols-1 gap-4">
         {memoizedExperiences.map((experience) => (
           <div
             key={experience._id}
-            className="col-span-1 p-5 border-2 border-gray-700 rounded-lg shadow-rounded-lg shadow-gray-900"
+            className="p-5 bg-white border rounded-lg shadow-lg"
           >
-            <h1 className="text-2xl font-bold text-quaternary-900">
+            <h1 className="text-2xl font-bold text-gray-800">
               {experience.period}
             </h1>
-            <hr className="h-[3px] bg-gray-800" />
-            <h3 className="text-xl font-semibold text-quaternary-700">
+            <hr className="my-2" />
+            <h3 className="text-xl font-semibold text-gray-700">
               {experience.role}
             </h3>
-            <p className="text-justify">{experience.desc}</p>
-            <div className="font-semibold text-md text-quaternary-800">
-              {experience.location.map((location, index) => (
-                <p key={`${experience._id}-location-${index}`}>{location}</p>
+            <p className="mt-2 text-gray-600">{experience.desc}</p>
+            <div className="mt-2 text-gray-600">
+              {experience.location.map((loc, index) => (
+                <p key={`${experience._id}-location-${index}`}>{loc}</p>
               ))}
             </div>
-            <div className="flex justify-end gap-3 mb-5">
-              <Button
-                className="px-5 py-1 rounded-md bg-primary-700 text-mc-white"
-                type="button"
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
                 onClick={() => handleEditClick(experience)}
               >
                 Edit
-              </Button>
-              <Button
-                className="px-3 py-1 bg-red-700 rounded-md text-mc-white"
-                type="button"
+              </button>
+              <button
+                className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
                 onClick={() => handleDeleteClick(experience)}
               >
                 Delete
-              </Button>
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      <Modal
-        title={selectedExperience ? "Update Experience" : "Add Experience"}
-        open={showEditModal}
-        onCancel={handleCloseModal}
-        footer={null}
-        afterClose={() => form.resetFields()} // Reset form fields after modal is closed
-      >
-        {showEditModal && (
-          <Form form={form} layout="vertical" onFinish={onFinish}>
-            <Form.Item
-              id="role"
-              name="role"
-              label="Role"
-              rules={[{ required: true, message: "Please input the role!" }]}
-              autoComplete="off"
+      {/* Edit/Add Experience Modal */}
+      {showEditModal && (
+        <div
+          className="fixed inset-0 z-10 overflow-y-auto"
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            {/* Background overlay */}
+            <div
+              className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+              aria-hidden="true"
+              onClick={() => setShowEditModal(false)}
+            ></div>
+
+            {/* Modal content */}
+            <span
+              className="hidden sm:inline-block sm:align-middle sm:h-screen"
+              aria-hidden="true"
             >
-              <Input placeholder="Role" />
-            </Form.Item>
-            <Form.Item
-              id="period"
-              name="period"
-              label="Period"
-              rules={[{ required: true, message: "Please input the period!" }]}
-              autoComplete="off"
+              &#8203;
+            </span>
+            <div className="inline-block w-full max-w-lg overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle">
+              <div className="px-6 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
+                <h2 className="mb-4 text-2xl font-bold">
+                  {selectedExperience ? "Update Experience" : "Add Experience"}
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="role"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Role
+                    </label>
+                    <input
+                      type="text"
+                      name="role"
+                      id="role"
+                      value={formData.role}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      placeholder="Role"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="period"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Period
+                    </label>
+                    <input
+                      type="text"
+                      name="period"
+                      id="period"
+                      value={formData.period}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      placeholder="Period"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="desc"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Description
+                    </label>
+                    <textarea
+                      name="desc"
+                      id="desc"
+                      value={formData.desc}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      placeholder="Description"
+                      rows={5}
+                    ></textarea>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="location"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Location (comma-separated)
+                    </label>
+                    <input
+                      type="text"
+                      name="location"
+                      id="location"
+                      value={formData.location}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      placeholder="Location"
+                    />
+                  </div>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      type="button"
+                      className="px-4 py-2 mr-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
+                      onClick={() => setShowEditModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                    >
+                      {selectedExperience ? "Update" : "Add"}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showConfirmModal && (
+        <div
+          className="fixed inset-0 z-10 overflow-y-auto"
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            {/* Background overlay */}
+            <div
+              className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+              aria-hidden="true"
+              onClick={cancelDelete}
+            ></div>
+
+            {/* Modal content */}
+            <span
+              className="hidden sm:inline-block sm:align-middle sm:h-screen"
+              aria-hidden="true"
             >
-              <Input placeholder="Period" />
-            </Form.Item>
-            <Form.Item
-              id="desc"
-              name="desc"
-              label="Description"
-              rules={[
-                { required: true, message: "Please input the description!" },
-              ]}
-              autoComplete="off"
-            >
-              <Input.TextArea placeholder="Description" rows={5} />
-            </Form.Item>
-            <Form.Item
-              id="location"
-              name="location"
-              label="Location"
-              rules={[
-                { required: true, message: "Please input the location!" },
-              ]}
-              autoComplete="off"
-            >
-              <Input placeholder="Location" />
-            </Form.Item>
-            <Form.Item className="flex justify-end">
-              <Button type="primary" htmlType="submit" className="rounded-lg">
-                {selectedExperience ? "Update" : "Add"}
-              </Button>
-              <Button
-                type="danger"
-                htmlType="button"
-                className="ml-4 rounded-lg"
-                onClick={handleCloseModal}
-              >
-                Cancel
-              </Button>
-            </Form.Item>
-          </Form>
-        )}
-      </Modal>
+              &#8203;
+            </span>
+            <div className="inline-block w-full max-w-md overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle">
+              <div className="px-6 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
+                <h2 className="mb-4 text-xl font-bold">Confirm Delete</h2>
+                <p className="mb-4">
+                  Are you sure you want to delete this experience? This action
+                  cannot be undone.
+                </p>
+                <div className="flex justify-end mt-4">
+                  <button
+                    type="button"
+                    className="px-4 py-2 mr-2 text-white bg-gray-500 rounded-md hover:bg-gray-600"
+                    onClick={cancelDelete}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
+                    onClick={confirmDelete}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

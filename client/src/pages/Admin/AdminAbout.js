@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Button, Form, Input, message } from "antd";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoader } from "../../redux/rootSlice";
 import axios from "axios";
@@ -7,42 +6,57 @@ import axios from "axios";
 const AdminAbout = () => {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
-  const [form] = Form.useForm();
+  const [formData, setFormData] = useState({
+    imageUrl: "",
+    title: "",
+    desc1: "",
+    desc2: "",
+    desc3: "",
+    desc4: "",
+    skills: "",
+  });
+
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [alertType, setAlertType] = useState("");
 
   useEffect(() => {
     if (portfolioData?.abouts[0]) {
-      form.setFieldsValue(portfolioData.abouts[0]); // Populate form with data
+      setFormData(portfolioData.abouts[0]); // Populate form with data
     }
-  }, [portfolioData, form]);
+  }, [portfolioData]);
 
-  const onFinish = async (values) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const onFinish = async (e) => {
+    e.preventDefault(); // Prevent page refresh
     try {
-      // Ensure skills is a string before splitting
-      if (typeof values.skills === "string") {
-        const tempSkills = values.skills
+      if (typeof formData.skills === "string") {
+        const tempSkills = formData.skills
           .split(",")
           .map((skill) => skill.trim());
-        values.skills = tempSkills;
-      } else if (Array.isArray(values.skills)) {
-        // If it's already an array, use it as is
-        values.skills = values.skills.map((skill) => skill.trim());
+        formData.skills = tempSkills;
       }
 
       dispatch(showLoader(true));
 
-      // Get token from localStorage (or Redux if needed)
       const token = localStorage.getItem("authToken");
 
       if (!token) {
-        message.error("Authentication token is missing.");
+        setAlertMessage("Authentication token is missing.");
+        setAlertType("error");
         return;
       }
 
-      // Make the PUT request with the Bearer token in the headers
       const response = await axios.put(
         "http://localhost:8001/api/about",
         {
-          ...values,
+          ...formData,
           _id: portfolioData.abouts[0]._id, // Use correct ID for update
         },
         {
@@ -53,12 +67,15 @@ const AdminAbout = () => {
       );
 
       if (response.data.success) {
-        message.success(response.data.message);
+        setAlertMessage(response.data.message);
+        setAlertType("success");
       } else {
-        message.error(response.data.message);
+        setAlertMessage(response.data.message);
+        setAlertType("error");
       }
     } catch (error) {
-      message.error("Request failed: " + error.message);
+      setAlertMessage("Request failed: " + error.message);
+      setAlertType("error");
     } finally {
       dispatch(showLoader(false));
     }
@@ -69,79 +86,157 @@ const AdminAbout = () => {
   }
 
   return (
-    <div className="lg:w-full md:w-full sm:w-full xl:w-[200%] xl2:w-[200%]">
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 24 }}
+    <div className="container px-4 py-12 mx-auto">
+      <form
+        onSubmit={onFinish}
+        className="max-w-4xl p-10 mx-auto space-y-8 rounded-lg shadow-2xl bg-gradient-to-r from-indigo-50 to-blue-50"
       >
-        <Form.Item
-          id="imageUrl"
-          name="imageUrl"
-          className="form-item"
-          label="Image Url"
-          autoComplete="off"
-        >
-          <Input type="text" placeholder="Image Url" />
-        </Form.Item>
-        <Form.Item id="title" name="title" className="form-item" label="Title">
-          <Input type="text" placeholder="Title" />
-        </Form.Item>
-        <Form.Item
-          id="desc1"
-          name="desc1"
-          className="form-item"
-          label="Description 1"
-          autoComplete="off"
-        >
-          <Input.TextArea type="text" placeholder="Description 1" rows={5} />
-        </Form.Item>
-        <Form.Item
-          id="desc2"
-          name="desc2"
-          className="form-item"
-          label="Description 2"
-          autoComplete="off"
-        >
-          <Input.TextArea type="text" placeholder="Description 2" rows={5} />
-        </Form.Item>
-        <Form.Item
-          id="desc3"
-          name="desc3"
-          className="form-item"
-          label="Description 3"
-          autoComplete="off"
-        >
-          <Input.TextArea type="text" placeholder="Description 3" rows={5} />
-        </Form.Item>
-        <Form.Item
-          id="desc4"
-          name="desc4"
-          className="form-item"
-          label="Description 4"
-          autoComplete="off"
-        >
-          <Input.TextArea type="text" placeholder="Description 4" rows={5} />
-        </Form.Item>
-        <Form.Item
-          id="skills"
-          name="skills"
-          className="form-item"
-          label="Skills"
-          autoComplete="off"
-        >
-          <Input.TextArea type="text" placeholder="Skills" rows={10} />
-        </Form.Item>
-        <Form.Item className="flex justify-end w-1/2 pr-3 lg:w-full md:w-full sm:w-full">
-          <div className="flex justify-end w-full gap-1 pr-1">
-            <Button type="primary" htmlType="submit" className="rounded-md">
-              SAVE
-            </Button>
+        {alertMessage && (
+          <div
+            className={`p-4 mb-4 text-sm rounded ${
+              alertType === "success"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {alertMessage}
           </div>
-        </Form.Item>
-      </Form>
+        )}
+
+        <h2 className="mb-6 text-3xl font-extrabold text-center text-indigo-600">
+          Update About Section
+        </h2>
+
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="imageUrl"
+              className="block font-medium text-gray-700 text-md"
+            >
+              Image URL
+            </label>
+            <input
+              type="text"
+              name="imageUrl"
+              id="imageUrl"
+              value={formData.imageUrl}
+              onChange={handleInputChange}
+              className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="title"
+              className="block font-medium text-gray-700 text-md"
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="desc1"
+            className="block font-medium text-gray-700 text-md"
+          >
+            Description 1
+          </label>
+          <textarea
+            name="desc1"
+            id="desc1"
+            rows={4}
+            value={formData.desc1}
+            onChange={handleInputChange}
+            className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="desc2"
+            className="block font-medium text-gray-700 text-md"
+          >
+            Description 2
+          </label>
+          <textarea
+            name="desc2"
+            id="desc2"
+            rows={4}
+            value={formData.desc2}
+            onChange={handleInputChange}
+            className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="desc3"
+            className="block font-medium text-gray-700 text-md"
+          >
+            Description 3
+          </label>
+          <textarea
+            name="desc3"
+            id="desc3"
+            rows={4}
+            value={formData.desc3}
+            onChange={handleInputChange}
+            className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="desc4"
+            className="block font-medium text-gray-700 text-md"
+          >
+            Description 4
+          </label>
+          <textarea
+            name="desc4"
+            id="desc4"
+            rows={4}
+            value={formData.desc4}
+            onChange={handleInputChange}
+            className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="skills"
+            className="block font-medium text-gray-700 text-md"
+          >
+            Skills (comma-separated)
+          </label>
+          <textarea
+            name="skills"
+            id="skills"
+            rows={4}
+            value={formData.skills}
+            onChange={handleInputChange}
+            className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
+          />
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="inline-flex justify-center px-6 py-3 text-base font-medium text-white transition duration-300 bg-indigo-600 border border-transparent rounded-md shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            SAVE
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

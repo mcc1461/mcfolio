@@ -54,6 +54,12 @@ Note: You should import react、react-dom、dayjs before using antd.js.
 
 `npm install antd --save`
 
+### Email Sending with EmailJS
+
+`npm install @emailjs/browser`
+
+---
+
 ## BACK-END
 
 ### Installation
