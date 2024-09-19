@@ -3,6 +3,9 @@ import React from "react";
 const SectionTitle = ({ title }) => {
   return (
     <div className="flex items-center bg-mc-blue pl-7 pt-9">
+      <h3 className="text-3xl font-semibold text-secondary-300 whitespace-nowrap">
+        {title}
+      </h3>
       <h1 className="text-3xl font-semibold text-secondary-300 whitespace-nowrap">
         {title}
       </h1>

@@ -40,7 +40,7 @@ const Footer = () => {
       </div>
 
       {/* Empty Space Below */}
-      <div className="mt-10"></div>
+      <div className="mt-8"></div>
     </div>
   );
 };
