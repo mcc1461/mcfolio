@@ -227,7 +227,22 @@ module.exports = {
           900: "#091A7A",
         },
       },
+      animation: {
+        "gradient-x": "gradient-x 5s ease infinite",
+        floating: "floating 3s ease-in-out infinite",
+      },
+      keyframes: {
+        floating: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-5%)" },
+        },
+        "gradient-x": {
+          "0%, 100%": { "background-position": "0% 50%" },
+          "50%": { "background-position": "100% 50%" },
+        },
+      },
     },
+
     screens: {
       sm: { max: "640px" },
       // => @media (min-width: 640px) { ... }

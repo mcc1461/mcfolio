@@ -9,7 +9,8 @@ const introSchema = new mongoose.Schema(
     caption: { type: String, required: true, min: 6, max: 255 },
     description: { type: String, required: true, min: 6, max: 255 },
     details: { type: String, required: true },
-    cvLink: { type: String, required: true, min: 6, max: 255 },
+    cvLinkPdf: { type: String, required: true, min: 6, max: 255 },
+    cvLinkDocx: { type: String, required: true, min: 6, max: 255 },
   },
   { timestamps: true }
 );

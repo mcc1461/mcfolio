@@ -81,7 +81,9 @@ const About = () => {
                 </li>
               ))
             ) : (
-              <li>No skills available</li>
+              <li className="text-lg text-quaternary-300">
+                No skills available
+              </li>
             )}
           </ul>
         </div>

@@ -2,8 +2,30 @@ import React, { useState, useEffect, useRef } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import contactVideo from "../../assets/MusCo_WebDev.mp4";
 import { useSelector } from "react-redux";
-import { Modal, Button, Input, message } from "antd";
 import emailjs from "@emailjs/browser";
+
+const AlertMessage = ({ type, message, onClose }) => {
+  const bgColor =
+    type === "success"
+      ? "bg-green-700 border-green-700 text-white"
+      : "bg-red-700 border-red-700 text-white";
+
+  return (
+    <div className={`fixed top-4 right-4 z-50`}>
+      <div className={`border-l-4 p-4 ${bgColor} rounded shadow`} role="alert">
+        <div className="flex items-center justify-between">
+          <p className="font-bold">
+            {type === "success" ? "Success" : "Error"}
+          </p>
+          <button onClick={onClose} className="ml-4 text-xl font-bold">
+            &times;
+          </button>
+        </div>
+        <p>{message}</p>
+      </div>
+    </div>
+  );
+};
 
 const Contact = () => {
   const [entered, setEntered] = useState(false);
@@ -13,17 +35,16 @@ const Contact = () => {
     user_email: "",
     message: "",
   });
+  const [alert, setAlert] = useState(null); // For AlertMessage
 
   const videoRef = useRef(null);
-  const formRef = useRef(null); // Ref for the form
-  const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY; // Replace with your EmailJS public key
+  const formRef = useRef(null);
+  const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
-  // Initialize EmailJS (use your actual public key)
   useEffect(() => {
     emailjs.init(publicKey);
   }, [publicKey]);
 
-  // Add utility function to check if video is playing
   const isVideoPlaying = (video) => {
     return !!(
       video.currentTime > 0 &&
@@ -97,37 +118,43 @@ const Contact = () => {
     }));
   };
 
-  // Handling the form submission using emailjs.sendForm()
   const handleSendEmail = (e) => {
-    e.preventDefault(); // Prevent page refresh
+    e.preventDefault(); // Prevent form default behavior
 
     if (!emailData.user_name || !emailData.user_email || !emailData.message) {
-      message.error("Please fill in all fields.");
+      setAlert({ type: "error", message: "Please fill in all fields." });
       return;
     }
 
     emailjs
-      .sendForm(
-        "service_ldfrkag", // Replace with your EmailJS service ID
-        "template_n19oxg6", // Replace with your EmailJS template ID
-        formRef.current // Reference to the form
-      )
+      .sendForm("service_ldfrkag", "template_n19oxg6", formRef.current)
       .then(
         (response) => {
           console.log("SUCCESS!", response.status, response.text);
-          message.success("Email sent successfully!");
-          setIsModalVisible(false);
-          setEmailData({ user_name: "", user_email: "", message: "" }); // Reset form data
+          setAlert({ type: "success", message: "Email sent successfully!" });
+          setEmailData({ user_name: "", user_email: "", message: "" }); // Reset form
+          setIsModalVisible(false); // Close modal after success
         },
         (error) => {
           console.log("FAILED...", error);
-          message.error("Failed to send email.");
+          setAlert({ type: "error", message: "Failed to send email." });
         }
       );
   };
 
+  const closeAlert = () => {
+    setAlert(null);
+  };
+
   return (
     <>
+      {alert && (
+        <AlertMessage
+          type={alert.type}
+          message={alert.message}
+          onClose={closeAlert}
+        />
+      )}
       <SectionTitle title="Contact" />
       <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
         <div className="flex items-center justify-center w-full lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
@@ -189,61 +216,72 @@ const Contact = () => {
               <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
                 Location: {user.location}
               </p>
-              {/* Add Write to Me button */}
-              <Button
-                type="primary"
-                className="mt-4 rounded-lg"
+              <button
+                className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                 onClick={showModal}
               >
                 Write to Me
-              </Button>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Modal for Email */}
-      <Modal
-        title="Send an Email"
-        open={isModalVisible}
-        onCancel={handleCancel}
-        footer={null} // Custom footer with form
-      >
-        {/* Form for EmailJS */}
-        <form ref={formRef} onSubmit={handleSendEmail}>
-          <input type="hidden" name="contact_number" value="697483" />
-          <div className="flex flex-col gap-4">
-            <Input
-              placeholder="Your Name"
-              name="user_name"
-              value={emailData.user_name}
-              onChange={handleInputChange}
-              required
-            />
-            <Input
-              placeholder="Your Email"
-              name="user_email"
-              value={emailData.user_email}
-              onChange={handleInputChange}
-              required
-            />
-            <Input.TextArea
-              placeholder="Your Message"
-              name="message"
-              rows={4}
-              value={emailData.message}
-              onChange={handleInputChange}
-              required
-            />
+      {isModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+            <h2 className="mb-4 text-2xl font-semibold">Send an Email</h2>
+            <form ref={formRef} onSubmit={handleSendEmail}>
+              <input type="hidden" name="contact_number" value="697483" />
+              <div className="flex flex-col gap-4">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  name="user_name"
+                  value={emailData.user_name}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  name="user_email"
+                  value={emailData.user_email}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+                <textarea
+                  placeholder="Your Message"
+                  name="message"
+                  rows={4}
+                  value={emailData.message}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="button"
+                  className="px-4 py-2 mr-4 text-gray-700 bg-gray-300 rounded-lg"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                >
+                  Send
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="flex justify-end mt-4">
-            <Button onClick={handleCancel}>Cancel</Button>
-            <Button type="primary" htmlType="submit" className="ml-4">
-              Send
-            </Button>
-          </div>
-        </form>
-      </Modal>
+        </div>
+      )}
     </>
   );
 };

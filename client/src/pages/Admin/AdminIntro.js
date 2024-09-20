@@ -13,7 +13,8 @@ const AdminIntro = () => {
     caption: "",
     description: "",
     details: "",
-    cvLink: "",
+    cvLinkPdf: "",
+    cvLinkDocx: "",
   });
 
   const [alertMessage, setAlertMessage] = useState(null);
@@ -214,19 +215,36 @@ const AdminIntro = () => {
 
         <div>
           <label
-            htmlFor="cvLink"
+            htmlFor="cvLinkPdf"
             className="block text-sm font-medium text-gray-700"
           >
-            CV Link
+            CV Link (PDF)
           </label>
           <input
             type="text"
-            name="cvLink"
-            id="cvLink"
-            value={formData.cvLink}
+            name="cvLinkPdf"
+            id="cvLinkPdf"
+            value={formData.cvLinkPdf}
             onChange={handleInputChange}
             className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-purple-500 focus:ring-purple-500 sm:text-sm hover:shadow-xl"
-            placeholder="Enter CV Link"
+            placeholder="Enter CV Link (PDF)"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="cvLinkDocx"
+            className="block text-sm font-medium text-gray-700"
+          >
+            CV Link (DOCX)
+          </label>
+          <input
+            type="text"
+            name="cvLinkDocx"
+            id="cvLinkDocx"
+            value={formData.cvLinkDocx}
+            onChange={handleInputChange}
+            className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-purple-500 focus:ring-purple-500 sm:text-sm hover:shadow-xl"
+            placeholder="Enter CV Link (DOCX)"
           />
         </div>
 

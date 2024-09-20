@@ -6,9 +6,7 @@ const SectionTitle = ({ title }) => {
       <h3 className="text-3xl font-semibold text-secondary-300 whitespace-nowrap">
         {title}
       </h3>
-      <h1 className="text-3xl font-semibold text-secondary-300 whitespace-nowrap">
-        {title}
-      </h1>
+
       <div className="flex-1 ml-4 mr-7">
         <hr className="w-full border-0 border-t-4 border-dotted border-secondary-300" />
       </div>
