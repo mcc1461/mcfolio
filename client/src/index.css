@@ -139,32 +139,6 @@ body {
   }
 }
 
-/* Admin Dashboard Styles */
-
-/* General style for all tabs */
-.custom-tabs .ant-tabs-tab-btn {
-  background-color: #2563eb; /* Blue background for all tabs */
-  color: white; /* White text */
-  border-radius: 10px; /* Rounded corners for modern look */
-  padding: 10px 20px; /* Consistent padding for all tabs */
-  transition: all 0.3s ease; /* Smooth transitions for hover effects */
-  font-weight: 600; /* Slightly bold font */
-}
-
-/* Hover effect for all tabs */
-.custom-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
-  background-color: #1d4ed8; /* Darker blue on hover */
-  color: rgb(239, 247, 11);
-  text-decoration: underline;
-}
-
-/* Active tab styling for all tabs */
-.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-  background-color: #031b5c; /* Dark blue for active tab */
-  color: rgb(239, 247, 11) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for the active tab */
-}
-
 /* Buttons */
 button {
   transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for buttons */
@@ -207,84 +181,6 @@ button.bg-red-600:hover {
   2xl	1536px	@media (min-width: 1536px) { ... }
  
   */
-.responsive-tabs .ant-tabs-nav-list {
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.responsive-tabs .ant-tabs-tab {
-  margin: 5px !important;
-  flex: 0 1 auto;
-  white-space: nowrap;
-}
-
-/* Responsive gutter */
-.responsive-gutter .ant-tabs-nav-list {
-  gap: 4px; /* Default small gap */
-}
-
-@media (min-width: 480px) {
-  .responsive-gutter .ant-tabs-nav-list {
-    gap: 8px;
-  }
-}
-
-@media (min-width: 768px) {
-  .responsive-gutter .ant-tabs-nav-list {
-    gap: 16px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .responsive-gutter .ant-tabs-nav-list {
-    gap: 24px;
-  }
-}
-
-/* Responsive tab sizes */
-@media (max-width: 768px) {
-  .responsive-tabs .ant-tabs-tab {
-    flex: 1 1 calc(50% - 10px);
-    max-width: calc(50% - 10px);
-  }
-}
-
-@media (max-width: 480px) {
-  .responsive-tabs .ant-tabs-tab {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-}
-/* Add this to your global CSS file */
-.admin-dashboard-tabs .ant-tabs-nav {
-  margin-bottom: 1.25rem;
-}
-
-.admin-dashboard-tabs .ant-tabs-tab {
-  padding: 0.75rem 1rem;
-}
-
-.admin-dashboard-tabs .ant-tabs-tab-btn {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.admin-dashboard-tabs .ant-tabs-ink-bar {
-  background-color: #3b82f6; /* Tailwind's blue-500 */
-}
-
-@media (max-width: 640px) {
-  .admin-dashboard-tabs .ant-tabs-nav-list {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .admin-dashboard-tabs .ant-tabs-tab {
-    flex: 1 1 auto;
-    text-align: center;
-    margin: 0.25rem;
-  }
-}
 
 @keyframes runningColor {
   0% {

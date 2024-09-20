@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPortfolioData, showLoader } from "../../redux/rootSlice";
+import { selectMemoizedExperiences } from "../../redux/selectors"; // Import the memoized selector
 import axios from "axios";
 
 const AdminExperience = () => {
   const dispatch = useDispatch();
-  const experiences = useSelector(
-    (state) => state.root.portfolioData?.experiences || []
-  );
-  const memoizedExperiences = useMemo(() => experiences, [experiences]);
+
+  // Use the memoized experiences from the new selector
+  const experiences = useSelector(selectMemoizedExperiences);
 
   const [formData, setFormData] = useState({
     role: "",
@@ -195,18 +195,20 @@ const AdminExperience = () => {
         >
           {alertMessage}
           <button
-            onClick={() => setAlertMessage({ message: "", type: "" })}
+            onClick={() => setAlertMessage("")}
             className="float-right text-lg font-bold"
           >
             &times;
           </button>
         </div>
       )}
-
+      <h2 className="mb-6 text-3xl font-extrabold text-center text-violet-900">
+        Manage Experiences Section
+      </h2>
       {/* Add Experience Button */}
       <div className="flex justify-end mb-5">
         <button
-          className="px-5 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+          className="px-5 py-2 text-white rounded-md bg-violet-900 hover:bg-violet-700"
           type="button"
           onClick={handleAddClick}
         >
@@ -216,20 +218,20 @@ const AdminExperience = () => {
 
       {/* Experiences list */}
       <div className="grid grid-cols-1 gap-4">
-        {memoizedExperiences.map((experience) => (
+        {experiences.map((experience) => (
           <div
             key={experience._id}
             className="p-5 bg-white border rounded-lg shadow-lg"
           >
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold text-red-700">
               {experience.period}
             </h1>
             <hr className="my-2" />
-            <h3 className="text-xl font-semibold text-gray-700">
+            <h3 className="text-xl font-semibold text-blue-900">
               {experience.role}
             </h3>
             <p className="mt-2 text-gray-600">{experience.desc}</p>
-            <div className="mt-2 text-gray-600">
+            <div className="mt-2 text-orange-700">
               {experience.location.map((loc, index) => (
                 <p key={`${experience._id}-location-${index}`}>{loc}</p>
               ))}
@@ -402,8 +404,8 @@ const AdminExperience = () => {
               <div className="px-6 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
                 <h2 className="mb-4 text-xl font-bold">Confirm Delete</h2>
                 <p className="mb-4">
-                  Are you sure you want to delete this experience? This action
-                  cannot be undone.
+                  Are you sure you want to delete this experience? <br /> This
+                  action cannot be undone.
                 </p>
                 <div className="flex justify-end mt-4">
                   <button
@@ -418,7 +420,7 @@ const AdminExperience = () => {
                     className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
                     onClick={confirmDelete}
                   >
-                    Delete
+                    Confirm
                   </button>
                 </div>
               </div>

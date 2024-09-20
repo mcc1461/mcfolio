@@ -21,7 +21,7 @@ const AdminContact = () => {
 
   useEffect(() => {
     if (portfolioData?.contacts[0]) {
-      setFormData(portfolioData.contacts[0]);
+      setFormData(portfolioData.contacts[0]); // Populate form with existing data
     }
   }, [portfolioData]);
 
@@ -33,7 +33,8 @@ const AdminContact = () => {
     }));
   };
 
-  const onFinish = async () => {
+  const onFinish = async (e) => {
+    e.preventDefault(); // Prevent default form submission
     try {
       dispatch(showLoader(true));
 
@@ -45,10 +46,10 @@ const AdminContact = () => {
       }
 
       const response = await axios.put(
-        "/api/contact",
+        "http://localhost:8001/api/contact",
         {
           ...formData,
-          _id: portfolioData?.contacts[0]._id,
+          _id: portfolioData.contacts[0]._id, // Include the ID for updating
         },
         {
           headers: {
@@ -73,146 +74,158 @@ const AdminContact = () => {
   };
 
   if (!portfolioData || !portfolioData?.contacts[0]) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // Loading state
   }
 
   return (
-    <div className="max-w-4xl p-6 mx-auto bg-white shadow-xl sm:p-10 rounded-2xl">
-      <h2 className="mb-8 text-4xl font-extrabold text-center text-gray-800">
-        Manage Contact Information
-      </h2>
+    <div className="container px-4 py-12 mx-auto">
+      <form
+        onSubmit={onFinish}
+        className="max-w-4xl p-10 mx-auto space-y-8 rounded-lg shadow-2xl bg-gradient-to-r from-indigo-50 to-blue-50"
+      >
+        <h2 className="mb-6 text-3xl font-extrabold text-center text-violet-900">
+          Manage Contact Section
+        </h2>
 
-      {/* Alert Message */}
-      {alertMessage && (
-        <div
-          className={`p-4 mb-4 text-sm rounded ${
-            alertType === "success"
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
-        >
-          {alertMessage}
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="videoUrl"
+              className="block mb-2 text-lg font-medium text-violet-700"
+            >
+              Video URL
+            </label>
+            <input
+              type="text"
+              id="videoUrl"
+              name="videoUrl"
+              value={formData.videoUrl}
+              onChange={handleInputChange}
+              autoComplete="off"
+              className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
+              placeholder="Enter video URL"
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="name"
+              className="block mb-2 text-lg font-medium text-violet-700"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              autoComplete="off"
+              className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
+              placeholder="Enter name"
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="linkedinUrl"
+              className="block mb-2 text-lg font-medium text-violet-700"
+            >
+              LinkedIn URL
+            </label>
+            <input
+              type="text"
+              id="linkedinUrl"
+              name="linkedinUrl"
+              value={formData.linkedinUrl}
+              onChange={handleInputChange}
+              autoComplete="off"
+              className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
+              placeholder="Enter LinkedIn URL"
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="expertise"
+              className="block mb-2 text-lg font-medium text-violet-700"
+            >
+              Expertise
+            </label>
+            <input
+              type="text"
+              id="expertise"
+              name="expertise"
+              value={formData.expertise}
+              onChange={handleInputChange}
+              autoComplete="off"
+              className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
+              placeholder="Enter expertise"
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="email"
+              className="block mb-2 text-lg font-medium text-violet-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              autoComplete="off"
+              className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
+              placeholder="Enter email"
+            />
+          </div>
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="location"
+              className="block mb-2 text-lg font-medium text-violet-700"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+              autoComplete="off"
+              className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
+              placeholder="Enter location"
+            />
+          </div>
         </div>
-      )}
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="col-span-2 sm:col-span-1">
-          <label
-            htmlFor="videoUrl"
-            className="block mb-2 text-lg font-medium text-gray-700"
+        <div className="flex justify-end mt-3">
+          <button
+            type="submit"
+            className="inline-flex justify-center px-6 py-3 text-base font-medium text-white transition duration-300 border border-transparent rounded-md shadow-lg bg-violet-900 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-700"
           >
-            Video URL
-          </label>
-          <input
-            type="text"
-            id="videoUrl"
-            name="videoUrl"
-            value={formData.videoUrl}
-            onChange={handleInputChange}
-            autoComplete="off"
-            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
-            placeholder="Enter video URL"
-          />
+            SAVE
+          </button>
         </div>
-        <div className="col-span-2 sm:col-span-1">
-          <label
-            htmlFor="name"
-            className="block mb-2 text-lg font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            autoComplete="off"
-            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
-            placeholder="Enter name"
-          />
+        <div className="my-1">
+          {alertMessage && (
+            <div
+              className={`p-4 mb-4 text-sm rounded ${
+                alertType === "success"
+                  ? "bg-green-200 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {alertMessage}
+              <button
+                onClick={() => setAlertMessage("")}
+                className="float-right text-lg font-bold"
+              >
+                &times;
+              </button>
+            </div>
+          )}
         </div>
-        <div className="col-span-2 sm:col-span-1">
-          <label
-            htmlFor="linkedinUrl"
-            className="block mb-2 text-lg font-medium text-gray-700"
-          >
-            LinkedIn URL
-          </label>
-          <input
-            type="text"
-            id="linkedinUrl"
-            name="linkedinUrl"
-            value={formData.linkedinUrl}
-            onChange={handleInputChange}
-            autoComplete="off"
-            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
-            placeholder="Enter LinkedIn URL"
-          />
-        </div>
-        <div className="col-span-2 sm:col-span-1">
-          <label
-            htmlFor="expertise"
-            className="block mb-2 text-lg font-medium text-gray-700"
-          >
-            Expertise
-          </label>
-          <input
-            type="text"
-            id="expertise"
-            name="expertise"
-            value={formData.expertise}
-            onChange={handleInputChange}
-            autoComplete="off"
-            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
-            placeholder="Enter expertise"
-          />
-        </div>
-        <div className="col-span-2 sm:col-span-1">
-          <label
-            htmlFor="email"
-            className="block mb-2 text-lg font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            autoComplete="off"
-            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
-            placeholder="Enter email"
-          />
-        </div>
-        <div className="col-span-2 sm:col-span-1">
-          <label
-            htmlFor="location"
-            className="block mb-2 text-lg font-medium text-gray-700"
-          >
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            autoComplete="off"
-            className="w-full p-3 text-gray-800 placeholder-gray-400 border-2 border-gray-300 rounded-lg shadow-md bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-400"
-            placeholder="Enter location"
-          />
-        </div>
-      </div>
-      <div className="flex justify-end mt-8">
-        <button
-          onClick={onFinish}
-          className="px-6 py-3 font-semibold text-white transition duration-300 ease-in-out transform bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 hover:scale-105"
-        >
-          Save
-        </button>
-      </div>
+      </form>
     </div>
   );
 };

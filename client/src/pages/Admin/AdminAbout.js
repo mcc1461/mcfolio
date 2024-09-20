@@ -91,27 +91,15 @@ const AdminAbout = () => {
         onSubmit={onFinish}
         className="max-w-4xl p-10 mx-auto space-y-8 rounded-lg shadow-2xl bg-gradient-to-r from-indigo-50 to-blue-50"
       >
-        {alertMessage && (
-          <div
-            className={`p-4 mb-4 text-sm rounded ${
-              alertType === "success"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {alertMessage}
-          </div>
-        )}
-
-        <h2 className="mb-6 text-3xl font-extrabold text-center text-indigo-600">
-          Update About Section
+        <h2 className="mb-6 text-3xl font-extrabold text-center text-violet-900">
+          Manage About Section
         </h2>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <div>
             <label
               htmlFor="imageUrl"
-              className="block font-medium text-gray-700 text-md"
+              className="block font-medium text-violet-900 text-md"
             >
               Image URL
             </label>
@@ -128,7 +116,7 @@ const AdminAbout = () => {
           <div>
             <label
               htmlFor="title"
-              className="block font-medium text-gray-700 text-md"
+              className="block font-medium text-violet-900 text-md"
             >
               Title
             </label>
@@ -146,7 +134,7 @@ const AdminAbout = () => {
         <div>
           <label
             htmlFor="desc1"
-            className="block font-medium text-gray-700 text-md"
+            className="block font-medium text-violet-900 text-md"
           >
             Description 1
           </label>
@@ -163,7 +151,7 @@ const AdminAbout = () => {
         <div>
           <label
             htmlFor="desc2"
-            className="block font-medium text-gray-700 text-md"
+            className="block font-medium text-violet-900 text-md"
           >
             Description 2
           </label>
@@ -180,7 +168,7 @@ const AdminAbout = () => {
         <div>
           <label
             htmlFor="desc3"
-            className="block font-medium text-gray-700 text-md"
+            className="block font-medium text-violet-900 text-md"
           >
             Description 3
           </label>
@@ -197,7 +185,7 @@ const AdminAbout = () => {
         <div>
           <label
             htmlFor="desc4"
-            className="block font-medium text-gray-700 text-md"
+            className="block font-medium text-violet-900 text-md"
           >
             Description 4
           </label>
@@ -214,27 +202,46 @@ const AdminAbout = () => {
         <div>
           <label
             htmlFor="skills"
-            className="block font-medium text-gray-700 text-md"
+            className="block font-medium text-violet-900 text-md"
           >
             Skills (comma-separated)
           </label>
           <textarea
             name="skills"
             id="skills"
-            rows={4}
+            rows={2}
             value={formData.skills}
             onChange={handleInputChange}
             className="block w-full mt-1 transition duration-300 border-gray-300 rounded-lg shadow-lg focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:shadow-xl"
           />
-        </div>
 
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="inline-flex justify-center px-6 py-3 text-base font-medium text-white transition duration-300 bg-indigo-600 border border-transparent rounded-md shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            SAVE
-          </button>
+          <div className="flex justify-end mt-3">
+            <button
+              type="submit"
+              className="inline-flex justify-center px-6 py-3 text-base font-medium text-white transition duration-300 border border-transparent rounded-md shadow-lg bg-violet-900 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-700"
+            >
+              SAVE
+            </button>
+          </div>
+        </div>
+        <div className="my-1">
+          {alertMessage && (
+            <div
+              className={`p-4 mb-4 text-sm rounded ${
+                alertType === "success"
+                  ? "bg-green-200 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {alertMessage}
+              <button
+                onClick={() => setAlertMessage("")}
+                className="float-right text-lg font-bold"
+              >
+                &times;
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </div>

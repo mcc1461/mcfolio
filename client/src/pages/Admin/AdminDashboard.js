@@ -1,5 +1,4 @@
-import React from "react";
-import { Tabs } from "antd";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import AdminAbout from "./AdminAbout";
 import AdminIntro from "./AdminIntro";
@@ -7,6 +6,44 @@ import AdminExperiences from "./AdminExperiences";
 import AdminProjects from "./AdminProjects";
 import AdminContact from "./AdminContact";
 import { useNavigate } from "react-router-dom";
+
+// Custom Tabs Component
+const Tabs = ({ items }) => {
+  const [activeTab, setActiveTab] = useState(items[0].key);
+
+  return (
+    <div>
+      {/* Tab Headers */}
+      <div className="flex justify-center mb-4 space-x-4">
+        {items.map((item) => (
+          <button
+            key={item.key}
+            className={`px-4 py-2 font-semibold transition-colors duration-300 rounded ${
+              activeTab === item.key
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-600 hover:bg-blue-100"
+            }`}
+            onClick={() => setActiveTab(item.key)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab Content */}
+      <div className="p-4 bg-white border rounded shadow">
+        {items.map((item) => (
+          <div
+            key={item.key}
+            className={activeTab === item.key ? "block" : "hidden"}
+          >
+            {item.children}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -75,15 +112,7 @@ const AdminDashboard = () => {
         </div>
 
         <div className="p-5 mx-auto mt-5 font-semibold">
-          <Tabs
-            defaultActiveKey="1"
-            items={items}
-            centered
-            size="large"
-            type="button"
-            tabPosition="top"
-            className="bg-mc-white custom-tabs responsive-tabs responsive-gutter"
-          />
+          <Tabs items={items} />
         </div>
       </div>
     </main>

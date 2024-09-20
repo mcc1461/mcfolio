@@ -42,18 +42,6 @@ In the second link, you can find the following code to add to the head of the HT
     rel="stylesheet"
 />`
 
-### Ant Design
-
-`https://ant.design/docs/react/introduce`
-Note: You should import react、react-dom、dayjs before using antd.js.
-
-`npm i dayjs`
-
-`https://ant.design/docs/react/introduce`
-`https://www.npmjs.com/package/antd`
-
-`npm install antd --save`
-
 ### Email Sending with EmailJS
 
 `npm install @emailjs/browser`
@@ -121,3 +109,39 @@ Solution: Exclude this one from index.css and add the following one to the index
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap"
     />`
+
+Attention!:
+`
+Selector unknown returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
+Selectors that return a new reference (such as an object or an array) should be memoized: <https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization>
+
+`
+This warning is given when the selector is not memoized. To solve this, you can use the createSelector function from the reselect library to memoize the selector. This will prevent unnecessary rerenders and improve the performance of your application. For this issue, "reselect" library is need to be installed.
+
+`npm install reselect`
+
+After installing the reselect library, Create a new file for your selectors, e.g., selectors.js, in your Redux folder to define memoized selectors.
+
+```javascript
+// src/redux/selectors.js
+import { createSelector } from "reselect";
+
+// Input selector
+const selectPortfolioData = (state) => state.root.portfolioData;
+
+// Memoized selector
+export const selectMemoizedProjects = createSelector(
+  [selectPortfolioData],
+  (portfolioData) => {
+    return (portfolioData?.projects || []).sort((a, b) => a.order - b.order);
+  }
+);
+```
+
+Attention!:
+
+`When sorting arrays in Redux selectors, directly modifying the original array can lead to errors like TypeError: Cannot assign to read only property '0' of object '[object Array]' due to immutability constraints. To solve this problem, always create a new array using the spread operator (e.g., return [...(portfolioData?.projects || [])].sort(...)) before sorting. This approach adheres to Redux's immutability principles, preventing unintended side effects and ensuring that the sort operation functions correctly without errors.`
+
+Attention!:
+
+`When using the useSelector hook in a component, always use memoized selectors to prevent unnecessary rerenders and improve performance. Memoized selectors are created using the createSelector function from the reselect library, which caches the results of the selector based on its input selectors. This ensures that the selector is only recomputed when its input selectors change, reducing the number of rerenders and optimizing the component's performance.`

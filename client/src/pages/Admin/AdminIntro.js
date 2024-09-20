@@ -85,29 +85,17 @@ const AdminIntro = () => {
     <div className="container px-4 py-12 mx-auto">
       <form
         onSubmit={onFinish}
-        className="max-w-4xl p-10 mx-auto space-y-8 rounded-lg shadow-2xl bg-gradient-to-r from-purple-50 to-indigo-50"
+        className="max-w-4xl p-10 mx-auto space-y-8 rounded-lg shadow-2xl bg-gradient-to-r from-indigo-50 to-blue-50"
       >
-        {alertMessage && (
-          <div
-            className={`p-4 mb-4 text-sm rounded ${
-              alertType === "success"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {alertMessage}
-          </div>
-        )}
-
-        <h2 className="mb-6 text-3xl font-extrabold text-center text-purple-600">
-          Update Intro Section
+        <h2 className="mb-6 text-3xl font-extrabold text-center text-violet-900">
+          Manage Intro Section
         </h2>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <div>
             <label
               htmlFor="welcomeText"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-violet-900"
             >
               Welcome Text
             </label>
@@ -125,7 +113,7 @@ const AdminIntro = () => {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-violet-900"
             >
               First Name
             </label>
@@ -143,7 +131,7 @@ const AdminIntro = () => {
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-violet-900"
             >
               Last Name
             </label>
@@ -161,7 +149,7 @@ const AdminIntro = () => {
           <div>
             <label
               htmlFor="caption"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-violet-900"
             >
               Caption
             </label>
@@ -180,7 +168,7 @@ const AdminIntro = () => {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-violet-900"
           >
             Description
           </label>
@@ -198,7 +186,7 @@ const AdminIntro = () => {
         <div>
           <label
             htmlFor="details"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-violet-900"
           >
             Details
           </label>
@@ -216,7 +204,7 @@ const AdminIntro = () => {
         <div>
           <label
             htmlFor="cvLinkPdf"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-violet-900"
           >
             CV Link (PDF)
           </label>
@@ -233,7 +221,7 @@ const AdminIntro = () => {
         <div>
           <label
             htmlFor="cvLinkDocx"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-violet-900"
           >
             CV Link (DOCX)
           </label>
@@ -251,10 +239,29 @@ const AdminIntro = () => {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="inline-flex justify-center px-6 py-3 text-base font-medium text-white transition duration-300 bg-purple-600 border border-transparent rounded-md shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            className="inline-flex justify-center px-6 py-3 text-base font-medium text-white transition duration-300 border border-transparent rounded-md shadow-lg bg-violet-900 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-700"
           >
             SAVE
           </button>
+        </div>
+        <div className="my-1">
+          {alertMessage && (
+            <div
+              className={`p-4 mb-4 text-sm rounded ${
+                alertType === "success"
+                  ? "bg-green-200 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {alertMessage}
+              <button
+                onClick={() => setAlertMessage("")}
+                className="float-right text-lg font-bold"
+              >
+                &times;
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </div>

@@ -1,21 +1,15 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPortfolioData, showLoader } from "../../redux/rootSlice";
+import { selectMemoizedProjects } from "../../redux/selectors";
 import axios from "axios";
 
 const AdminProject = () => {
   const dispatch = useDispatch();
-  const projects = useSelector(
-    (state) => state.root.portfolioData?.projects || []
-  );
-
-  // Sort projects by order
-  const memoizedProjects = useMemo(
-    () => [...projects].sort((a, b) => a.order - b.order),
-    [projects]
-  );
+  const projects = useSelector(selectMemoizedProjects);
 
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [formData, setFormData] = useState({
     type: "",
@@ -23,7 +17,7 @@ const AdminProject = () => {
     desc: "",
     image: "",
     link: "",
-    order: 0, // Added order field
+    order: 0,
   });
   const [alert, setAlert] = useState({ message: "", type: "" });
 
@@ -38,7 +32,7 @@ const AdminProject = () => {
           desc: "",
           image: "",
           link: "",
-          order: 0, // Reset order field
+          order: 0,
         });
       }
     }
@@ -49,32 +43,36 @@ const AdminProject = () => {
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = async (project) => {
-    if (window.confirm("Are you sure you want to delete this project?")) {
-      try {
-        dispatch(showLoader(true));
-        const token = localStorage.getItem("authToken");
-        const response = await axios.delete(
-          `http://localhost:8001/api/projects/${project._id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+  const handleDeleteClick = (project) => {
+    setSelectedProject(project);
+    setShowConfirmDeleteModal(true);
+  };
 
-        if (response.status === 200 && response.data.success) {
-          setAlert({
-            message: "Project deleted successfully.",
-            type: "success",
-          });
-          getPortfolioData();
-        } else {
-          setAlert({ message: "Failed to delete project.", type: "error" });
+  const confirmDeleteProject = async () => {
+    try {
+      dispatch(showLoader(true));
+      const token = localStorage.getItem("authToken");
+      const response = await axios.delete(
+        `http://localhost:8001/api/projects/${selectedProject._id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
-      } catch (error) {
-        setAlert({ message: `Error: ${error.message}`, type: "error" });
-      } finally {
-        dispatch(showLoader(false));
+      );
+
+      if (response.status === 200 && response.data.success) {
+        setAlert({
+          message: "Project deleted successfully.",
+          type: "success",
+        });
+        getPortfolioData();
+      } else {
+        setAlert({ message: "Failed to delete project.", type: "error" });
       }
+    } catch (error) {
+      setAlert({ message: `Error: ${error.message}`, type: "error" });
+    } finally {
+      dispatch(showLoader(false));
+      setShowConfirmDeleteModal(false); // Close the confirmation modal
     }
   };
 
@@ -100,7 +98,12 @@ const AdminProject = () => {
         response.status === 201 ||
         (response.status === 200 && response.data.success)
       ) {
-        setAlert({ message: "Project saved successfully.", type: "success" });
+        setAlert({
+          message: selectedProject
+            ? "Project updated successfully."
+            : "A new project added successfully.",
+          type: "success",
+        });
         getPortfolioData();
         setShowEditModal(false);
       } else {
@@ -153,11 +156,13 @@ const AdminProject = () => {
           </button>
         </div>
       )}
-
+      <h2 className="mb-6 text-3xl font-extrabold text-center text-violet-900">
+        Manage Projects Section
+      </h2>
       {/* Add Project Button */}
       <div className="flex justify-end mb-5">
         <button
-          className="px-5 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+          className="px-5 py-2 text-white rounded-md bg-violet-900 hover:bg-violet-700"
           type="button"
           onClick={() => {
             setSelectedProject(null);
@@ -167,7 +172,7 @@ const AdminProject = () => {
               desc: "",
               image: "",
               link: "",
-              order: 0, // Reset order field
+              order: 0,
             });
             setShowEditModal(true);
           }}
@@ -178,7 +183,7 @@ const AdminProject = () => {
 
       {/* Projects List */}
       <div className="grid grid-cols-1 gap-4">
-        {memoizedProjects.map((project) => (
+        {projects.map((project) => (
           <div
             key={project._id}
             className="p-5 bg-white border rounded-lg shadow-lg"
@@ -190,13 +195,13 @@ const AdminProject = () => {
                 className="w-[50%] h-auto rounded-lg"
               />
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">{project.type}</h1>
+            <h1 className="text-2xl font-bold text-red-700">{project.type}</h1>
             <hr className="my-2" />
-            <h3 className="text-xl font-semibold text-gray-700">
+            <h3 className="text-xl font-semibold text-blue-900">
               {project.title}
             </h3>
             <p className="mt-2 text-gray-600">{project.desc}</p>
-            <p className="mt-2 text-gray-500">Order: {project.order}</p>
+            <p className="mt-2 italic text-gray-300">Order: {project.order}</p>
             <div className="flex justify-end gap-2 mt-4">
               <button
                 className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
@@ -333,7 +338,7 @@ const AdminProject = () => {
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        order: parseInt(e.target.value),
+                        order: parseInt(e.target.value, 10),
                       })
                     }
                     required
@@ -357,6 +362,36 @@ const AdminProject = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showConfirmDeleteModal && (
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-lg">
+              <h2 className="mb-4 text-lg font-bold">Confirm Deletion</h2>
+              <p>
+                Are you sure you want to delete this project? <br /> This action
+                cannot be undone.
+              </p>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="button"
+                  className="px-4 py-2 mr-2 text-white bg-gray-500 rounded-md"
+                  onClick={() => setShowConfirmDeleteModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
+                  onClick={confirmDeleteProject}
+                >
+                  Confirm
+                </button>
+              </div>
             </div>
           </div>
         </div>
