@@ -1,135 +1,66 @@
-# INFO
+# Developer Notes for MusCo Portfolio
 
-## FRONT-END
+## Font Size Adjustments
 
-### Installations
+- Use **Tailwind CSS** classes to adjust font size responsively:
+  - `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl` for different breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`).
 
-`npx create-react-app .`
-`npm i axios redux react-redux @reduxjs/toolkit`
-`npm i bcrypt`
+## Custom Scrollbar
 
-### Font Size
+- For custom scrollbar styles, refer to [W3Schools Custom Scrollbar Guide](https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp).
 
-`To make the font size of the paragraphs adjust automatically according to screen sizes, you can use responsive typography utilities provided by Tailwind CSS. This can be achieved using the text-xs, text-sm, text-base, text-lg, text-xl, etc., classes for different screen sizes.`
+## Icons
 
-`The text-xs class sets the font size to 0.75rem, text-sm sets the font size to 0.875rem, text-base sets the font size to 1rem, text-lg sets the font size to 1.125rem, and text-xl sets the font size to 1.25rem.`
+- Use **Remix Icons**:
 
-`You can also use the text-2xl, text-3xl, text-4xl, text-5xl, text-6xl, and text-7xl classes to set the font size to 1.5rem, 1.875rem, 2.25rem, 3rem, 4rem, and 5rem, respectively.`
+  - Add this to the `<head>` of your `index.html` file:
 
-`You can also use the text-8xl, ... text-30xl ... classes to set the font size to 6rem, ... 29rem ..., respectively.`
-
-### Tailwind Breakpoints
-
-`The default breakpoints in Tailwind CSS are as follows:
-sm: 640px
-md: 768px
-lg: 1024px
-xl: 1280px
-2xl: 1536px`
-
-### Custom Scrollbar CSS
-
-`https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp`
-
-### Icons
-
-`https://remixicon.com/`
-`https://github.com/Remix-Design/RemixIcon`
-
-In the second link, you can find the following code to add to the head of the HTML file:
-`<link
+  ```html
+  <link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
     rel="stylesheet"
-/>`
+  />
+  ```
 
-### Email Sending with EmailJS
+## Image Handling
 
-`npm install @emailjs/browser`
+- Use both Firebase URLs and local fallback images:
+  - **useState Hook**: Initializes the `imgSrc` state with the Firebase URL.
+  - **handleImageError Function**: Switches the `imgSrc` to a local image when the Firebase image fails to load.
+  - **onError Prop in img**: Triggers the `handleImageError` function if the image fails to load from the Firebase URL.
 
----
+Example:
 
-## BACK-END
+````javascript
+const [imgSrc, setImgSrc] = useState(firebaseImageUrl);
 
-### Installation
+const handleImageError = () => {
+  setImgSrc(localImage);
+};
 
-`npm init -y`
-`npm i express`
-`npm i mongoose dotenv cors`
+// Usage in img tag
+<img src={imgSrc} onError={handleImageError} alt="Portfolio" />
 
-### Gitignore
 
-`https://www.toptal.com/developers/gitignore` for node
+## Redux Selectors & Memoization
 
-### JSON Formatter and Validator
-
-`https://jsonformatter.curiousconcept.com/`
-
-### Images
-
-Both local images and firebase links are used.
-
-useState Hook: It initializes the imgSrc state with the Firebase URL.
-handleImageError Function: This function sets the imgSrc state to the local image (photo) when the onError event is triggered (i.e., when the image fails to load).
-onError Prop in img: This triggers the handleImageError function if the image URL fails to load, thus switching to the fallback image.
-This approach ensures that your image will load from Firebase if possible, and if it fails, the local image will be displayed instead.
-
-```Info
-Previous render            Next render
-   ------------------------------------------------------
-1. useContext                 useContext
-2. useRef                     useRef
-3. useCallback                useCallback
-4. useRef                     useRef
-5. useMemo                    useMemo
-6. useSyncExternalStore       useSyncExternalStore
-7. useEffect                  useEffect
-8. useDebugValue              useDebugValue
-9. useDebugValue              useDebugValue
-10. useRef                    useRef
-11. useState                  useState
-12. useRef                    useRef
-13. useMemo                   useMemo
-14. undefined                 useEffect
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-```
-
-Attention!:
-`form.setFieldsValue(portfolioData.intro`
-`This will not get the initial values without`
-
-Importing favicon should be like this not to have css access problem...
-`<link rel="icon" href="%PUBLIC_URL%/assets/favicon.png"/>`
-
-Attention!:
-`@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap")`
-
-This one gives "Verify stylesheet URLs" error and it take time to solve it...
-Solution: Exclude this one from index.css and add the following one to the index.html
-`<link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap"
-    />`
-
-Attention!:
-`
-Selector unknown returned a different result when called with the same parameters. This can lead to unnecessary rerenders.
-Selectors that return a new reference (such as an object or an array) should be memoized: <https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization>
-
-`
-This warning is given when the selector is not memoized. To solve this, you can use the createSelector function from the reselect library to memoize the selector. This will prevent unnecessary rerenders and improve the performance of your application. For this issue, "reselect" library is need to be installed.
-
-`npm install reselect`
-
-After installing the reselect library, Create a new file for your selectors, e.g., selectors.js, in your Redux folder to define memoized selectors.
+1. Install **reselect** to optimize your Redux selectors and prevent unnecessary rerenders:
+   ```bash
+   npm install reselect
+   ```
+2. Create memoized selectors using the createSelector function from reselect:
 
 ```javascript
 // src/redux/selectors.js
+
 import { createSelector } from "reselect";
 
 // Input selector
+
 const selectPortfolioData = (state) => state.root.portfolioData;
 
 // Memoized selector
+
 export const selectMemoizedProjects = createSelector(
   [selectPortfolioData],
   (portfolioData) => {
@@ -137,11 +68,66 @@ export const selectMemoizedProjects = createSelector(
   }
 );
 ```
+## Sorting Arrays in Redux Selectors
 
-Attention!:
+- When sorting arrays in Redux selectors, always create a new array using the spread operator before sorting to adhere to Redux's immutability principles:
 
-`When sorting arrays in Redux selectors, directly modifying the original array can lead to errors like TypeError: Cannot assign to read only property '0' of object '[object Array]' due to immutability constraints. To solve this problem, always create a new array using the spread operator (e.g., return [...(portfolioData?.projects || [])].sort(...)) before sorting. This approach adheres to Redux's immutability principles, preventing unintended side effects and ensuring that the sort operation functions correctly without errors.`
+```javascript
+return [...(portfolioData?.projects || [])].sort((a, b) => a.order - b.order);
+```
 
-Attention!:
+## useSelector Hook & Memoized Selectors
 
-`When using the useSelector hook in a component, always use memoized selectors to prevent unnecessary rerenders and improve performance. Memoized selectors are created using the createSelector function from the reselect library, which caches the results of the selector based on its input selectors. This ensures that the selector is only recomputed when its input selectors change, reducing the number of rerenders and optimizing the component's performance.`
+- When using the `useSelector` hook in a component, always use memoized selectors to prevent unnecessary rerenders and improve performance.
+
+## Custom Fonts
+
+- To use custom fonts in your project, import the font URL in your CSS file:
+
+```css
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap");
+```
+
+- If you encounter a "Verify stylesheet URLs" error, exclude the font import from your CSS file and add it directly to your `index.html` file:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap"
+/>
+```
+
+## Performance Optimization
+
+- Use memoized selectors and optimize your Redux selectors with reselect to prevent unnecessary rerenders and improve performance.
+
+## Warning: Selector unknown returned a different result
+
+- If you encounter the warning "Selector unknown returned a different result when called with the same parameters," use memoized selectors to prevent unnecessary rerenders and optimize performance.
+
+## Sorting Arrays in Redux Selectors
+
+- When sorting arrays in Redux selectors, always create a new array using the spread operator before sorting to adhere to Redux's immutability principles.
+
+## Email Integration with EmailJS
+
+- Use **EmailJS** to integrate the contact form with email services for sending emails directly from the website.
+
+## Deployment
+
+- Deploy the frontend on **Vercel** and host the backend on a server.
+
+## Acknowledgements
+
+- **Tailwind CSS**
+- **React.js**
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **Mongoose**
+- **JWT**
+- **Vercel**
+- **bcrypt**
+- **jsonwebtoken**
+- **nodemon**
+````
