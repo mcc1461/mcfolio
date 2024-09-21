@@ -86,8 +86,10 @@ const AdminDashboard = () => {
       <Header />
       <div className="container max-w-6xl px-4 mx-auto">
         <div className="mt-10 text-center">
-          <h1 className="text-4xl font-bold text-gray-700">Admin Dashboard</h1>
-          <p className="mt-2 text-lg text-gray-500">
+          <h1 className="text-4xl font-bold text-violet-700 drop-shadow-md">
+            Admin Dashboard
+          </h1>
+          <p className="mt-2 text-lg italic text-gray-500">
             Manage your portfolio sections
           </p>
         </div>

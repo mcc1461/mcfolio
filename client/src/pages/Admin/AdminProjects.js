@@ -245,7 +245,7 @@ const AdminProject = () => {
                     }
                     required
                     autoComplete="off"
-                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
                   />
                 </div>
                 <div className="mb-4">
@@ -264,7 +264,7 @@ const AdminProject = () => {
                     }
                     required
                     autoComplete="off"
-                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
                   />
                 </div>
                 <div className="mb-4">
@@ -282,7 +282,7 @@ const AdminProject = () => {
                     }
                     required
                     autoComplete="off"
-                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
                     rows={4}
                   ></textarea>
                 </div>
@@ -302,7 +302,7 @@ const AdminProject = () => {
                     }
                     required
                     autoComplete="off"
-                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
                   />
                 </div>
                 <div className="mb-4">
@@ -321,7 +321,7 @@ const AdminProject = () => {
                     }
                     required
                     autoComplete="off"
-                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
                   />
                 </div>
                 <div className="mb-4">
@@ -343,7 +343,7 @@ const AdminProject = () => {
                     }
                     required
                     autoComplete="off"
-                    className="block w-full mt-1 border-gray-300 rounded-md"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
                   />
                 </div>
                 <div className="flex justify-end">

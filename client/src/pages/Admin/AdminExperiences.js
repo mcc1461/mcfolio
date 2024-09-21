@@ -297,7 +297,7 @@ const AdminExperience = () => {
                       value={formData.role}
                       onChange={handleInputChange}
                       required
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       placeholder="Role"
                     />
                   </div>
@@ -315,7 +315,7 @@ const AdminExperience = () => {
                       value={formData.period}
                       onChange={handleInputChange}
                       required
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       placeholder="Period"
                     />
                   </div>
@@ -332,7 +332,7 @@ const AdminExperience = () => {
                       value={formData.desc}
                       onChange={handleInputChange}
                       required
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       placeholder="Description"
                       rows={5}
                     ></textarea>
@@ -351,7 +351,7 @@ const AdminExperience = () => {
                       value={formData.location}
                       onChange={handleInputChange}
                       required
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       placeholder="Location"
                     />
                   </div>
