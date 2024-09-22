@@ -14,6 +14,7 @@ This is a dynamic portfolio website developed using modern technologies. The web
     npx tailwindcss init
     npm install --save-dev @babel/plugin-proposal-private-property-in-object
     npm i react-router-dom
+    npm install @headlessui/react @heroicons/react
 
 ```
 
@@ -21,8 +22,8 @@ This is a dynamic portfolio website developed using modern technologies. The web
 
 ```bash
     npm init -y
-    npm i express
-    npm i mongoose dotenv cors
+    npm i express cors fs path dotenv
+    npm i mongoose
     npm i bcrypt
     npm i jsonwebtoken
     npm i nodemon

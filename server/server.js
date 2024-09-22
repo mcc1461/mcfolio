@@ -3,6 +3,7 @@ require("dotenv").config();
 const dbConnection = require("./config/dbConnection");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const authRoutes = require("./routes/authRoutes"); // Import auth routes
+const visitorRoutes = require("./routes/visitorRoutes");
 
 const app = express();
 const cors = require("cors");
@@ -22,6 +23,7 @@ app.use(express.static("public")); // Serve static files from the public folder
 // Routes
 app.use("/api", portfolioRoutes);
 app.use("/api", authRoutes); // Add the auth routes
+app.use("/api/visitor-count", visitorRoutes);
 
 // Default route
 app.get("/", (req, res) => {
