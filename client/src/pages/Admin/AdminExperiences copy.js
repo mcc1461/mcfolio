@@ -122,11 +122,14 @@ const AdminExperience = () => {
       dispatch(showLoader(true));
       const token = localStorage.getItem("authToken"); // Get the Bearer token
 
-      const response = await axios.get("http://localhost:8001/api/portfolio", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
-        },
-      });
+      const response = await axios.get(
+        process.env.REACT_APP_API_URL || "http://localhost:8001/api/portfolio",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add the Bearer token to the headers
+          },
+        }
+      );
       dispatch(setPortfolioData(response.data));
     } catch (error) {
       message.error("Failed to fetch portfolio data: " + error.message);
