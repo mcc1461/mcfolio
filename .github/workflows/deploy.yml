@@ -14,4 +14,4 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no rroot@147.79.118.232 "cd /var/www/mcfolio && git pull"
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.mcc%SSH@1461 }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
