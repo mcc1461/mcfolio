@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no rroot@147.79.118.232 "cd /var/www/mcfolio && git pull"
+          ssh -o StrictHostKeyChecking=no root@147.79.118.232 "cd /var/www/mcfolio && git pull"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
