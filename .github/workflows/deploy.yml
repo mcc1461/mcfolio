@@ -14,18 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up SSH
+      # Setup SSH with a newer version
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Install dependencies (if necessary, e.g., for a Node.js project)
+      # Install dependencies (if necessary)
       - name: Install dependencies
         run: |
           npm install
 
-      # Build the project (if applicable)
+      # Build the project (if necessary)
       - name: Build project
         run: |
           npm run build
