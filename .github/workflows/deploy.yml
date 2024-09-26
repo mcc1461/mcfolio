@@ -22,13 +22,3 @@ jobs:
       - name: Test SSH connection
         run: |
           ssh -vvv -i my_ssh_key -o StrictHostKeyChecking=no root@147.79.118.232 "echo 'SSH connection successful'"
-
-      # Step 4: Clean up the SSH key file
-      - name: Clean up SSH key file
-        run: |
-          rm my_ssh_key
-
-      # Step 5: Print a success message
-      - name: Success message
-        run: |
-          echo "SSH connection successful"
