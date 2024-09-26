@@ -8,13 +8,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Setup SSH
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 2: Test SSH connection with verbose output
+      # Step 3: Add SSH key manually
+      - name: Add SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > my_ssh_key
+          chmod 600 my_ssh_key
+          ssh-add my_ssh_key
+
+      # Step 4: Test SSH connection with verbose output
       - name: Test SSH connection
         run: |
           set -x
