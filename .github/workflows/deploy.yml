@@ -1,5 +1,4 @@
 name: Deploy to VPS
-
 on:
   push:
     branches:
@@ -8,19 +7,24 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup SSH
+      # Step 2: Setup Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      # Step 3: Setup SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 3: Debug and Run deployment commands on the VPS
+      # Step 4: Debug and Run deployment commands on the VPS
       - name: Deploy to VPS
         run: |
           set -x
@@ -30,7 +34,3 @@ jobs:
             npm install && \
             npm run build
           "
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
