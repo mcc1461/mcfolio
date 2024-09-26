@@ -21,6 +21,8 @@ jobs:
       # Step 3: Setup SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.6.0
+        env:
+          NODE_VERSION: "20"
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
