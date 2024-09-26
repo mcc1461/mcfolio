@@ -21,12 +21,16 @@ jobs:
       # Step 3: Setup SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.6.0
-        env:
-          NODE_VERSION: "20"
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 4: Debug and Run deployment commands on the VPS
+      # Step 4: Debug SSH connection
+      - name: Test SSH connection
+        run: |
+          set -x
+          ssh -o StrictHostKeyChecking=no root@147.79.118.232 "echo 'SSH connection successful'"
+
+      # Step 5: Debug and Run deployment commands on the VPS
       - name: Deploy to VPS
         run: |
           set -x
