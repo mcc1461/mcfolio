@@ -12,12 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Test SSH connection using appleboy/ssh-action
+      # Step 2: Create the SSH key file
+      - name: Create SSH key file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > my_ssh_key
+          chmod 600 my_ssh_key
+
+      # Step 3: Test SSH connection manually
       - name: Test SSH connection
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: 147.79.118.232
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: echo 'SSH connection successful'
-          debug: true
+        run: |
+          ssh -i my_ssh_key -o StrictHostKeyChecking=no -o LogLevel=DEBUG3 root@147.79.118.232 "echo 'SSH connection successful'"
