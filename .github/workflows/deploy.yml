@@ -10,27 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
+      # Step 1: Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Setup SSH with a newer version
+      # Step 2: Setup SSH
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
+        uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Install dependencies (if necessary)
-      - name: Install dependencies
-        run: |
-          npm install
-
-      # Build the project (if necessary)
-      - name: Build project
-        run: |
-          npm run build
-
-      # Deploy to VPS using SSH
+      # Step 3: Debug and Run deployment commands on the VPS
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no root@147.79.118.232 "cd /var/www/mcfolio && git pull && npm install && npm run build"
+          set -x
+          ssh -o StrictHostKeyChecking=no root@147.79.118.232 "
+            cd /var/www/mcfolio/client && \
+            git pull && \
+            npm install && \
+            npm run build
+          "
