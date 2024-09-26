@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Test SSH Connection
 on:
   push:
     branches:
@@ -8,41 +8,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Step 2: Setup Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-
-      # Step 3: Setup SSH
+      # Step 1: Setup SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 4: Test SSH connection
+      # Step 2: Test SSH connection
       - name: Test SSH connection
         run: |
           set -x
           ssh -o StrictHostKeyChecking=no root@147.79.118.232 "echo 'SSH connection successful'"
-
-      # Step 5: Check directory on VPS
-      - name: Check directory on VPS
-        run: |
-          set -x
-          ssh -o StrictHostKeyChecking=no root@147.79.118.232 "ls -la /var/www/mcfolio/client"
-
-      # Step 6: Run deployment commands on the VPS
-      - name: Deploy to VPS
-        run: |
-          set -x
-          ssh -o StrictHostKeyChecking=no root@147.79.118.232 "
-            cd /var/www/mcfolio/client && \
-            git pull && \
-            npm install && \
-            npm run build
-          "
