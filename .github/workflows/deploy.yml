@@ -23,4 +23,4 @@ jobs:
       - name: Deploy to VPS
         run: |
           set -x
-          scp -i my_ssh_key -o StrictHostKeyChecking=no -r . root@147.79.118.232:/var/www/mcfolio
+          scp -i my_ssh_key -o StrictHostKeyChecking=no -r * root@147.79.118.232:/var/www/mcfolio
