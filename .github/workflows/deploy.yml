@@ -23,6 +23,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my_ssh_key
           chmod 600 my_ssh_key
+          eval "$(ssh-agent -s)"
           ssh-add my_ssh_key
 
       # Step 4: Test SSH connection with verbose output
