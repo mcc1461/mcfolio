@@ -1,4 +1,4 @@
-name: Test SSH Connection
+name: Deploy to VPS
 on:
   push:
     branches:
@@ -18,7 +18,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my_ssh_key
           chmod 600 my_ssh_key
 
-      # Step 3: Test SSH connection manually with more verbose output
-      - name: Test SSH connection
+      # Step 3: Deploy to VPS
+      - name: Deploy to VPS
         run: |
-          ssh -vvv -i my_ssh_key -o StrictHostKeyChecking=no root@147.79.118.232 "echo 'SSH connection successful'"
+          scp -i my_ssh_key -o StrictHostKeyChecking=no -r . root@147.79.118.232:/var/www/mcfolio
