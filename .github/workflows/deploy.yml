@@ -14,7 +14,7 @@ jobs:
 
       # Step 2: Test SSH connection using appleboy/ssh-action
       - name: Test SSH connection
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@master
         with:
           host: 147.79.118.232
           username: root
