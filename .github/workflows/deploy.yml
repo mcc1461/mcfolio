@@ -18,22 +18,23 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my_ssh_key
           chmod 600 my_ssh_key
 
-      - name: Sync files to VPS
+      - name: Sync files to VPS using rsync (incremental sync)
         run: |
           set -x
-          rsync -avz --exclude=.git --exclude=node_modules -e 'ssh -i my_ssh_key -o StrictHostKeyChecking=no' ./ deployuser@147.79.118.232:/var/www/mcfolio
+          rsync -avz --exclude=.git --exclude=node_modules --exclude=build -e 'ssh -i my_ssh_key -o StrictHostKeyChecking=no' ./ deployuser@147.79.118.232:/var/www/mcfolio
 
-      - name: Build frontend on VPS
+      - name: Install dependencies and build frontend
         run: |
           ssh -i my_ssh_key -o StrictHostKeyChecking=no deployuser@147.79.118.232 << 'EOF'
             cd /var/www/mcfolio/client
-            npm install
+            # Use npm ci for faster installation
+            npm ci
             npm run build
           EOF
 
-      - name: Restart Nginx and PM2
+      - name: Restart Nginx and PM2 with zero-downtime reload
         run: |
           ssh -i my_ssh_key -o StrictHostKeyChecking=no deployuser@147.79.118.232 << 'EOF'
             sudo systemctl restart nginx
-            pm2 restart all
+            pm2 reload all --update-env
           EOF
