@@ -18,14 +18,14 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > my_ssh_key
           chmod 600 my_ssh_key
 
-      - name: Deploy to VPS
+      - name: Deploy to VPS using rsync
         run: |
           set -x
-          scp -i my_ssh_key -o StrictHostKeyChecking=no -r . root@147.79.118.232:/var/www/mcfolio
+          rsync -avz --exclude='.git' --exclude='node_modules' -e "ssh -i my_ssh_key -o StrictHostKeyChecking=no" ./ deployuser@147.79.118.232:/var/www/mcfolio
 
       - name: Restart Nginx and PM2
         run: |
-          ssh -i my_ssh_key -o StrictHostKeyChecking=no root@147.79.118.232 << 'EOF'
+          ssh -i my_ssh_key -o StrictHostKeyChecking=no deployuser@147.79.118.232 << 'EOF'
             sudo systemctl restart nginx
             pm2 restart all
           EOF
