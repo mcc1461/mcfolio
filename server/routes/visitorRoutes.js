@@ -1,12 +1,14 @@
-// routes/visitorRoutes.js
 const express = require("express");
 const router = express.Router();
-const { updateVisitorCount } = require("../controllers/visitorController");
+const {
+  updateVisitorCount,
+  getVisitorCount,
+} = require("../controllers/visitorController");
 
+// POST request to update visitor count
 router.post("/visitor-count", updateVisitorCount);
 
-router.get("/visitor-count", (req, res) => {
-  res.send("Visitor count route");
-});
+// GET request to retrieve visitor count
+router.get("/visitor-count", getVisitorCount);
 
 module.exports = router;
