@@ -21,7 +21,7 @@ dbConnection();
 // Middleware
 app.use(
   cors({
-    origin: { allowedOrigins },
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
   })
 );
@@ -33,7 +33,7 @@ app.use(express.static("public")); // Serve static files from the public folder
 // Routes
 app.use("/api", portfolioRoutes);
 app.use("/api", authRoutes); // Add the auth routes
-app.use("/api/visitor-count", visitorRoutes);
+app.use("/api", visitorRoutes);
 
 // Default route
 app.get("/", (req, res) => {
