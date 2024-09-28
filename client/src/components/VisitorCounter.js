@@ -21,16 +21,13 @@ const VisitorCounter = () => {
       const userIP = await getUserIP();
       if (userIP) {
         try {
-          const response = await fetch(
-            "https://www.musco.dev.com/api/visitor-count",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ ip: userIP }),
-            }
-          );
+          const response = await fetch("https://musco.dev/api/visitor-count", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ip: userIP }),
+          });
 
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
