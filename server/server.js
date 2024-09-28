@@ -7,7 +7,7 @@ const visitorRoutes = require("./routes/visitorRoutes");
 
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 8001;
+const port = process.env.PORT || 8000;
 
 const allowedOrigins = ["http://localhost:3000", "https://127.0.0.1:3000"];
 

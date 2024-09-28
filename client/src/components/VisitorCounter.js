@@ -22,7 +22,7 @@ const VisitorCounter = () => {
       if (userIP) {
         try {
           const response = await fetch(
-            "http://localhost:8001/api/visitor-count",
+            "http://localhost:8000/api/visitor-count",
             {
               method: "POST",
               headers: {

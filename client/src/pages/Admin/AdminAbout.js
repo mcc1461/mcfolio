@@ -54,7 +54,7 @@ const AdminAbout = () => {
       }
 
       const response = await axios.put(
-        "http://localhost:8001/api/about",
+        "http://localhost:8000/api/about",
         {
           ...formData,
           _id: portfolioData.abouts[0]._id, // Use correct ID for update
