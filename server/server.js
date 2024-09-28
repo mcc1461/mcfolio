@@ -9,13 +9,23 @@ const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 8000;
 
-const allowedOrigins = ["http://localhost:3000", "https://127.0.0.1:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://127.0.0.1:3000",
+  "https://musco.dev",
+];
 
 // Database connection
 dbConnection();
 
 // Middleware
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: { allowedOrigins },
+    methods: ["GET", "POST"],
+  })
+);
+
 app.use(express.json());
 
 app.use(express.static("public")); // Serve static files from the public folder
