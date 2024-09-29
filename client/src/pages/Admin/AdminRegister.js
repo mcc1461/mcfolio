@@ -24,7 +24,7 @@ const AdminRegistration = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/register", {
+      const response = await axios.post("http://127.0.0.1:8000/api/register", {
         email: admin.email,
         password: admin.password,
         specialCode: admin.specialCode,

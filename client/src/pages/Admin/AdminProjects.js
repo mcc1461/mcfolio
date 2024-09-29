@@ -53,7 +53,7 @@ const AdminProject = () => {
       dispatch(showLoader(true));
       const token = localStorage.getItem("authToken");
       const response = await axios.delete(
-        `http://localhost:8000/api/projects/${selectedProject._id}`,
+        `http://127.0.0.1:8000/api/projects/${selectedProject._id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -83,8 +83,8 @@ const AdminProject = () => {
       const token = localStorage.getItem("authToken");
 
       const url = selectedProject
-        ? `http://localhost:8000/api/projects/${selectedProject._id}`
-        : "http://localhost:8000/api/projects";
+        ? `http://127.0.0.1:8000/api/projects/${selectedProject._id}`
+        : "http://127.0.0.1:8000/api/projects";
       const method = selectedProject ? "put" : "post";
 
       const response = await axios({
@@ -122,7 +122,7 @@ const AdminProject = () => {
       const token = localStorage.getItem("authToken");
 
       const response = await axios.get(
-        process.env.REACT_APP_API_URL || "http://localhost:8000/api/portfolio",
+        process.env.REACT_APP_API_URL || "http://127.0.0.1:8000/api/portfolio",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

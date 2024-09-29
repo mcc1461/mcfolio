@@ -63,8 +63,8 @@ const AdminExperience = () => {
       const token = localStorage.getItem("authToken");
 
       const url = selectedExperience
-        ? `http://localhost:8000/api/experiences/${selectedExperience._id}`
-        : "http://localhost:8000/api/experiences";
+        ? `http://127.0.0.1:8000/api/experiences/${selectedExperience._id}`
+        : "http://127.0.0.1:8000/api/experiences";
 
       const method = selectedExperience ? "put" : "post";
 
@@ -128,7 +128,7 @@ const AdminExperience = () => {
 
       const token = localStorage.getItem("authToken");
       const response = await axios.delete(
-        `http://localhost:8000/api/experiences/${experienceToDelete._id}`,
+        `http://127.0.0.1:8000/api/experiences/${experienceToDelete._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -165,7 +165,7 @@ const AdminExperience = () => {
       const token = localStorage.getItem("authToken");
 
       const response = await axios.get(
-        process.env.REACT_APP_API_URL || "http://localhost:8000/api/portfolio",
+        process.env.REACT_APP_API_URL || "http://127.0.0.1:8000/api/portfolio",
         {
           headers: {
             Authorization: `Bearer ${token}`,

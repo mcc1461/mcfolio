@@ -46,7 +46,7 @@ const AdminContact = () => {
       }
 
       const response = await axios.put(
-        "http://localhost:8000/api/contact",
+        "http://127.0.0.1:8000/api/contact",
         {
           ...formData,
           _id: portfolioData.contacts[0]._id, // Include the ID for updating
