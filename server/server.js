@@ -1,9 +1,9 @@
 // server.js
 
 // Import required modules
-const express = require("express");
 const dotenv = require("dotenv"); // Import dotenv
 const path = require("path"); // Import path module
+const express = require("express");
 const cors = require("cors");
 const dbConnection = require("./config/dbConnection");
 const portfolioRoutes = require("./routes/portfolioRoutes");
