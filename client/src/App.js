@@ -18,6 +18,7 @@ const App = () => {
 
   const API_URL =
     process.env.REACT_APP_API_URL || "http://127.0.0.1:8000/api/portfolio";
+  console.log(API_URL);
 
   const getPortfolioData = useCallback(async () => {
     try {
