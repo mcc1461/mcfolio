@@ -12,11 +12,7 @@ const dbConnection = async () => {
       );
     }
 
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // Optional: Additional options can be added here
-    });
+    await mongoose.connect(mongoURI);
 
     console.log("MongoDB connected successfully");
   } catch (error) {
