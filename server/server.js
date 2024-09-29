@@ -14,7 +14,7 @@ const visitorRoutes = require("./routes/visitorRoutes");
 const env = process.env.NODE_ENV || "development";
 
 // Load environment variables from the appropriate .env file
-dotenv.config({ path: path.resolve(__dirname, `.env.${env}`) });
+dotenv.config({ path: path.resolve(__dirname, `.env.production`) });
 
 const app = express();
 const port = process.env.PORT || 8000;
