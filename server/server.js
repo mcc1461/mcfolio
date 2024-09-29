@@ -1,6 +1,8 @@
+// server.js
+
 // Import required modules
 const express = require("express");
-const dotenv = require("dotenv"); // Correctly import dotenv
+const dotenv = require("dotenv"); // Import dotenv
 const path = require("path"); // Import path module
 const cors = require("cors");
 const dbConnection = require("./config/dbConnection");
@@ -10,7 +12,9 @@ const visitorRoutes = require("./routes/visitorRoutes");
 
 // Determine the environment and load the corresponding .env file
 const env = process.env.NODE_ENV || "development";
-dotenv.config({ path: path.resolve(__dirname, `.env.${env}`) }); // Properly configure dotenv
+
+// Load environment variables from the appropriate .env file
+dotenv.config({ path: path.resolve(__dirname, `.env.${env}`) });
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -21,7 +25,7 @@ const allowedOrigins = [
   "https://127.0.0.1:3000",
   "https://musco.dev",
   process.env.CLIENT_ORIGIN, // Ensure CLIENT_ORIGIN is defined in your .env files
-];
+].filter(Boolean); // Removes undefined if CLIENT_ORIGIN is not set
 
 // Log CLIENT_ORIGIN for debugging purposes
 console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
@@ -32,7 +36,7 @@ dbConnection();
 // Middleware setup
 app.use(
   cors({
-    origin: allowedOrigins.filter(Boolean), // Removes undefined if CLIENT_ORIGIN is not set
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true, // If you need to send cookies or auth headers
   })
