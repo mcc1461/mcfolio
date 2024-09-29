@@ -25,6 +25,7 @@ const App = () => {
       dispatch(showLoader(true));
       dispatch(setError(null));
       const response = await axios.get(API_URL);
+      console.log(response.data);
       dispatch(setPortfolioData(response.data));
     } catch (error) {
       dispatch(
