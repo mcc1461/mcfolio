@@ -165,8 +165,8 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="flex items-center justify-center sm:flex-col md:flex-col">
-        <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
+      <div className="flex items-center justify-center sm:flex-col md:flex-col bg-mc-blue">
+        <div className="flex flex-col items-center justify-center h-full rounded-lg gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
           <div className="flex items-center justify-center w-full rounded-lg pl-80 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
             <video
               ref={videoRef}
