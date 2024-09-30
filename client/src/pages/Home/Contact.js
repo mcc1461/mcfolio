@@ -10,8 +10,17 @@ const AlertMessage = ({ type, message, onClose }) => {
       ? "bg-green-700 border-green-700 text-white"
       : "bg-red-700 border-red-700 text-white";
 
+  useEffect(() => {
+    if (type === "success") {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [type, onClose]);
+
   return (
-    <div className={`fixed top-4 right-4 z-50`}>
+    <div className="fixed z-50 top-4 right-4">
       <div className={`border-l-4 p-4 ${bgColor} rounded shadow`} role="alert">
         <div className="flex items-center justify-between">
           <p className="font-bold">
@@ -35,7 +44,7 @@ const Contact = () => {
     user_email: "",
     message: "",
   });
-  const [alert, setAlert] = useState(null); // For AlertMessage
+  const [alert, setAlert] = useState(null);
 
   const videoRef = useRef(null);
   const formRef = useRef(null);
@@ -62,9 +71,9 @@ const Contact = () => {
           videoRef.current &&
           !isVideoPlaying(videoRef.current)
         ) {
-          videoRef.current.play().catch((error) => {
-            console.error("Play error:", error);
-          });
+          videoRef.current
+            .play()
+            .catch((error) => console.error("Play error:", error));
         } else if (
           !entry.isIntersecting &&
           videoRef.current &&
@@ -92,7 +101,6 @@ const Contact = () => {
   }, []);
 
   const { portfolioData } = useSelector((state) => state.root);
-
   const user = portfolioData?.contacts?.[0] || {
     name: "Unavailable",
     linkedinUrl: "#",
@@ -101,57 +109,51 @@ const Contact = () => {
     location: "Location not available",
   };
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const showModal = () => setIsModalVisible(true);
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  const handleCancel = () => setIsModalVisible(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEmailData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setEmailData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSendEmail = (e) => {
-    e.preventDefault(); // Prevent form default behavior
-
+  const handleSendEmail = async (e) => {
+    e.preventDefault();
     if (!emailData.user_name || !emailData.user_email || !emailData.message) {
       setAlert({ type: "error", message: "Please fill in all fields." });
       return;
     }
 
-    emailjs
-      .sendForm("service_ldfrkag", "template_n19oxg6", formRef.current)
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-          setAlert({ type: "success", message: "Email sent successfully!" });
-          setEmailData({ user_name: "", user_email: "", message: "" }); // Reset form
-          setIsModalVisible(false); // Close modal after success
-
-          // Automatically send a reply email
-          emailjs.send("service_ldfrkag", "template_auto_reply", {
-            to_name: emailData.user_name,
-            to_email: emailData.user_email,
-            message:
-              "Thank you for reaching out! We will get back to you soon.",
-          });
-        },
-        (error) => {
-          console.log("FAILED...", error);
-          setAlert({ type: "error", message: "Failed to send email." });
-        }
+    try {
+      await emailjs.sendForm(
+        "service_ldfrkag",
+        "template_n19oxg6",
+        formRef.current
       );
+
+      const templateParams = {
+        user_email: emailData.user_email,
+        reply_to: "info@musco.dev", // Your email to send reply from
+        user_name: emailData.user_name,
+      };
+
+      await emailjs.send(
+        "service_ldfrkag",
+        "template_auto_reply",
+        templateParams
+      );
+
+      setAlert({ type: "success", message: "Email sent successfully!" });
+      setEmailData({ user_name: "", user_email: "", message: "" });
+      setIsModalVisible(false);
+    } catch (error) {
+      console.log("FAILED...", error);
+      setAlert({ type: "error", message: "Failed to send email." });
+    }
   };
 
-  const closeAlert = () => {
-    setAlert(null);
-  };
+  const closeAlert = () => setAlert(null);
 
   return (
     <>
@@ -163,80 +165,76 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="flex flex-col items-center justify-center min-h-screen gap-7 py-9 bg-mc-blue lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4">
-        <div className="flex items-center justify-center w-full pl-5 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
-          <video
-            ref={videoRef}
-            className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
-            controls={false}
-            muted
-            playsInline
-            onMouseEnter={() => videoRef.current.play()}
-            onMouseLeave={() => videoRef.current.pause()}
-          >
-            <source
-              src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
-              type="video/mp4"
-            />
-            <source src={contactVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div
-          className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start"
-          onMouseEnter={() => setEntered(true)}
-          onMouseLeave={() => setEntered(false)}
-        >
-          <div
-            className={`flex flex-col items-center justify-center p-4 rounded-lg shadow-lg gap-4 ${
-              entered
-                ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
-                : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
-            } border-l-4 pl-2`}
-          >
-            <a
-              href={user.linkedinUrl}
-              target="_blank"
-              rel="noreferrer noopener"
-              className={`flex items-center text-lg md:text-xl lg:text-2xl font-semibold ${
-                entered
-                  ? "text-quaternary-300 underline cursor-pointer"
-                  : "text-mc-white"
-              }`}
+      <div className="flex flex-col items-center justify-center sm: bg-slate-300">
+        <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
+          <div className="flex items-center justify-center w-full pl-5 rounded-lg lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
+            <video
+              ref={videoRef}
+              className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
+              controls={false}
+              muted
+              playsInline
+              onMouseEnter={() => videoRef.current.play()}
+              onMouseLeave={() => videoRef.current.pause()}
             >
-              {user.name}
-              <span className="inline-block px-2">
-                <button
-                  className={`px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl transition-opacity duration-300 ${
-                    entered ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  LinkedIn
-                </button>
-              </span>
-            </a>
-            <div className="w-full mt-5">
-              <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                Expertise: {user.expertise}
-              </p>
-              <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                Email: {user.email}
-              </p>
-              <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                Location: {user.location}
-              </p>
-              <button
-                className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                onClick={showModal}
+              <source
+                src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
+                type="video/mp4"
+              />
+              <source src={contactVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start">
+            <div
+              className={`flex flex-col items-center justify-center p-4 rounded-lg shadow-lg gap-4 ${
+                entered
+                  ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
+                  : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
+              } border-l-4 pl-2`}
+            >
+              <a
+                href={user.linkedinUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className={`flex items-center text-lg md:text-xl lg:text-2xl font-semibold ${
+                  entered
+                    ? "text-quaternary-300 underline cursor-pointer"
+                    : "text-mc-white"
+                }`}
               >
-                Write to Me
-              </button>
+                {user.name}
+                <span className="inline-block px-2">
+                  <button
+                    className={`px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl transition-opacity duration-300 ${
+                      entered ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    LinkedIn
+                  </button>
+                </span>
+              </a>
+              <div className="w-full mt-5">
+                <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
+                  Expertise: {user.expertise}
+                </p>
+                <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
+                  Email: {user.email}
+                </p>
+                <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
+                  Location: {user.location}
+                </p>
+                <button
+                  className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                  onClick={showModal}
+                >
+                  Write to Me
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Modal for Email */}
       {isModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
