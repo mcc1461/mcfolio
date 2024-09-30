@@ -127,8 +127,8 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm(
-        "service_ldfrkag",
-        "template_n19oxg6",
+        "service_5l5jxcc",
+        "template_7bu07o5",
         formRef.current
       );
 
@@ -138,11 +138,7 @@ const Contact = () => {
         user_name: emailData.user_name,
       };
 
-      await emailjs.send(
-        "service_ldfrkag",
-        "template_auto_reply",
-        templateParams
-      );
+      await emailjs.send("service_5l5jxcc", "template_qqfkusw", templateParams);
 
       setAlert({ type: "success", message: "Email sent successfully!" });
       setEmailData({ user_name: "", user_email: "", message: "" });
