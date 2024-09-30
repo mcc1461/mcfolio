@@ -42,19 +42,19 @@ const About = () => {
           </div>
           <div className="w-full p-3 overflow-y-auto lg:w-1/2">
             <div>
-              <h1 className="p-3 text-3xl font-bold md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl text-quaternary-100">
+              <h1 className="p-3 text-4xl font-bold md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
               </h1>
-              <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="p-3 text-base font-bold text-justify md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc1}
               </p>
-              <p className="p-3 text-sm font-bold text-justify md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="p-3 text-base font-bold text-justify md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc2}
               </p>
-              <p className="hidden p-3 text-sm font-bold text-justify lg:block xl:block xl2:block md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="hidden p-3 text-base font-bold text-justify lg:block xl:block xl2:block md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc3}
               </p>
-              <p className="hidden p-3 text-sm font-bold text-justify lg:block xl:block xl2:block md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="hidden p-3 text-base font-bold text-justify lg:block xl:block xl2:block md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc4}
               </p>
             </div>
@@ -63,14 +63,14 @@ const About = () => {
       </div>
       <div className="section-B">
         <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
-          <h1 className="text-2xl font-bold text-primary-100 p-7">
+          <h1 className="text-3xl font-bold text-primary-100 p-7 md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
             ***{" "}
             <span className="border-b-4 border-quaternary-200">
               IT Tools I Use
             </span>{" "}
             ***
           </h1>
-          <ul className="flex flex-wrap gap-3 font-semibold text-md">
+          <ul className="flex flex-wrap gap-3 text-lg font-semibold md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl">
             {skills.length > 0 ? (
               skills.map((skill, index) => (
                 <li
