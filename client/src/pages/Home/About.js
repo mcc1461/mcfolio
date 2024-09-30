@@ -46,19 +46,16 @@ const About = () => {
                 {title || "About Me"}
               </h1>
               {/* First paragraph with larger font sizes for larger screens */}
-              <h1 className="w-4/5 p-3 text-3xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="w-9/10 p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc1}
               </h1>
-              <h1 className="w-4/5 p-3 text-3xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="w-9/10 p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl  md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc2}
               </h1>
-              <h1 className="w-4/5 hidden p-3 text-3xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="w-9/10 hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc3}
               </h1>
-              <h1 className="w-4/5 hidden p-3 text-3xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
-                {desc4}
-              </h1>
-              <h1 className="hidden p-3 text-lg font-bold text-justify lg:block xl:block xl2:block sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
+              <h1 className="w-9/10 hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc4}
               </h1>
             </div>
