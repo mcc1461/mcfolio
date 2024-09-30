@@ -14,7 +14,6 @@ const About = () => {
 
   const { portfolioData } = useSelector((state) => state.root);
 
-  // Provide default values to prevent errors
   const aboutData = portfolioData?.abouts?.[0] || {
     desc1: "",
     desc2: "",
@@ -42,19 +41,21 @@ const About = () => {
           </div>
           <div className="w-full p-3 overflow-y-auto lg:w-1/2">
             <div>
-              <h1 className="p-3 text-4xl font-bold sm:text-xl md:text-2xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-quaternary-100">
+              {/* Updated font sizes for title */}
+              <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
               </h1>
-              <p className="p-3 text-base font-bold text-justify sm:text-sm md:text-lg lg:text-2lg xl:text-4xl 2xl:text-5xl text-quinary-100">
+              {/* First paragraph with larger font sizes for larger screens */}
+              <p className="p-3 text-lg font-bold text-justify sm:text-base md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-quinary-100">
                 {desc1}
               </p>
-              <p className="p-3 text-base font-bold text-justify sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="p-3 text-lg font-bold text-justify sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc2}
               </p>
-              <p className="hidden p-3 text-base font-bold text-justify lg:block xl:block xl2:block sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="hidden p-3 text-lg font-bold text-justify lg:block xl:block xl2:block sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc3}
               </p>
-              <p className="hidden p-3 text-base font-bold text-justify lg:block xl:block xl2:block sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-quinary-100">
+              <p className="hidden p-3 text-lg font-bold text-justify lg:block xl:block xl2:block sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quinary-100">
                 {desc4}
               </p>
             </div>
@@ -63,19 +64,19 @@ const About = () => {
       </div>
       <div className="section-B">
         <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
-          <h1 className="text-3xl font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl 2xl:text-6xl text-primary-100 p-7">
+          <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-primary-100 p-7">
             ***{" "}
             <span className="border-b-4 border-quaternary-200">
               IT Tools I Use
             </span>{" "}
             ***
           </h1>
-          <ul className="flex flex-wrap gap-3 text-lg font-semibold sm:text-sm md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
+          <ul className="flex flex-wrap gap-4 text-xl font-semibold sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl">
             {skills.length > 0 ? (
               skills.map((skill, index) => (
                 <li
                   key={index}
-                  className="p-2 rounded-lg outline bg-quinary-200 text-secondary-700"
+                  className="p-3 rounded-lg outline bg-quinary-200 text-secondary-700"
                 >
                   {skill}
                 </li>
