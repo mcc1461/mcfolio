@@ -14,7 +14,7 @@ const AlertMessage = ({ type, message, onClose }) => {
     if (type === "success") {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000);
+      }, 3000); // Auto close after 3 seconds
       return () => clearTimeout(timer);
     }
   }, [type, onClose]);
@@ -127,8 +127,8 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm(
-        "service_5l5jxcc",
-        "template_7bu07o5",
+        "service_5l5jxcc", // Ensure this is the correct service ID
+        "template_7bu07o5", // Ensure this is the correct template ID
         formRef.current
       );
 
@@ -138,7 +138,7 @@ const Contact = () => {
         user_name: emailData.user_name,
       };
 
-      await emailjs.send("service_5l5jxcc", "template_qqfkusw", templateParams);
+      await emailjs.send("service_5l5jxcc", "template_qqfkusw", templateParams); // Ensure auto-reply template ID is correct
 
       setAlert({ type: "success", message: "Email sent successfully!" });
       setEmailData({ user_name: "", user_email: "", message: "" });
@@ -166,7 +166,7 @@ const Contact = () => {
           <div className="flex items-center justify-center w-full rounded-lg pl-80 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end min-w-[500px]">
             <video
               ref={videoRef}
-              className="min-h-[30vh] h-[40vh] lg:rounded-lg rounded-none" // Only rounded at lg size and set min-height
+              className="min-h-[30vh] h-[40vh] lg:h-[30vh] lg:rounded-lg rounded-none" // Only rounded at lg size and set min-height
               controls={false}
               muted
               playsInline
