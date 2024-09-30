@@ -71,7 +71,6 @@ const Contact = () => {
           isVideoPlaying(videoRef.current)
         ) {
           videoRef.current.pause();
-          videoRef.current.currentTime = 0;
         }
       });
     };
@@ -157,7 +156,8 @@ const Contact = () => {
       )}
       <SectionTitle title="Contact" />
       <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
-        <div className="flex items-center justify-center w-full lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
+        <div className="flex items-center justify-center w-full lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end pl-5">
+          {/* Added padding-left */}
           <video
             ref={videoRef}
             className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
@@ -165,10 +165,7 @@ const Contact = () => {
             muted // Mute the video to autoplay
             playsInline // Make sure it plays inline on mobile devices
             onMouseEnter={() => videoRef.current.play()} // Play when hovering
-            onMouseLeave={() => {
-              videoRef.current.pause();
-              videoRef.current.currentTime = 0; // Reset to start after pause
-            }}
+            onMouseLeave={() => videoRef.current.pause()} // Pause without resetting
           >
             <source
               src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
