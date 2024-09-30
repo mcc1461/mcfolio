@@ -167,7 +167,7 @@ const Contact = () => {
       <SectionTitle title="Contact" />
       <div className="flex flex-col items-center justify-center sm: bg-slate-300">
         <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
-          <div className="flex items-center justify-center w-full pl-10 rounded-lg sm:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
+          <div className="flex items-center justify-center w-full rounded-lg pl-25 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
             <video
               ref={videoRef}
               className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
@@ -197,7 +197,7 @@ const Contact = () => {
                 href={user.linkedinUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className={`flex items-center text-lg md:text-xl lg:text-2xl font-semibold ${
+                className={`flex items-center text-3xl sm:text-xl md:text-2xl font-bold ${
                   entered
                     ? "text-quaternary-300 underline cursor-pointer"
                     : "text-mc-white"
@@ -214,16 +214,10 @@ const Contact = () => {
                   </button>
                 </span>
               </a>
-              <div className="w-full mt-5">
-                <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                  Expertise: {user.expertise}
-                </p>
-                <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                  Email: {user.email}
-                </p>
-                <p className="mb-3 text-base font-bold md:text-lg lg:text-xl text-quaternary-200">
-                  Location: {user.location}
-                </p>
+              <div className="w-full mt-5 text-2xl font-bold md:text-xl sm:text-lg text-quaternary-200">
+                <p className="mb-3 ">Expertise: {user.expertise}</p>
+                <p className="mb-3 ">Email: {user.email}</p>
+                <p className="mb-3 ">Location: {user.location}</p>
                 <button
                   className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                   onClick={showModal}
