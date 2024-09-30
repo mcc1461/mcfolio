@@ -57,7 +57,8 @@ const Intro = () => {
   };
 
   return (
-    <div className="homepage h-[93vh] bg-mc-blue pl-7 flex items-center justify-center md:flex-col-reverse sm:flex-col-reverse">
+    <div className="homepage pt-[7vh] min-h-[100vh] bg-mc-blue pl-7 flex items-center justify-center md:flex-col-reverse sm:flex-col-reverse">
+      {/* Ensure adequate padding from the header */}
       <div className="gap-7 py-7 w-[60vw] md:w-[90vw] sm:w-[90vw] md:text-center sm:text-center">
         {/* Display the welcome text */}
         <h1 className="p-3 text-4xl font-semibold sm:text-xl md:text-2xl lg:text-3xl text-quinary-100">
