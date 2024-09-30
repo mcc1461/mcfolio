@@ -11,7 +11,7 @@ const AlertMessage = ({ type, message, onClose }) => {
       : "bg-red-700 border-red-700 text-white";
 
   return (
-    <div className="fixed z-50 top-4 right-4">
+    <div className={`fixed top-4 right-4 z-50`}>
       <div className={`border-l-4 p-4 ${bgColor} rounded shadow`} role="alert">
         <div className="flex items-center justify-between">
           <p className="font-bold">
@@ -35,7 +35,7 @@ const Contact = () => {
     user_email: "",
     message: "",
   });
-  const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState(null); // For AlertMessage
 
   const videoRef = useRef(null);
   const formRef = useRef(null);
@@ -118,7 +118,7 @@ const Contact = () => {
   };
 
   const handleSendEmail = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent form default behavior
 
     if (!emailData.user_name || !emailData.user_email || !emailData.message) {
       setAlert({ type: "error", message: "Please fill in all fields." });
@@ -131,8 +131,16 @@ const Contact = () => {
         (response) => {
           console.log("SUCCESS!", response.status, response.text);
           setAlert({ type: "success", message: "Email sent successfully!" });
-          setEmailData({ user_name: "", user_email: "", message: "" });
-          setIsModalVisible(false);
+          setEmailData({ user_name: "", user_email: "", message: "" }); // Reset form
+          setIsModalVisible(false); // Close modal after success
+
+          // Automatically send a reply email
+          emailjs.send("service_ldfrkag", "template_auto_reply", {
+            to_name: emailData.user_name,
+            to_email: emailData.user_email,
+            message:
+              "Thank you for reaching out! We will get back to you soon.",
+          });
         },
         (error) => {
           console.log("FAILED...", error);
@@ -155,28 +163,24 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-7 py-9 bg-mc-blue lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4">
         <div className="flex items-center justify-center w-full pl-5 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
-          <div className="overflow-hidden rounded-lg">
-            {" "}
-            {/* Add overflow-hidden to parent div */}
-            <video
-              ref={videoRef}
-              className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded-lg" // Ensuring the video itself is rounded
-              controls={false} // Ensure no controls are visible
-              muted // Mute the video to autoplay
-              playsInline // Ensure it plays inline on mobile devices
-              onMouseEnter={() => videoRef.current.play()} // Play on hover
-              onMouseLeave={() => videoRef.current.pause()} // Pause on mouse leave
-            >
-              <source
-                src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
-                type="video/mp4"
-              />
-              <source src={contactVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
+          <video
+            ref={videoRef}
+            className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
+            controls={false}
+            muted
+            playsInline
+            onMouseEnter={() => videoRef.current.play()}
+            onMouseLeave={() => videoRef.current.pause()}
+          >
+            <source
+              src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
+              type="video/mp4"
+            />
+            <source src={contactVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div
           className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start"
@@ -232,6 +236,7 @@ const Contact = () => {
         </div>
       </div>
 
+      {/* Modal for Email */}
       {isModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
