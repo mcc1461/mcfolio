@@ -156,7 +156,7 @@ const Contact = () => {
       )}
       <SectionTitle title="Contact" />
       <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
-        <div className="flex items-center justify-center w-full lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end pl-5">
+        <div className="flex items-center justify-center w-full pl-5 rounded-lg lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
           {/* Added padding-left */}
           <video
             ref={videoRef}
