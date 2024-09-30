@@ -37,7 +37,7 @@ const AlertMessage = ({ type, message, onClose }) => {
 };
 
 const Contact = () => {
-  const [entered, setEntered] = useState(false);
+  const [entered, setEntered] = useState(false); // Tracks hover state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [emailData, setEmailData] = useState({
     user_name: "",
@@ -170,7 +170,7 @@ const Contact = () => {
           <div className="flex items-center justify-center w-full rounded-lg pl-80 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
             <video
               ref={videoRef}
-              className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
+              className="min-h-[30vh] h-[40vh] lg:rounded-lg" // Only rounded at lg size and set min-height
               controls={false}
               muted
               playsInline
@@ -185,7 +185,11 @@ const Contact = () => {
               Your browser does not support the video tag.
             </video>
           </div>
-          <div className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start">
+          <div
+            className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start"
+            onMouseEnter={() => setEntered(true)} // Handles hover state for LinkedIn
+            onMouseLeave={() => setEntered(false)}
+          >
             <div
               className={`flex flex-col items-center justify-center p-4 rounded-lg shadow-lg gap-4 ${
                 entered
