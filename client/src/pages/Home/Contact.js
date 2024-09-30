@@ -166,11 +166,11 @@ const Contact = () => {
       )}
       <SectionTitle title="Contact" />
       <div className="flex items-center justify-center sm:flex-col md:flex-col bg-mc-blue">
-        <div className="flex flex-col items-center justify-center h-full rounded-lg gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue">
-          <div className="flex items-center justify-center w-full rounded-lg pl-80 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end">
+        <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue min-w-[500px]">
+          <div className="flex items-center justify-center w-full rounded-lg pl-80 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end min-w-[500px]">
             <video
               ref={videoRef}
-              className="min-h-[30vh] h-[40vh] lg:rounded-lg" // Only rounded at lg size and set min-height
+              className="min-h-[30vh] h-[40vh] lg:rounded-lg rounded-none" // Only rounded at lg size and set min-height
               controls={false}
               muted
               playsInline
@@ -191,7 +191,7 @@ const Contact = () => {
             onMouseLeave={() => setEntered(false)}
           >
             <div
-              className={`flex flex-col items-center justify-center p-4 rounded-lg shadow-lg gap-4 ${
+              className={`flex flex-col items-center justify-center p-4 rounded-lg shadow-lg gap-4 min-w-[500px] ${
                 entered
                   ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                   : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
