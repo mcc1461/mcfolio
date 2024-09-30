@@ -161,9 +161,14 @@ const Contact = () => {
           <video
             ref={videoRef}
             className="h-[40vh] lg:h-[30vh] md:h-[26vh] sm:h-[20vh] rounded"
-            controls={false}
-            autoPlay
-            muted
+            controls={false} // Ensure no controls are visible
+            muted // Mute the video to autoplay
+            playsInline // Make sure it plays inline on mobile devices
+            onMouseEnter={() => videoRef.current.play()} // Play when hovering
+            onMouseLeave={() => {
+              videoRef.current.pause();
+              videoRef.current.currentTime = 0; // Reset to start after pause
+            }}
           >
             <source
               src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
