@@ -46,6 +46,9 @@ const About = () => {
                 {title || "About Me"}
               </h1>
               {/* First paragraph with larger font sizes for larger screens */}
+              <h1 className="w-2/3 p-3 text-3xl italic font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
+                {desc1}
+              </h1>
               <p className="p-3 text-lg font-bold text-justify sm:text-base md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-quinary-100">
                 {desc1}
               </p>
