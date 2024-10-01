@@ -14,7 +14,7 @@ const AlertMessage = ({ type, message, onClose }) => {
     if (type === "success") {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000); // Auto close after 3 seconds
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [type, onClose]);
@@ -161,12 +161,13 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="flex items-center justify-center sm:flex-col md:flex-col bg-mc-blue">
-        <div className="flex flex-col items-center justify-center h-full gap-7 lg:flex-row lg:gap-4 xl:flex-row xl2:flex-row xl:gap-4 xl2:gap-4 py-9 bg-mc-blue min-w-[500px]">
-          <div className="flex items-center justify-center w-full rounded-lg pl-80 sm:pl-0 md:pl-0 lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:justify-end xl:justify-end xl2:justify-end min-w-[500px]">
+      <div className="flex items-center justify-center w-full min-h-screen bg-mc-blue">
+        <div className="flex flex-col lg:flex-row items-center justify-between w-full max-w-[1400px] gap-7 p-5 bg-mc-blue">
+          {/* Video Section */}
+          <div className="flex justify-center w-full lg:w-1/2 lg:justify-end">
             <video
               ref={videoRef}
-              className="min-h-[30vh] h-[40vh] lg:h-[30vh] lg:rounded-lg rounded-none" // Only rounded at lg size and set min-height
+              className="w-full h-[40vh] lg:h-[30vh] lg:rounded-lg min-w-[300px] max-w-[600px]" // Set minimum and maximum width
               controls={false}
               muted
               playsInline
@@ -181,13 +182,11 @@ const Contact = () => {
               Your browser does not support the video tag.
             </video>
           </div>
-          <div
-            className="flex flex-col items-center justify-center w-full h-full px-5 bg-mc-blue lg:w-1/2 xl:w-1/2 xl2:w-1/2 lg:items-start xl:items-start xl2:items-start"
-            onMouseEnter={() => setEntered(true)} // Handles hover state for LinkedIn
-            onMouseLeave={() => setEntered(false)}
-          >
+
+          {/* Text Section */}
+          <div className="flex flex-col justify-start w-full px-5 lg:w-1/2">
             <div
-              className={`flex flex-col items-center justify-center p-4 rounded-lg shadow-lg gap-4 min-w-[500px] ${
+              className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 min-w-[300px] ${
                 entered
                   ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                   : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
@@ -229,6 +228,8 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* Email Modal */}
       {isModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
