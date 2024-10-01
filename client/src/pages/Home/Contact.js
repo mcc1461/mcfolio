@@ -162,7 +162,12 @@ const Contact = () => {
       )}
       <SectionTitle title="Contact" />
       <div className="flex items-center justify-center w-full min-h-screen bg-mc-blue">
-        <div className="w-full max-w-[1400px] lg:flex lg:justify-between lg:items-start p-5 lg:gap-7 gap-4">
+        <div
+          className="w-full max-w-[1400px] lg:flex lg:justify-between lg:items-start p-5 lg:gap-7 gap-4
+        xl:flex xl:justify-between xl:items-start xl:gap-7
+        xl2:flex xl2:justify-between xl2:items-start xl2:gap-7
+        "
+        >
           {/* Video Section */}
           <div className="w-full lg:w-[45%] flex justify-center lg:justify-end">
             <video
