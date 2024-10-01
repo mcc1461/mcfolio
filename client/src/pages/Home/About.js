@@ -32,16 +32,16 @@ const About = () => {
       <SectionTitle title="About" />
 
       {/* Full width container with no side margins */}
-      <div className="flex justify-center w-full min-h-screen overflow-hidden bg-mc-blue">
+      <div className="flex justify-center w-full min-h-screen bg-mc-blue">
         {/* Flex container with logo and image on the left, text on the right */}
         <div className="flex flex-col lg:flex-row items-center justify-center h-full w-full max-w-[1400px] lg:space-x-8 p-5">
           {/* Left section for logo and image */}
-          <div className="flex flex-col items-center justify-center w-full lg:w-[45%] space-y-5">
+          <div className="flex flex-col items-center justify-center w-full lg:w-[40%] space-y-5">
             {/* Logo */}
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] rounded-lg object-contain mb-5" // Ensure it's rectangular
+              className="w-[350px] h-[180px] rounded-lg object-contain mb-5" // Ensure it's rectangular
             />
             {/* About Image */}
             <img
@@ -53,7 +53,7 @@ const About = () => {
           </div>
 
           {/* Right section with text and added padding for larger screens */}
-          <div className="flex flex-col justify-start w-full lg:w-[55%] p-5 lg:pl-10 lg:pr-10">
+          <div className="flex flex-col justify-start w-full lg:w-[50%] p-5 lg:pl-10 lg:pr-10">
             <div>
               <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
@@ -76,7 +76,7 @@ const About = () => {
       </div>
 
       {/* Second Section */}
-      <div className="w-full">
+      <div className="w-full bg-mc-blue">
         <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
           <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-primary-100 p-7">
             ***{" "}

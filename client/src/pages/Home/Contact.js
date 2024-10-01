@@ -162,12 +162,12 @@ const Contact = () => {
       )}
       <SectionTitle title="Contact" />
       <div className="flex items-center justify-center w-full min-h-screen bg-mc-blue">
-        <div className="flex flex-col lg:flex-row items-center justify-between w-full max-w-[1400px] gap-7 p-5 bg-mc-blue">
+        <div className="w-full max-w-[1400px] lg:flex lg:justify-between lg:items-start p-5 lg:gap-7 gap-4">
           {/* Video Section */}
           <div className="w-full lg:w-[45%] flex justify-center lg:justify-end">
             <video
               ref={videoRef}
-              className="w-full h-[40vh] lg:h-[30vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]" // Set minimum and maximum width for better scaling
+              className="w-full lg:h-[30vh] h-[40vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
               controls={false}
               muted
               playsInline
@@ -184,7 +184,7 @@ const Contact = () => {
           </div>
 
           {/* Text Section */}
-          <div className="w-full lg:w-[45%] flex flex-col justify-start px-5 lg:max-w-[600px] lg:ml-auto">
+          <div className="w-full lg:w-[45%] lg:max-w-[600px] px-5">
             <div
               className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 ${
                 entered
