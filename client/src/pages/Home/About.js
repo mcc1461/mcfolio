@@ -31,28 +31,26 @@ const About = () => {
     <>
       <SectionTitle title="About" />
       <div className="section-A">
-        <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-col xl:flex-col xl2:flex-col">
-          {/* Logo Display - Vertically Centered and Large */}
-          <div className="flex flex-col items-center justify-center w-full p-3">
+        <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
+          {/* Left side with Logo and Image */}
+          <div className="flex flex-col items-center justify-center w-full p-3 lg:w-1/2">
+            {/* Logo */}
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="rounded-lg w-36 h-36 lg:w-48 lg:h-48" // Large logo with rounded corners
+              className="mb-5 rounded-lg w-36 h-36 lg:w-48 lg:h-48" // Large logo with rounded corners
             />
-          </div>
-
-          {/* About Image - Vertically Below the Logo */}
-          <div className="flex flex-col items-center justify-center w-full p-3">
+            {/* About Image */}
             <img
               src={imageUrl || imgSrc}
               alt="MusCo"
               onError={handleImgError}
-              className="w-full h-auto max-w-[500px] rounded-lg bg-quaternary-100"
+              className="w-full h-auto max-w-[400px] rounded-lg bg-quaternary-100"
             />
           </div>
 
-          {/* Text Section */}
-          <div className="w-full p-3 overflow-y-auto">
+          {/* Right side with text */}
+          <div className="w-full p-3 overflow-y-auto lg:w-1/2">
             <div>
               <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
