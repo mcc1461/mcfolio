@@ -1,5 +1,6 @@
 import React from "react";
 import VisitorCounter from "./VisitorCounter"; // Adjust the path if necessary
+import Logo from "../../public/assets/Musco777.gif"; // Adjust the path if necessary
 
 const Header = () => {
   return (
@@ -7,7 +8,7 @@ const Header = () => {
       {/* Add the logo to the left */}
       <div className="flex items-center mr-4">
         <img
-          src="../../public/assets/Musco777.gif" // Path to your GIF logo
+          src={Logo}
           alt="MusCo Logo"
           className="w-10 h-10 rounded-lg sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10"
         />
