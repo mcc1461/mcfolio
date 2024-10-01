@@ -65,7 +65,7 @@ const Intro = () => {
           {welcomeText}
         </h1>
 
-        <h1 className="p-3 text-3xl font-bold  gradient-text bg-clip-text sm:text-xl md:text-2xl lg:text-3xl">
+        <h1 className="p-3 text-3xl font-bold gradient-text bg-clip-text sm:text-xl md:text-2xl lg:text-3xl">
           {firstName} {lastName}
         </h1>
 
@@ -78,7 +78,7 @@ const Intro = () => {
           {details}
         </h1>
         {/* Buttons container */}
-        <div className="flex flex-wrap justify-center gap-4 mt-4">
+        <div className="flex flex-wrap gap-4 mt-4 justify-items-end">
           {/* Button to navigate to the Projects section */}
           <a href="#Projects">
             <button className="px-5 py-1 text-xl font-bold tracking-wider transition-colors duration-300 border-2 rounded border-quinary-300 text-quinary-300 hover:bg-quinary-300 hover:text-mc-blue">
