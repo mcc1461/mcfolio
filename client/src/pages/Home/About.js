@@ -45,7 +45,7 @@ const About = () => {
               src={imageUrl || imgSrc}
               alt="MusCo"
               onError={handleImgError}
-              className="w-full h-auto max-w-[400px] rounded-lg bg-quaternary-100"
+              className="w-full h-auto max-w-[400px] rounded-full bg-quaternary-100"
             />
           </div>
 
