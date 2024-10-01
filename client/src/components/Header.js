@@ -1,6 +1,6 @@
 import React from "react";
 import VisitorCounter from "./VisitorCounter"; // Adjust the path if necessary
-import Logo from "../../public/assets/Musco777.gif"; // Adjust the path if necessary
+import Logo from "../assets/Musco777.gif"; // Adjust the path if necessary
 
 const Header = () => {
   return (
