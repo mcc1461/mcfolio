@@ -31,14 +31,15 @@ const About = () => {
     <>
       <SectionTitle title="About" />
       <div className="section-A">
-        <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
+        {/* Ensuring the container takes full width and there are no empty columns */}
+        <div className="flex flex-col items-center justify-center w-full h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row lg:space-x-8">
           {/* Left side with Logo and Image */}
-          <div className="flex flex-col items-center justify-center w-full p-3 lg:w-1/2">
+          <div className="flex flex-col items-center justify-center w-full space-y-5 lg:w-1/2">
             {/* Logo */}
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] mb-5 rounded-xl object-contain" // Set appropriate width and height for the rectangular logo
+              className="w-[300px] h-[150px] mb-5 rounded-lg object-contain" // Set appropriate width and height for the rectangular logo
             />
             {/* About Image */}
             <img
@@ -49,8 +50,8 @@ const About = () => {
             />
           </div>
 
-          {/* Right side with text and empty space for better readability on larger screens */}
-          <div className="w-full p-3 overflow-y-auto lg:w-1/2 lg:pl-10 lg:pr-20">
+          {/* Right side with text and proper spacing to avoid black column */}
+          <div className="w-full p-3 overflow-y-auto lg:w-1/2 lg:pl-10 lg:pr-10">
             <div>
               <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
