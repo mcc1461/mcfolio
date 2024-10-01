@@ -34,7 +34,7 @@ const About = () => {
       {/* Full width container with no side margins */}
       <div className="flex justify-center w-full min-h-screen bg-mc-blue">
         {/* Flex container with logo and image on the left, text on the right */}
-        <div className="flex flex-col lg:flex-row items-center justify-center h-full w-full max-w-[1400px] lg:space-x-8 p-5">
+        <div className="flex flex-col lg:flex-row xl:flex-row xl2:flex-row items-center justify-center h-full w-full max-w-[1400px] lg:space-x-8 p-5">
           {/* Left section for logo and image */}
           <div className="flex flex-col items-center justify-center w-full lg:w-[40%] space-y-5">
             {/* Logo */}
@@ -64,10 +64,10 @@ const About = () => {
               <h1 className="p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
                 {desc2}
               </h1>
-              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
+              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
                 {desc3}
               </h1>
-              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
+              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
                 {desc4}
               </h1>
             </div>
