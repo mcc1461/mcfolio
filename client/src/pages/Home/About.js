@@ -50,7 +50,7 @@ const About = () => {
           </div>
 
           {/* Right side with text and empty space for better readability on larger screens */}
-          <div className="w-full p-3 overflow-y-auto lg:w-1/2 lg:pl-10 lg:pr-20">
+          <div className="w-full p-3 overflow-y-auto lg:w-1/2 lg:pl-10 lg:pr-20 sm:pr-0 md:pr-0">
             <div>
               <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
