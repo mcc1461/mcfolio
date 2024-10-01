@@ -14,7 +14,7 @@ const AlertMessage = ({ type, message, onClose }) => {
     if (type === "success") {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000);
+      }, 3000); // Auto close after 3 seconds
       return () => clearTimeout(timer);
     }
   }, [type, onClose]);
@@ -164,7 +164,7 @@ const Contact = () => {
       <div className="flex items-center justify-center w-full min-h-screen bg-mc-blue">
         <div className="flex flex-col lg:flex-row items-center justify-between w-full max-w-[1400px] gap-7 p-5 bg-mc-blue">
           {/* Video Section */}
-          <div className="flex justify-center w-full lg:w-1/2 lg:justify-end">
+          <div className="w-full lg:w-[45%] flex justify-center lg:justify-end">
             <video
               ref={videoRef}
               className="w-full h-[40vh] lg:h-[30vh] lg:rounded-lg min-w-[300px] max-w-[600px]" // Set minimum and maximum width
@@ -184,9 +184,9 @@ const Contact = () => {
           </div>
 
           {/* Text Section */}
-          <div className="flex flex-col justify-start w-full px-5 lg:w-1/2">
+          <div className="w-full lg:w-[50%] flex flex-col justify-start px-5 lg:max-w-[700px]">
             <div
-              className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 min-w-[300px] ${
+              className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 ${
                 entered
                   ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                   : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
