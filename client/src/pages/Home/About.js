@@ -30,15 +30,16 @@ const About = () => {
   return (
     <>
       <SectionTitle title="About" />
-      <div className="section-A">
-        <div className="flex flex-col items-center justify-center w-full h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
+      <div className="w-full min-h-screen section-A bg-mc-blue">
+        {/* Flex container with full width */}
+        <div className="flex flex-col items-center justify-center w-full h-full overflow-hidden lg:flex-row lg:space-x-8 lg:pl-6">
           {/* Left side for logo and about image */}
-          <div className="flex flex-col items-center justify-start w-full px-4 space-y-5 lg:w-1/2 lg:justify-center">
+          <div className="flex flex-col items-center justify-start w-full lg:w-[45%] space-y-5 px-4">
             {/* Logo */}
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] rounded-lg object-contain" // Ensure it's rectangular
+              className="w-[300px] h-[150px] rounded-lg object-contain mb-5" // Ensure it's rectangular
             />
             {/* About Image */}
             <img
@@ -50,7 +51,7 @@ const About = () => {
           </div>
 
           {/* Right side with text and proper spacing */}
-          <div className="flex flex-col justify-start w-full p-5 lg:w-1/2 lg:pl-10 lg:pr-10">
+          <div className="flex flex-col justify-start w-full lg:w-[55%] p-5 lg:pl-10 lg:pr-10">
             <div>
               <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
@@ -72,7 +73,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className="section-B">
+      <div className="w-full section-B">
         <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
           <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-primary-100 p-7">
             ***{" "}
