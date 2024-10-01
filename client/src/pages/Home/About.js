@@ -77,7 +77,7 @@ const About = () => {
 
       {/* Second Section */}
       <div className="w-full bg-mc-blue">
-        <div className="flex flex-col items-center justify-center px-5 pt-10 overflow-auto bg-mc-blue">
+        <div className="flex flex-col items-center justify-center px-5 py-10 overflow-auto bg-mc-blue">
           <h1 className="text-3xl font-bold sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-primary-100 p-7">
             ***{" "}
             <span className="border-b-4 border-quaternary-200">
