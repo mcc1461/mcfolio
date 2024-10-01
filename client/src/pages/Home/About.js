@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import about from "../../assets/About_MusCo.png";
 import SectionTitle from "../../components/SectionTitle";
+import Logo from "../../assets/Musco777.gif"; // Add the logo here
 
 const About = () => {
   const [imgSrc, setImgSrc] = useState(
@@ -31,6 +32,16 @@ const About = () => {
       <SectionTitle title="About" />
       <div className="section-A">
         <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
+          {/* Logo Display */}
+          <div className="flex items-center justify-center w-full p-3 lg:w-1/2">
+            <img
+              src={Logo}
+              alt="MusCo Logo"
+              className="rounded-lg w-28 h-28 lg:w-36 lg:h-36" // Adjusted size for visibility on all screens
+            />
+          </div>
+
+          {/* About Image */}
           <div className="flex items-center justify-center w-full p-3 lg:w-1/2">
             <img
               src={imageUrl || imgSrc}
@@ -39,13 +50,13 @@ const About = () => {
               className="w-full h-auto max-w-[500px] rounded-lg bg-quaternary-100"
             />
           </div>
+
+          {/* Text Section */}
           <div className="w-full p-3 overflow-y-auto lg:w-1/2">
             <div>
-              {/* Updated font sizes for title */}
               <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
               </h1>
-              {/* First paragraph with larger font sizes for larger screens */}
               <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl  md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc1}
               </h1>
@@ -62,6 +73,7 @@ const About = () => {
           </div>
         </div>
       </div>
+
       <div className="section-B">
         <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
           <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-primary-100 p-7">
