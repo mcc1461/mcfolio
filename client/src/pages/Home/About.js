@@ -41,7 +41,7 @@ const About = () => {
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[350px] h-[180px] rounded-lg object-contain mb-5" // Ensure it's rectangular
+              className="w-[550px] h-[350px] rounded-lg object-contain mb-5" // Ensure it's rectangular
             />
             {/* About Image */}
             <img
@@ -77,8 +77,8 @@ const About = () => {
 
       {/* Second Section */}
       <div className="w-full bg-mc-blue">
-        <div className="flex flex-col items-center justify-center h-full p-5 overflow-auto bg-mc-blue">
-          <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-primary-100 p-7">
+        <div className="flex flex-col items-center justify-center p-5 overflow-auto mt-7 bg-mc-blue">
+          <h1 className="text-3xl font-bold sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-primary-100 p-7">
             ***{" "}
             <span className="border-b-4 border-quaternary-200">
               IT Tools I Use
