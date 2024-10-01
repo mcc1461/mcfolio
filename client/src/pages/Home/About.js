@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import about from "../../assets/About_MusCo.png";
 import SectionTitle from "../../components/SectionTitle";
-import Logo from "../../assets/Musco777.gif"; // Add the logo here
+import Logo from "../../assets/Musco777.gif"; // Add the logo
 
 const About = () => {
   const [imgSrc, setImgSrc] = useState(
@@ -31,18 +31,18 @@ const About = () => {
     <>
       <SectionTitle title="About" />
       <div className="section-A">
-        <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
-          {/* Logo Display */}
-          <div className="flex items-center justify-center w-full p-3 lg:w-1/2">
+        <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-col xl:flex-col xl2:flex-col">
+          {/* Logo Display - Vertically Centered and Large */}
+          <div className="flex flex-col items-center justify-center w-full p-3">
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="rounded-lg w-28 h-28 lg:w-36 lg:h-36" // Adjusted size for visibility on all screens
+              className="rounded-lg w-36 h-36 lg:w-48 lg:h-48" // Large logo with rounded corners
             />
           </div>
 
-          {/* About Image */}
-          <div className="flex items-center justify-center w-full p-3 lg:w-1/2">
+          {/* About Image - Vertically Below the Logo */}
+          <div className="flex flex-col items-center justify-center w-full p-3">
             <img
               src={imageUrl || imgSrc}
               alt="MusCo"
@@ -52,7 +52,7 @@ const About = () => {
           </div>
 
           {/* Text Section */}
-          <div className="w-full p-3 overflow-y-auto lg:w-1/2">
+          <div className="w-full p-3 overflow-y-auto">
             <div>
               <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
