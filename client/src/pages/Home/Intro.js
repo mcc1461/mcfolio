@@ -78,7 +78,7 @@ const Intro = () => {
           {details}
         </h1>
         {/* Buttons container */}
-        <div className="flex flex-wrap gap-4 mt-4 justify-items-end">
+        <div className="flex justify-end gap-4 mt-4">
           {/* Button to navigate to the Projects section */}
           <a href="#Projects">
             <button className="px-5 py-1 text-xl font-bold tracking-wider transition-colors duration-300 border-2 rounded border-quinary-300 text-quinary-300 hover:bg-quinary-300 hover:text-mc-blue">
