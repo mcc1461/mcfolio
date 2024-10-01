@@ -38,7 +38,7 @@ const About = () => {
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] mb-5 rounded-full object-contain" // Set appropriate width and height for the rectangular logo
+              className="w-[300px] h-[150px] mb-5 rounded-xl object-contain" // Set appropriate width and height for the rectangular logo
             />
             {/* About Image */}
             <img
