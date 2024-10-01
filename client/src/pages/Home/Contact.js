@@ -191,6 +191,8 @@ const Contact = () => {
                   ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                   : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
               } border-l-4 pl-2`}
+              onMouseEnter={() => setEntered(true)}
+              onMouseLeave={() => setEntered(false)}
             >
               <a
                 href={user.linkedinUrl}
