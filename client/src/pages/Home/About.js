@@ -32,7 +32,7 @@ const About = () => {
       <SectionTitle title="About" />
 
       {/* Full width container with no side margins */}
-      <div className="flex justify-center w-full min-h-screen bg-mc-blue">
+      <div className="flex justify-center w-full bg-mc-blue">
         {/* Flex container with logo and image on the left, text on the right */}
         <div className="flex flex-col lg:flex-row xl:flex-row xl2:flex-row items-center justify-center h-full w-full max-w-[1400px] lg:space-x-8 p-5">
           {/* Left section for logo and image */}
@@ -77,7 +77,7 @@ const About = () => {
 
       {/* Second Section */}
       <div className="w-full bg-mc-blue">
-        <div className="flex flex-col items-center justify-center p-5 overflow-auto mt-7 bg-mc-blue">
+        <div className="flex flex-col items-center justify-center px-5 pt-10 overflow-auto bg-mc-blue">
           <h1 className="text-3xl font-bold sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-primary-100 p-7">
             ***{" "}
             <span className="border-b-4 border-quaternary-200">
