@@ -38,14 +38,14 @@ const About = () => {
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] mb-5 rounded-lg object-contain" // Set appropriate width and height for the rectangular logo
+              className="w-[300px] h-[150px] mb-5 rounded-full object-contain" // Set appropriate width and height for the rectangular logo
             />
             {/* About Image */}
             <img
               src={imageUrl || imgSrc}
               alt="MusCo"
               onError={handleImgError}
-              className="w-full h-auto max-w-[400px] rounded-full bg-quaternary-100"
+              className="w-full h-auto max-w-[400px] rounded-lg bg-quaternary-100"
             />
           </div>
 
