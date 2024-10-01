@@ -65,7 +65,7 @@ const Intro = () => {
           {welcomeText}
         </h1>
 
-        <h1 className="p-3 text-4xl font-bold gradient-text bg-clip-text sm:text-xl md:text-2xl lg:text-3xl">
+        <h1 className="w-4/5 p-3 text-4xl font-bold gradient-text bg-clip-text sm:text-xl md:text-2xl lg:text-3xl">
           {firstName} {lastName}
         </h1>
 
@@ -74,7 +74,7 @@ const Intro = () => {
           {description}
         </h1>
         {/* Display the details */}
-        <h1 className="hidden w-4ß/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl xl2:text-2xl xl2:block xl:block lg:block text-quinary-100">
+        <h1 className="hidden w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl xl2:text-2xl xl2:block xl:block lg:block text-quinary-100">
           {details}
         </h1>
         {/* Buttons container */}
