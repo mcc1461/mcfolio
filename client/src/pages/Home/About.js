@@ -41,7 +41,7 @@ const About = () => {
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[550px] h-[350px] rounded-lg object-contain mb-5" // Ensure it's rectangular
+              className="w-[550px] h-[250px] rounded-lg object-contain mb-5" // Ensure it's rectangular
             />
             {/* About Image */}
             <img
@@ -58,16 +58,16 @@ const About = () => {
               <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
               </h1>
-              <h1 className="p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
+              <h1 className="text-2xl font-bold text-justify  sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
                 {desc1}
               </h1>
-              <h1 className="p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
+              <h1 className="text-2xl font-bold text-justify  sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
                 {desc2}
               </h1>
-              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
+              <h1 className="hidden text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
                 {desc3}
               </h1>
-              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
+              <h1 className="hidden text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
                 {desc4}
               </h1>
             </div>
