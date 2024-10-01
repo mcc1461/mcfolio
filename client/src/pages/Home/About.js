@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import about from "../../assets/About_MusCo.png";
 import SectionTitle from "../../components/SectionTitle";
-import Logo from "../../assets/Musco777.gif"; // Add the logo
+import Logo from "../../assets/Musco777.gif"; // Logo added
 
 const About = () => {
   const [imgSrc, setImgSrc] = useState(
@@ -31,15 +31,14 @@ const About = () => {
     <>
       <SectionTitle title="About" />
       <div className="section-A">
-        {/* Flex container with better width management */}
         <div className="flex flex-col items-center justify-center w-full h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
-          {/* Left side with Logo and Image */}
-          <div className="flex flex-col items-center justify-center w-full lg:w-1/2 space-y-5 lg:max-w-[50%] px-4">
+          {/* Left side for logo and about image */}
+          <div className="flex flex-col items-center justify-start w-full px-4 space-y-5 lg:w-1/2 lg:justify-center">
             {/* Logo */}
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] mb-5 rounded-lg object-contain" // Set proper width and height for the rectangular logo
+              className="w-[300px] h-[150px] rounded-lg object-contain" // Ensure it's rectangular
             />
             {/* About Image */}
             <img
@@ -51,7 +50,7 @@ const About = () => {
           </div>
 
           {/* Right side with text and proper spacing */}
-          <div className="w-full p-5 lg:w-1/2 lg:pl-10 lg:pr-10">
+          <div className="flex flex-col justify-start w-full p-5 lg:w-1/2 lg:pl-10 lg:pr-10">
             <div>
               <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
