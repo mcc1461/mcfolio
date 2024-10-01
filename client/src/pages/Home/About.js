@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import about from "../../assets/About_MusCo.png";
 import SectionTitle from "../../components/SectionTitle";
-import Logo from "../../assets/MusCo_Logo3.gif"; // Added Logo
+import Logo from "../../assets/logo.png"; // Added Logo
 
 const About = () => {
   const [imgSrc, setImgSrc] = useState(
