@@ -31,15 +31,15 @@ const About = () => {
     <>
       <SectionTitle title="About" />
       <div className="section-A">
-        {/* Ensuring the container takes full width and there are no empty columns */}
-        <div className="flex flex-col items-center justify-center w-full h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row lg:space-x-8">
+        {/* Flex container with better width management */}
+        <div className="flex flex-col items-center justify-center w-full h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
           {/* Left side with Logo and Image */}
-          <div className="flex flex-col items-center justify-center w-full space-y-5 lg:w-1/2">
+          <div className="flex flex-col items-center justify-center w-full lg:w-1/2 space-y-5 lg:max-w-[50%] px-4">
             {/* Logo */}
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="w-[300px] h-[150px] mb-5 rounded-lg object-contain" // Set appropriate width and height for the rectangular logo
+              className="w-[300px] h-[150px] mb-5 rounded-lg object-contain" // Set proper width and height for the rectangular logo
             />
             {/* About Image */}
             <img
@@ -50,22 +50,22 @@ const About = () => {
             />
           </div>
 
-          {/* Right side with text and proper spacing to avoid black column */}
-          <div className="w-full p-3 overflow-y-auto lg:w-1/2 lg:pl-10 lg:pr-10">
+          {/* Right side with text and proper spacing */}
+          <div className="w-full p-5 lg:w-1/2 lg:pl-10 lg:pr-10">
             <div>
-              <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
+              <h1 className="text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
               </h1>
-              <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
                 {desc1}
               </h1>
-              <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl text-quinary-100">
                 {desc2}
               </h1>
-              <h1 className="w-[90%] hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
                 {desc3}
               </h1>
-              <h1 className="w-[90%] hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="hidden p-3 text-2xl font-bold text-justify lg:block sm:text-xl md:text-xl lg:text-2xl text-quinary-100">
                 {desc4}
               </h1>
             </div>
