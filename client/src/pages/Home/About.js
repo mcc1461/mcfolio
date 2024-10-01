@@ -38,7 +38,7 @@ const About = () => {
             <img
               src={Logo}
               alt="MusCo Logo"
-              className="mb-5 rounded-lg w-36 h-36 lg:w-48 lg:h-48" // Large logo with rounded corners
+              className="w-[300px] h-[150px] mb-5 rounded-lg object-contain" // Set appropriate width and height for the rectangular logo
             />
             {/* About Image */}
             <img
@@ -49,16 +49,16 @@ const About = () => {
             />
           </div>
 
-          {/* Right side with text */}
-          <div className="w-full p-3 overflow-y-auto lg:w-1/2">
+          {/* Right side with text and empty space for better readability on larger screens */}
+          <div className="w-full p-3 overflow-y-auto lg:w-1/2 lg:pl-10 lg:pr-20">
             <div>
               <h1 className="p-3 text-4xl font-bold sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-quaternary-100">
                 {title || "About Me"}
               </h1>
-              <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl  md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc1}
               </h1>
-              <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl  md:w-[90vw] sm:w-[90vw] text-quinary-100">
+              <h1 className="w-[90%] p-3 text-2xl font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
                 {desc2}
               </h1>
               <h1 className="w-[90%] hidden p-3 text-2xl font-bold text-justify lg:block xl:block xl2:block sm:text-xl md:text-xl lg:text-2xl md:w-[90vw] sm:w-[90vw] text-quinary-100">
