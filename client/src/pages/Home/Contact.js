@@ -192,9 +192,9 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="w-full lg:max-w-[600px] px-4 justify-start sm:justify-center md:justify-center border border-red-200">
+        <div className="w-full lg:max-w-[600px] px-4 justify-center lg:justify-center border border-red-200">
           <div
-            className={`w-max-[80%] w-fit flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 ${
+            className={`w-max-[50%] w-fit flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 ${
               entered
                 ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                 : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
