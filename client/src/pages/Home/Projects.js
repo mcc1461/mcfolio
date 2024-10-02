@@ -26,8 +26,9 @@ const Projects = () => {
                 onMouseEnter={() => setHoveredId(project._id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
+                {/* Left Section (Project Type) */}
                 <div
-                  className={`w-full lg:w-[35%] border-l-4 pl-2 cursor-pointer ${
+                  className={`w-full lg:w-[35%] min-w-[250px] border-l-4 pl-2 cursor-pointer ${
                     hoveredId === project._id
                       ? "text-quaternary-300 border-quaternary-200"
                       : "text-mc-white border-[#258d54]"
@@ -43,8 +44,10 @@ const Projects = () => {
                     {project.type}
                   </h2>
                 </div>
+
+                {/* Image Section */}
                 {hoveredId === project._id && (
-                  <div className="flex flex-col text-lg lg:w-[35%]">
+                  <div className="flex flex-col text-lg w-full lg:w-[35%]">
                     <img
                       src={project.image}
                       alt={project.title}
@@ -52,7 +55,9 @@ const Projects = () => {
                     />
                   </div>
                 )}
-                <div className="w-full lg:w-[65%]">
+
+                {/* Right Section (Text and Description) */}
+                <div className="w-full lg:w-[65%] min-w-[300px]">
                   <p className="mb-3 text-2xl font-bold text-quaternary-200">
                     {project.title}
                   </p>
