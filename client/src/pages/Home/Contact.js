@@ -169,78 +169,71 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="flex items-center justify-center w-full min-h-screen bg-mc-blue">
-        <div
-          className="w-full max-w-[1400px] lg:flex lg:justify-between lg:items-center lg:gap-7 p-5
-            xl:flex xl:justify-between xl:items-center xl:gap-7
-            xl2:flex xl2:justify-between xl2:items-center xl2:gap-7
-            flex-col gap-4"
-        >
-          {/* Video Section */}
-          <div className="w-full lg:w-[45%] flex justify-center lg:justify-end">
-            <video
-              ref={videoRef}
-              className="w-full lg:h-[30vh] h-[40vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
-              controls={false}
-              muted
-              playsInline
-              onMouseEnter={() => videoRef.current.play()}
-              onMouseLeave={() => videoRef.current.pause()}
-              onTouchStart={handleTouch} // Handle touch to simulate hover
-            >
-              <source
-                src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
-                type="video/mp4"
-              />
-              <source src={contactVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
+      <div className="grid items-center w-full min-h-screen grid-cols-1 gap-8 lg:grid-cols-2 justify-items-center bg-mc-blue">
+        {/* Video Section */}
+        <div className="flex justify-center w-full lg:justify-end">
+          <video
+            ref={videoRef}
+            className="w-full lg:h-[30vh] h-[40vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
+            controls={false}
+            muted
+            playsInline
+            onMouseEnter={() => videoRef.current.play()}
+            onMouseLeave={() => videoRef.current.pause()}
+            onTouchStart={handleTouch} // Handle touch to simulate hover
+          >
+            <source
+              src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
+              type="video/mp4"
+            />
+            <source src={contactVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
 
-          {/* Text Section */}
-          <div className="w-full lg:w-[45%] lg:max-w-[600px] px-5 flex flex-col items-center lg:items-start">
-            <div
-              className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 ${
+        {/* Text Section */}
+        <div className="w-full lg:max-w-[600px] px-5 flex flex-col items-center lg:items-start">
+          <div
+            className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 ${
+              entered
+                ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
+                : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
+            } border-l-4 pl-2`}
+            onMouseEnter={() => setEntered(true)}
+            onMouseLeave={() => setEntered(false)}
+            onTouchStart={handleTouch} // Handle touch to simulate hover
+          >
+            <a
+              href={user.linkedinUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className={`flex items-center text-3xl sm:text-xl md:text-2xl font-bold ${
                 entered
-                  ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
-                  : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
-              } border-l-4 pl-2`}
-              onMouseEnter={() => setEntered(true)}
-              onMouseLeave={() => setEntered(false)}
-              onTouchStart={handleTouch} // Handle touch to simulate hover
+                  ? "text-quaternary-300 underline cursor-pointer"
+                  : "text-mc-white"
+              }`}
             >
-              <a
-                href={user.linkedinUrl}
-                target="_blank"
-                rel="noreferrer noopener"
-                className={`flex items-center text-3xl sm:text-xl md:text-2xl font-bold ${
-                  entered
-                    ? "text-quaternary-300 underline cursor-pointer"
-                    : "text-mc-white"
-                }`}
-              >
-                {user.name}
-                <span className="inline-block px-2">
-                  <button
-                    className={`px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl transition-opacity duration-300 ${
-                      entered ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    LinkedIn
-                  </button>
-                </span>
-              </a>
-              <div className="w-full mt-5 text-2xl font-bold md:text-xl sm:text-lg text-quaternary-200">
-                <p className="mb-3 ">Expertise: {user.expertise}</p>
-                <p className="mb-3 ">Email: {user.email}</p>
-                <p className="mb-3 ">Location: {user.location}</p>
+              {user.name}
+              <span className="inline-block px-2">
                 <button
-                  className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                  onClick={showModal}
+                  className={`px-1 text-base font-semibold rounded-lg cursor-pointer md:text-lg lg:text-xl transition-opacity duration-300 ${
+                    entered ? "opacity-100" : "opacity-0"
+                  }`}
                 >
-                  Write to Me
+                  LinkedIn
                 </button>
-              </div>
+              </span>
+            </a>
+            <div className="w-full mt-5 text-2xl font-bold md:text-xl sm:text-lg text-quaternary-200">
+              <p className="mb-3 ">Expertise: {user.expertise}</p>
+              <p className="mb-3 ">Email: {user.email}</p>
+              <p className="mb-3 ">Location: {user.location}</p>
+              <button
+                className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                onClick={showModal}
+              >
+                Write to Me
+              </button>
             </div>
           </div>
         </div>
