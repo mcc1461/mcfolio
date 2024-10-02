@@ -171,7 +171,7 @@ const Contact = () => {
       <SectionTitle title="Contact" />
       <div className="grid items-center w-full grid-cols-2 py-10 gap-7 md:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
-        <div className="flex justify-end w-full border border-red-200 sm:justify-center">
+        <div className="flex justify-end w-full border border-red-200 md:justify-center">
           <video
             ref={videoRef}
             className=" w-[95%] rounded-lg min-w-[350px] max-w-[500px]"
