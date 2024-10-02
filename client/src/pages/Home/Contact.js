@@ -174,7 +174,7 @@ const Contact = () => {
         <div className="flex justify-center w-full lg:justify-items-center lg:justify-end">
           <video
             ref={videoRef}
-            className="w-full lg:h-[40vh] h-[40vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
+            className="w-full lg:h-[40vh] h-[40vh] lg:rounded-lg rounded-none min-w-[350px] max-w-[500px]  justify-self-end"
             controls={false}
             muted
             playsInline
@@ -198,7 +198,7 @@ const Contact = () => {
               entered
                 ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                 : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
-            } border-l-4 pl-2`}
+            } border-l-4 pl-2 justify-self-start`}
             onMouseEnter={() => setEntered(true)}
             onMouseLeave={() => setEntered(false)}
             onTouchStart={handleTouch} // Handle touch to simulate hover
