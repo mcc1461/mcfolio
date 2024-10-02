@@ -6,6 +6,15 @@ const VisitorCounter = () => {
   const [isVisible, setIsVisible] = useState(true); // State to manage visibility of the component
 
   useEffect(() => {
+    // Check if the visitor counter was closed during this session
+    const isClosed = sessionStorage.getItem("visitorCounterClosed");
+
+    if (isClosed) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+
     const getUserIP = async () => {
       try {
         const response = await fetch("https://api.ipify.org?format=json");
@@ -51,21 +60,19 @@ const VisitorCounter = () => {
     updateVisitorCount();
   }, []);
 
-  if (loading) {
-    return null; // Optionally, display a loading indicator
-  }
-
-  if (visitorCount === null || visitorCount === "Error") {
-    return null; // Optionally, display an error message
-  }
-
-  // Function to close the VisitorCounter
+  // Function to close the VisitorCounter and store the state in sessionStorage
   const handleClose = () => {
     setIsVisible(false);
+    sessionStorage.setItem("visitorCounterClosed", "true");
   };
 
-  // If not visible, return null to remove the component
-  if (!isVisible) {
+  // If loading or if the component is set to not visible, return null
+  if (
+    loading ||
+    !isVisible ||
+    visitorCount === null ||
+    visitorCount === "Error"
+  ) {
     return null;
   }
 
