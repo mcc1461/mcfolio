@@ -77,7 +77,7 @@ const Intro = () => {
         {/* <h1 className="w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl 2xl:text-2xl md:hidden sm:hidden xs:hidden text-quinary-100">
           {details}
         </h1> */}
-        <h1 className="w-4/5 p-3 text-sm font-bold text-justify  lg:text-lg xl:text-xl 2xl:text-2xl lg:block text-quinary-100">
+        <h1 className="hidden w-4/5 p-3 text-sm font-bold text-justify lg:text-lg xl:text-xl 2xl:text-2xl lg:block xl:block 2xl:block text-quinary-100">
           {details}
         </h1>
 
