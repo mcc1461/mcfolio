@@ -12,7 +12,7 @@ const Experiences = () => {
   return (
     <>
       <SectionTitle title="Experiences" />
-      <div className="flex flex-col items-center justify-center h-full overflow-hidden bg-mc-blue">
+      <div className="flex flex-col items-center justify-center h-full px-10 overflow-hidden bg-mc-blue">
         <div className="flex flex-col w-full max-w-6xl px-4">
           {" "}
           {/* Added `px-4` for padding */}
