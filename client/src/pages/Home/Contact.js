@@ -224,7 +224,7 @@ const Contact = () => {
                 </button>
               </span>
             </a>
-            <div className="w-full mt-2 text-lg font-bold md:text-xl sm:text-lg text-quaternary-200">
+            <div className="mt-2 text-lg font-bold  md:text-xl sm:text-lg text-quaternary-200">
               <p className="mb-2">Expertise: {user.expertise}</p>
               <p className="mb-2">Email: {user.email}</p>
               <p className="mb-2">Location: {user.location}</p>
