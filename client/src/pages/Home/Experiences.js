@@ -11,11 +11,11 @@ const Experiences = () => {
     <>
       <SectionTitle title="Experiences" />
       <div className="flex flex-col items-center justify-center h-full overflow-hidden bg-mc-blue">
-        <div className="flex flex-col w-full max-w-6xl px-4">
+        <div className="flex flex-col w-full max-w-5xl px-4 md:px-6 lg:px-8 mx-auto">
           {experiences.map((experience) => (
             <div
               key={experience._id}
-              className="flex flex-col items-center justify-center w-[calc(100%-32px)] p-4 m-4 mr-8 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
+              className="flex flex-col items-center justify-center w-full p-4 mb-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
               onMouseEnter={() => setHoveredId(experience._id)}
               onMouseLeave={() => setHoveredId(null)}
             >
