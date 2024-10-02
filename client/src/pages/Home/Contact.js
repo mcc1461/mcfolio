@@ -171,7 +171,7 @@ const Contact = () => {
       <SectionTitle title="Contact" />
       <div className="grid items-center w-full min-h-screen grid-cols-2 gap-4 md:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
-        <div className="flex justify-center w-full lg:justify-end">
+        <div className="flex justify-center w-full lg:justify-items-center lg:justify-end">
           <video
             ref={videoRef}
             className="w-full lg:h-[40vh] h-[40vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
@@ -192,7 +192,7 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="w-full lg:max-w-[600px] px-4 flex flex-col items-center lg:items-start">
+        <div className="w-full lg:max-w-[600px] px-4 flex flex-col items-center lg:justify-items-center lg:justify-start">
           <div
             className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-3 ${
               entered
