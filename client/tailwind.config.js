@@ -255,9 +255,6 @@ module.exports = {
 
       xl: { min: "1024px", max: "1279px" },
       // => @media (min-width: 1280px) { ... }
-
-      2xl: { min: "1280px" },
-      // => @media (min-width: 1536px) { ... }
     },
   },
   plugins: [],
