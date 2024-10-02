@@ -16,13 +16,15 @@ const Projects = () => {
   return (
     <div id="Projects">
       <SectionTitle title="Projects" />
-      <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue scrollable-container">
-        <div className="flex flex-col w-full max-w-3xl">
+      <div className="flex flex-col items-center justify-center h-full overflow-hidden bg-mc-blue">
+        <div className="flex flex-col w-full max-w-3xl px-4">
+          {" "}
+          {/* Added padding to prevent overflow */}
           {projects.length > 0 ? (
             projects.map((project) => (
               <div
-                key={project._id} // Use the actual _id from each project as the key
-                className="flex flex-col items-center justify-center w-full p-4 m-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
+                key={project._id}
+                className="flex flex-col items-center justify-center w-[calc(100%-32px)] p-4 mb-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
                 onMouseEnter={() => setHoveredId(project._id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
