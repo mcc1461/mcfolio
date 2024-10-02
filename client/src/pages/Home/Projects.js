@@ -16,19 +16,19 @@ const Projects = () => {
   return (
     <div id="Projects">
       <SectionTitle title="Projects" />
-      <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row scrollable-container">
-        <div className="flex flex-col w-full max-w-6xl">
+      <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue scrollable-container">
+        <div className="flex flex-col w-full max-w-3xl">
           {projects.length > 0 ? (
             projects.map((project) => (
               <div
                 key={project._id} // Use the actual _id from each project as the key
-                className="flex flex-col items-center justify-center p-4 m-4 rounded-lg shadow-lg lg:flex-row xl:flex-row xl2:flex-row gap-7 bg-mc-blue-darker1"
+                className="flex flex-col items-center justify-center w-full p-4 m-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
                 onMouseEnter={() => setHoveredId(project._id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
-                {/* Left Section (Project Type) */}
+                {/* Project Type */}
                 <div
-                  className={`w-full lg:w-[35%] min-w-[250px] border-l-4 pl-2 cursor-pointer ${
+                  className={`w-full border-l-4 pl-2 cursor-pointer ${
                     hoveredId === project._id
                       ? "text-quaternary-300 border-quaternary-200"
                       : "text-mc-white border-[#258d54]"
@@ -47,7 +47,7 @@ const Projects = () => {
 
                 {/* Image Section */}
                 {hoveredId === project._id && (
-                  <div className="flex flex-col text-lg w-full lg:w-[35%]">
+                  <div className="flex flex-col w-full text-lg">
                     <img
                       src={project.image}
                       alt={project.title}
@@ -56,8 +56,8 @@ const Projects = () => {
                   </div>
                 )}
 
-                {/* Right Section (Text and Description) */}
-                <div className="w-full lg:w-[65%] min-w-[300px]">
+                {/* Project Title and Description */}
+                <div className="w-full">
                   <p className="mb-3 text-2xl font-bold text-quaternary-200">
                     {project.title}
                   </p>
