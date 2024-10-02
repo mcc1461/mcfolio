@@ -35,7 +35,7 @@ const Projects = () => {
                   }`}
                 >
                   <h2
-                    className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold ${
+                    className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-4xl font-semibold ${
                       hoveredId === project._id
                         ? "text-quaternary-300"
                         : "text-mc-white"
@@ -58,7 +58,7 @@ const Projects = () => {
 
                 {/* Project Title and Description */}
                 <div className="w-full">
-                  <p className="mb-3 text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-quaternary-200">
+                  <p className="mb-3 text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-3xl text-quaternary-200">
                     {project.title}
                   </p>
                   {hoveredId === project._id && (
@@ -66,7 +66,7 @@ const Projects = () => {
                       <p className="text-sm text-justify sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-quaternary-100">
                         {project.desc}
                       </p>
-                      <button className="px-3 py-1 mt-3 text-lg font-bold tracking-wider border-2 rounded sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl border-quinary-300 text-quinary-300 hover:border-quinary-500 hover:bg-quinary-200 hover:text-quinary-700">
+                      <button className="px-3 py-1 mt-3 text-lg font-bold tracking-wider border-2 rounded sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-3xl border-quinary-300 text-quinary-300 hover:border-quinary-500 hover:bg-quinary-200 hover:text-quinary-700">
                         <a
                           href={project.link}
                           target="_blank"
