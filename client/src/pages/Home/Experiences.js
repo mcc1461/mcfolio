@@ -12,24 +12,25 @@ const Experiences = () => {
   return (
     <>
       <SectionTitle title="Experiences" />
-      <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue lg:flex-row xl:flex-row xl2:flex-row">
+      <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue">
         <div className="flex flex-col w-full max-w-6xl">
           {experiences.map((experience) => (
             <div
               key={experience._id} // Unique key for each experience using _id
-              className="flex flex-col items-center justify-center p-4 m-4 rounded-lg shadow-lg lg:flex-row xl:flex-row xl2:flex-row gap-7 bg-mc-blue-darker1"
+              className="flex flex-col items-center justify-center w-full p-4 m-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
               onMouseEnter={() => setHoveredId(experience._id)}
               onMouseLeave={() => setHoveredId(null)}
             >
+              {/* Period and Location Section */}
               <div
-                className={`w-full lg:w-[35%] border-l-4 pl-2 cursor-pointer ${
+                className={`w-full border-l-4 pl-2 cursor-pointer ${
                   hoveredId === experience._id
                     ? "text-quaternary-300 border-quaternary-200"
                     : "text-mc-white border-[#258d54]"
                 }`}
               >
                 <h2
-                  className={`text-2xl font-semibold ${
+                  className={`text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-4xl font-semibold ${
                     hoveredId === experience._id
                       ? "text-quaternary-300"
                       : "text-mc-white"
@@ -41,7 +42,7 @@ const Experiences = () => {
                   {experience.location.map((location, index) => (
                     <p
                       key={`${experience._id}-location-${index}`} // Unique key combining _id and index for locations
-                      className={`${
+                      className={`text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-xl ${
                         hoveredId === experience._id
                           ? "text-secondary-300 font-semibold"
                           : "text-secondary-100"
@@ -52,12 +53,14 @@ const Experiences = () => {
                   ))}
                 </div>
               </div>
-              <div className="w-full lg:w-[65%]">
-                <p className="mb-3 text-2xl font-bold text-quaternary-200">
+
+              {/* Role and Description Section */}
+              <div className="w-full">
+                <p className="mb-3 text-lg font-bold sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl text-quaternary-200">
                   {experience.role}
                 </p>
                 {hoveredId === experience._id && (
-                  <p className="text-lg text-justify transition-opacity duration-300 text-quaternary-100">
+                  <p className="text-sm text-justify transition-opacity duration-300 sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-xl text-quaternary-100">
                     {experience.desc}
                   </p>
                 )}
