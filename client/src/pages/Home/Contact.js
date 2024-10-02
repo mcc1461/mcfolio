@@ -169,12 +169,12 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="grid items-center w-full min-h-screen grid-cols-2 gap-8 md:grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
+      <div className="grid items-center w-full min-h-screen grid-cols-2 gap-6 md:grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
         <div className="flex justify-center w-full lg:justify-end">
           <video
             ref={videoRef}
-            className="w-full lg:h-[30vh] h-[40vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
+            className="w-full lg:h-[30vh] h-[35vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
             controls={false}
             muted
             playsInline
@@ -192,9 +192,9 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="w-full lg:max-w-[600px] px-5 flex flex-col items-center lg:items-start">
+        <div className="w-full lg:max-w-[600px] px-4 flex flex-col items-center lg:items-start">
           <div
-            className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-4 ${
+            className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-3 ${
               entered
                 ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                 : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
@@ -207,7 +207,7 @@ const Contact = () => {
               href={user.linkedinUrl}
               target="_blank"
               rel="noreferrer noopener"
-              className={`flex items-center text-3xl sm:text-xl md:text-2xl font-bold ${
+              className={`flex items-center text-2xl sm:text-xl md:text-2xl font-bold ${
                 entered
                   ? "text-quaternary-300 underline cursor-pointer"
                   : "text-mc-white"
@@ -224,12 +224,12 @@ const Contact = () => {
                 </button>
               </span>
             </a>
-            <div className="w-full mt-5 text-2xl font-bold md:text-xl sm:text-lg text-quaternary-200">
-              <p className="mb-3 ">Expertise: {user.expertise}</p>
-              <p className="mb-3 ">Email: {user.email}</p>
-              <p className="mb-3 ">Location: {user.location}</p>
+            <div className="w-full mt-2 text-lg font-bold md:text-xl sm:text-lg text-quaternary-200">
+              <p className="mb-2">Expertise: {user.expertise}</p>
+              <p className="mb-2">Email: {user.email}</p>
+              <p className="mb-2">Location: {user.location}</p>
               <button
-                className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                className="px-4 py-2 mt-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                 onClick={showModal}
               >
                 Write to Me
@@ -246,7 +246,7 @@ const Contact = () => {
             <h2 className="mb-4 text-2xl font-semibold">Send an Email</h2>
             <form ref={formRef} onSubmit={handleSendEmail}>
               <input type="hidden" name="contact_number" value="697483" />
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 <input
                   type="text"
                   placeholder="Your Name"
