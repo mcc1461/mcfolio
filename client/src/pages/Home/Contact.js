@@ -171,7 +171,7 @@ const Contact = () => {
       <SectionTitle title="Contact" />
       <div className="grid items-center w-full grid-cols-2 gap-6 py-10 md:grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
-        <div className="flex justify-center w-full lg:justify-end">
+        <div className="flex justify-center w-full lg:justify-end xl:justify-end 2xl:justify-end">
           <video
             ref={videoRef}
             className="w-full lg:h-[30vh] h-[35vh] lg:rounded-lg rounded-none min-w-[250px] max-w-[600px]"
@@ -194,7 +194,7 @@ const Contact = () => {
         {/* Text Section */}
         <div className="w-full lg:max-w-[600px] px-4 flex flex-col items-center lg:items-start">
           <div
-            className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-3 ${
+            className={`flex flex-col items-center lg:items-start xl:justify-start 2xl:justify-start justify-center p-4 rounded-lg shadow-lg gap-3 ${
               entered
                 ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                 : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
