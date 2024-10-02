@@ -192,7 +192,7 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="w-full lg:max-w-[600px] px-4 justify-items-center justify-center lg:justify-start border border-red-200">
+        <div className="w-full lg:max-w-[600px] px-4 flex justify-start md:justify-center sm:justify-center border border-red-200">
           <div
             className={`w-max-[50%] w-fit flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 ${
               entered
@@ -224,7 +224,7 @@ const Contact = () => {
                 </button>
               </span>
             </a>
-            <div className="mt-2 text-lg font-bold  md:text-xl sm:text-lg text-quaternary-200">
+            <div className="mt-2 text-lg font-bold md:text-xl sm:text-lg text-quaternary-200">
               <p className="mb-2">Expertise: {user.expertise}</p>
               <p className="mb-2">Email: {user.email}</p>
               <p className="mb-2">Location: {user.location}</p>
