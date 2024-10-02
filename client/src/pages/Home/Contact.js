@@ -171,10 +171,10 @@ const Contact = () => {
       <SectionTitle title="Contact" />
       <div className="grid items-center w-full grid-cols-2 py-10 gap-7 md:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
-        <div className="flex justify-center w-full border border-red-200 lg:justify-end lg:ml-0">
+        <div className="flex justify-end w-full border border-red-200 sm:justify-center">
           <video
             ref={videoRef}
-            className=" lg:h-[40vh] h-[40vh] lg:rounded-lg rounded-none min-w-[350px] max-w-[500px]"
+            className=" w-[95%] rounded-lg min-w-[350px] max-w-[500px]"
             controls={false}
             muted
             playsInline
