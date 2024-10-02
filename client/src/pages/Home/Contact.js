@@ -171,7 +171,7 @@ const Contact = () => {
       <SectionTitle title="Contact" />
       <div className="grid items-center w-full grid-cols-2 py-10 gap-7 md:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
-        <div className="flex justify-end w-full border border-red-200 sm:justify-center md:justify-center">
+        <div className="flex justify-end w-full sm:justify-center md:justify-center">
           <video
             ref={videoRef}
             className=" w-[95%] rounded-lg min-w-[350px] max-w-[500px]"
@@ -192,9 +192,9 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="w-full lg:max-w-[600px] px-4 flex justify-start md:justify-center sm:justify-center border border-red-200">
+        <div className="w-full lg:max-w-[600px] px-4 flex justify-start md:justify-center sm:justify-center ">
           <div
-            className={`w-max-[50%] w-fit flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 ${
+            className={`w-max-[70%] w-fit flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 ${
               entered
                 ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                 : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
@@ -224,7 +224,7 @@ const Contact = () => {
                 </button>
               </span>
             </a>
-            <div className="mt-2 text-lg font-bold md:text-xl sm:text-lg text-quaternary-200">
+            <div className="mt-2 text-xl font-bold md:text-xl sm:text-lg text-quaternary-200">
               <p className="mb-2">Expertise: {user.expertise}</p>
               <p className="mb-2">Email: {user.email}</p>
               <p className="mb-2">Location: {user.location}</p>
