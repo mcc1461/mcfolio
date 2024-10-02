@@ -17,7 +17,7 @@ const Projects = () => {
     <div id="Projects">
       <SectionTitle title="Projects" />
       <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue scrollable-container">
-        <div className="flex flex-col w-full max-w-3xl">
+        <div className="flex flex-col w-full max-w-5xl">
           {projects.length > 0 ? (
             projects.map((project) => (
               <div
