@@ -74,9 +74,13 @@ const Intro = () => {
           {description}
         </h1>
         {/* Display the details */}
-        <h1 className="w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl 2xl:text-2xl md:hidden sm:hidden xs:hidden text-quinary-100">
+        {/* <h1 className="w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl 2xl:text-2xl md:hidden sm:hidden xs:hidden text-quinary-100">
+          {details}
+        </h1> */}
+        <h1 className="hidden w-4/5 p-3 text-sm font-bold text-justify lg:text-lg xl:text-xl 2xl:text-2xl md:block text-quinary-100">
           {details}
         </h1>
+
         {/* Buttons container */}
         <div className="flex flex-wrap justify-end w-4/5 gap-4 mt-4 sm:w-full md:w-full md:justify-center sm:justify-center">
           {/* Button to navigate to the Projects section */}
