@@ -192,7 +192,7 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="w-full lg:max-w-[600px] px-4 flex flex-col items-center lg:justify-items-center lg:justify-start border border-red-200">
+        <div className="w-full lg:max-w-[600px] px-4 justify-start sm:justify-center border border-red-200">
           <div
             className={`flex flex-col items-center lg:items-start justify-center p-4 rounded-lg shadow-lg gap-3 ${
               entered
