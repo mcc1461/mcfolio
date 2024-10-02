@@ -12,8 +12,10 @@ const Experiences = () => {
   return (
     <>
       <SectionTitle title="Experiences" />
-      <div className="flex flex-col items-center justify-center h-full overflow-auto bg-mc-blue">
-        <div className="flex flex-col w-full max-w-6xl">
+      <div className="flex flex-col items-center justify-center h-full overflow-hidden bg-mc-blue">
+        <div className="flex flex-col w-full max-w-6xl px-4">
+          {" "}
+          {/* Added `px-4` for padding */}
           {experiences.map((experience) => (
             <div
               key={experience._id} // Unique key for each experience using _id
