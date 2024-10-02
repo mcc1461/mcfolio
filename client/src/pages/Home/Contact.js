@@ -151,6 +151,14 @@ const Contact = () => {
 
   const closeAlert = () => setAlert(null);
 
+  // Add touch effect on phones
+  const handleTouch = () => {
+    setEntered(true);
+    setTimeout(() => {
+      setEntered(false);
+    }, 3000);
+  };
+
   return (
     <>
       {alert && (
@@ -178,6 +186,7 @@ const Contact = () => {
               playsInline
               onMouseEnter={() => videoRef.current.play()}
               onMouseLeave={() => videoRef.current.pause()}
+              onTouchStart={handleTouch} // Handle touch to simulate hover
             >
               <source
                 src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
@@ -198,6 +207,7 @@ const Contact = () => {
               } border-l-4 pl-2`}
               onMouseEnter={() => setEntered(true)}
               onMouseLeave={() => setEntered(false)}
+              onTouchStart={handleTouch} // Handle touch to simulate hover
             >
               <a
                 href={user.linkedinUrl}
