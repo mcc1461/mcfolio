@@ -169,7 +169,7 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="grid items-center w-full min-h-screen grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 justify-items-center bg-mc-blue">
+      <div className="grid items-center w-full min-h-screen grid-cols-2 gap-8 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 justify-items-center bg-mc-blue">
         {/* Video Section */}
         <div className="flex justify-center w-full lg:justify-end">
           <video
