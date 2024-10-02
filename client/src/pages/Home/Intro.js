@@ -74,7 +74,7 @@ const Intro = () => {
           {description}
         </h1>
         {/* Display the details */}
-        <h1 className="hidden w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl 2xl:text-2xl 2xl:block xl:block lg:block text-quinary-100">
+        <h1 className="w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl 2xl:text-2xl md:hidden sm:hidden xs:hidden text-quinary-100">
           {details}
         </h1>
         {/* Buttons container */}
