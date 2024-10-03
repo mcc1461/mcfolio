@@ -3,38 +3,7 @@ import SectionTitle from "../../components/SectionTitle";
 import contactVideo from "../../assets/MusCo_WebDev.mp4";
 import { useSelector } from "react-redux";
 import emailjs from "@emailjs/browser";
-
-const AlertMessage = ({ type, message, onClose }) => {
-  const bgColor =
-    type === "success"
-      ? "bg-green-700 border-green-700 text-white"
-      : "bg-red-700 border-red-700 text-white";
-
-  useEffect(() => {
-    if (type === "success") {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 3000); // Auto close after 3 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [type, onClose]);
-
-  return (
-    <div className="fixed z-50 top-4 right-4">
-      <div className={`border-l-4 p-4 ${bgColor} rounded shadow`} role="alert">
-        <div className="flex items-center justify-between">
-          <p className="font-bold">
-            {type === "success" ? "Success" : "Error"}
-          </p>
-          <button onClick={onClose} className="ml-4 text-xl font-bold">
-            &times;
-          </button>
-        </div>
-        <p>{message}</p>
-      </div>
-    </div>
-  );
-};
+import AlertMessage from "../../components/AlertMessage"; // Import the AlertMessage component
 
 const Contact = () => {
   const [entered, setEntered] = useState(false); // Tracks hover state
@@ -127,18 +96,25 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm(
-        "service_5l5jxcc", // Ensure this is the correct service ID
-        "template_7bu07o5", // Ensure this is the correct template ID
+        "service_ldfrkag", // Ensure this is the correct service ID
+        "template_n19oxg6", // Ensure this is the correct template ID
         formRef.current
       );
 
       const templateParams = {
-        user_email: emailData.user_email,
-        reply_to: "info@musco.dev", // Your email to send reply from
         user_name: emailData.user_name,
+        user_email: emailData.user_email,
+        message: emailData.message, // Include the user's message here
+        reply_to: "info@musco.dev", // Your email to send reply from
+        contact_number: Math.floor(Math.random() * 10000), // Random number
       };
 
-      await emailjs.send("service_5l5jxcc", "template_qqfkusw", templateParams); // Ensure auto-reply template ID is correct
+      // Send auto-reply
+      await emailjs.send(
+        "service_ldfrkag", // Service ID
+        "template_skv7rk8", // Auto-reply template ID
+        templateParams
+      );
 
       setAlert({ type: "success", message: "Email sent successfully!" });
       setEmailData({ user_name: "", user_email: "", message: "" });
@@ -151,7 +127,6 @@ const Contact = () => {
 
   const closeAlert = () => setAlert(null);
 
-  // Add touch effect on phones
   const handleTouch = () => {
     setEntered(true);
     setTimeout(() => {

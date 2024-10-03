@@ -230,6 +230,7 @@ module.exports = {
       animation: {
         "gradient-x": "gradient-x 5s ease infinite",
         floating: "floating 3s ease-in-out infinite",
+        shrink: "shrink 3s linear forwards",
       },
       keyframes: {
         floating: {
@@ -240,22 +241,26 @@ module.exports = {
           "0%, 100%": { "background-position": "0% 50%" },
           "50%": { "background-position": "100% 50%" },
         },
+        shrink: {
+          "0%": { width: "100%" },
+          "100%": { width: "0" },
+        },
+      },
+
+      screens: {
+        sm: { max: "640px" },
+        // => @media (min-width: 640px) { ... }
+
+        md: { min: "641px", max: "767px" },
+        // => @media (min-width: 768px) { ... }
+
+        lg: { min: "768px", max: "1023px" },
+        // => @media (min-width: 1024px) { ... }
+
+        xl: { min: "1024px" },
+        // => @media (min-width: 1280px) { ... }
       },
     },
-
-    screens: {
-      sm: { max: "640px" },
-      // => @media (min-width: 640px) { ... }
-
-      md: { min: "641px", max: "767px" },
-      // => @media (min-width: 768px) { ... }
-
-      lg: { min: "768px", max: "1023px" },
-      // => @media (min-width: 1024px) { ... }
-
-      xl: { min: "1024px" },
-      // => @media (min-width: 1280px) { ... }
-    },
+    plugins: [],
   },
-  plugins: [],
 };
