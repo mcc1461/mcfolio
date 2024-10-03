@@ -55,7 +55,7 @@ function Home() {
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed top-[92px] right-0 z-50 px-4 py-2 text-white bg-red-600"
+          className="fixed top-[10%] right-5 z-50 px-4 py-2 text-white bg-red-600 rounded-lg shadow-lg"
           style={{ top: `${headerHeight}px` }} // Dynamically positioned based on header height
         >
           <span className="text-sm md:text-base">
