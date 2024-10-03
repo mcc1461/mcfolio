@@ -7,7 +7,6 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import Sidebar from "./Sidebar";
-import VisitorCounter from "../../components/VisitorCounter"; // Retain VisitorCounter component
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
@@ -23,10 +22,21 @@ function Home() {
     }
   }, []);
 
-  // Dynamically set header height
+  // Function to update the header height dynamically using ResizeObserver
   useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
+    const headerElement = headerRef.current;
+    if (headerElement) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          setHeaderHeight(entry.contentRect.height);
+        }
+      });
+      resizeObserver.observe(headerElement);
+
+      // Clean up the observer on unmount
+      return () => {
+        if (headerElement) resizeObserver.unobserve(headerElement);
+      };
     }
   }, []);
 
@@ -42,13 +52,14 @@ function Home() {
       <div ref={headerRef}>
         <Header />
       </div>
+
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed top-[72px] right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }}
+          className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }} // Dynamically positioned beneath the header
         >
-          <span className="text-sm md:text-base">
+          <span>
             Admin!{" "}
             <span
               onClick={handleLogout}
@@ -59,8 +70,9 @@ function Home() {
           </span>
         </div>
       )}
+
       {/* Main Content */}
-      <div className="pt-[72px]">
+      <div className="mt-4">
         <Intro />
         <About />
         <Experiences />
@@ -68,8 +80,7 @@ function Home() {
         <Contact />
         <Sidebar />
       </div>
-      {/* Visitor Counter */}
-      <VisitorCounter /> {/* Restored visitor counter */}
+
       <Footer />
     </div>
   );
