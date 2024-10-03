@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
+import Notification from "../../components/Notification";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
 import About from "./About";
@@ -43,7 +44,12 @@ function Home() {
       <div ref={headerRef}>
         <Header />
       </div>
-
+      <div>
+        <Notification
+          isAdminLoggedIn={isAdminLoggedIn}
+          handleLogout={handleLogout}
+        />
+      </div>
       {/* Main Content */}
       <div style={{ marginTop: `${headerHeight + 64}px` }}>
         {" "}

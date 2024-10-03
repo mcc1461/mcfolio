@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import photo from "../../assets/photo.jpg";
-import Notification from "../../components/Notification";
 
 const Intro = () => {
   const [imgSrc, setImgSrc] = useState(
@@ -59,7 +58,6 @@ const Intro = () => {
 
   return (
     <div className="homepage pt-[7vh] min-h-[100vh] bg-mc-blue pl-7 flex items-center justify-center md:flex-col-reverse sm:flex-col-reverse">
-      <Notification />
       {/* Ensure adequate padding from the header */}
       <div className="gap-7 py-7 w-[60vw] md:w-[90vw] sm:w-[90vw] md:text-center sm:text-center">
         {/* Display the welcome text */}
