@@ -13,6 +13,8 @@ function Home() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
 
+  console.log(headerRef);
+  console.log(headerHeight);
   // Check if admin is logged in
   useEffect(() => {
     const token = localStorage.getItem("authToken");
