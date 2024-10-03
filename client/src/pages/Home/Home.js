@@ -13,9 +13,6 @@ function Home() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
 
-  console.log("Header Ref: ", headerRef);
-  console.log("Header Height (before calculation): ", headerHeight);
-
   // Check if admin is logged in
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -25,7 +22,7 @@ function Home() {
     }
   }, []);
 
-  // Function to calculate the header height
+  // Set header height dynamically
   const calculateHeaderHeight = () => {
     if (headerRef.current) {
       const calculatedHeight = headerRef.current.getBoundingClientRect().height;
@@ -34,21 +31,24 @@ function Home() {
     }
   };
 
-  // Use ResizeObserver to dynamically observe height changes
+  // Trigger height calculation after rendering
   useEffect(() => {
     if (headerRef.current) {
-      calculateHeaderHeight(); // Initial calculation
-
-      const resizeObserver = new ResizeObserver(() => {
+      // Using setTimeout to ensure it calculates after everything is rendered
+      setTimeout(() => {
         calculateHeaderHeight();
-      });
-
-      resizeObserver.observe(headerRef.current);
-
-      return () => {
-        resizeObserver.disconnect();
-      };
+      }, 0);
     }
+  }, []);
+
+  // Another fallback: use a window resize event listener to recalculate the height
+  useEffect(() => {
+    const onResize = () => calculateHeaderHeight();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -68,7 +68,7 @@ function Home() {
       {isAdminLoggedIn && (
         <div
           className="fixed right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }}
+          style={{ top: `${headerHeight}px` }} // Position it below the header
         >
           <span>
             Admin!{" "}
