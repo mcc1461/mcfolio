@@ -29,12 +29,10 @@ function Home() {
   };
 
   return (
-    <div className="pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
-      <Header />
-
+    <div className="relative pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
       {/* Reminder Box */}
       {isAdminLoggedIn && (
-        <div className="p-4 text-center text-white bg-red-600">
+        <div className="fixed top-0 left-0 right-0 z-50 p-4 text-center text-white bg-red-600">
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
@@ -48,13 +46,19 @@ function Home() {
         </div>
       )}
 
-      <Intro />
-      <About />
-      <Experiences />
-      <Projects />
-      <Contact />
-      <Sidebar />
-      <Footer />
+      <Header />
+
+      <div className="mt-16">
+        {" "}
+        {/* Add margin to offset the warning */}
+        <Intro />
+        <About />
+        <Experiences />
+        <Projects />
+        <Contact />
+        <Sidebar />
+        <Footer />
+      </div>
     </div>
   );
 }
