@@ -11,11 +11,17 @@ import Sidebar from "./Sidebar";
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
+  // Function to handle logout and remove the token
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // Remove the token from localStorage
+    setIsAdminLoggedIn(false); // Update the state to trigger a re-render
+  };
+
   // Check if admin is still logged in
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("authToken"); // Retrieve the token from localStorage
     if (token) {
-      setIsAdminLoggedIn(true);
+      setIsAdminLoggedIn(true); // If token exists, set isAdminLoggedIn to true
     }
   }, []);
 
@@ -29,10 +35,7 @@ function Home() {
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
-              onClick={() => {
-                localStorage.removeItem("authToken");
-                setIsAdminLoggedIn(false);
-              }}
+              onClick={handleLogout} // Trigger the handleLogout function when clicked
               className="underline cursor-pointer hover:text-gray-300"
             >
               log out
