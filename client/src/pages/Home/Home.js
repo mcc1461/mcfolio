@@ -22,24 +22,25 @@ function Home() {
     }
   }, []);
 
-  // Set header height dynamically with delay to ensure Header is rendered
-  useEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        const height =
-          headerRef.current.clientHeight || headerRef.current.offsetHeight;
-        console.log("Header Height Calculated: ", height); // Debugging log
-        setHeaderHeight(height);
-      }
-    };
+  // Set header height dynamically using getBoundingClientRect()
+  const updateHeaderHeight = () => {
+    if (headerRef.current) {
+      const headerRect = headerRef.current.getBoundingClientRect();
+      const height = headerRect.height || 0; // More reliable than clientHeight or offsetHeight
+      console.log("Header Height Calculated: ", height); // Debugging log
+      setHeaderHeight(height);
+    }
+  };
 
+  // Calculate the header height after mounting and on window resize
+  useEffect(() => {
     const timer = setTimeout(() => {
       updateHeaderHeight();
-    }, 100); // Delay the calculation slightly to ensure Header is rendered
+    }, 200); // Ensure that header is fully rendered before calculating height
 
     window.addEventListener("resize", updateHeaderHeight);
 
-    // Cleanup event listener and timeout on component unmount
+    // Cleanup event listener on component unmount
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", updateHeaderHeight);
@@ -63,7 +64,7 @@ function Home() {
       {isAdminLoggedIn && (
         <div
           className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Position the logout warning right below the header
+          style={{ top: `${headerHeight}px` }}
         >
           <span>
             Admin!{" "}
