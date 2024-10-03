@@ -11,33 +11,33 @@ import Sidebar from "./Sidebar";
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  // Check if the token exists in local storage
+  // Check if authToken and isAdminLogin are present in localStorage
   useEffect(() => {
-    const token = localStorage.getItem("authToken"); // Check for token in localStorage
-    if (token) {
-      setIsAdminLoggedIn(true); // If token exists, admin is logged in
-    } else {
-      setIsAdminLoggedIn(false); // No token, not logged in
-    }
-  }, []); // Empty dependency array ensures this runs once on component mount
+    const token = localStorage.getItem("authToken");
+    const adminStatus = localStorage.getItem("isAdminLogin");
 
-  // Function to handle admin logout
+    if (token && adminStatus === "true") {
+      setIsAdminLoggedIn(true);
+    }
+  }, []);
+
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Remove token from localStorage
-    setIsAdminLoggedIn(false); // Update state to trigger re-render and hide logout reminder
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("isAdminLogin");
+    setIsAdminLoggedIn(false);
   };
 
   return (
     <div className="pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
       <Header />
 
-      {/* Logout Reminder Box */}
+      {/* Log-out warning */}
       {isAdminLoggedIn && (
         <div className="p-4 text-center text-white bg-red-600">
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
-              onClick={handleLogout} // Call handleLogout on click
+              onClick={handleLogout}
               className="underline cursor-pointer hover:text-gray-300"
             >
               log out

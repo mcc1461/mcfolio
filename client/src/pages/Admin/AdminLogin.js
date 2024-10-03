@@ -8,22 +8,25 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Start with password hidden (false)
+  const [showPassword, setShowPassword] = useState(false); // Maintain show/hide password logic
   const navigate = useNavigate();
 
+  // Handle login form submission
   const loginUser = async (e) => {
     e.preventDefault();
 
     try {
+      // Send login request to the server
       const response = await axios.post("https://musco.dev/api/admin-login", {
         email: admin.email,
         password: admin.password,
       });
 
-      // Save the token in localStorage
+      // Save both authToken and isAdminLogin flag in localStorage
       localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("isAdminLogin", "true");
 
-      // Navigate to the admin dashboard or other protected route
+      // Navigate to the admin dashboard or another protected route
       navigate("/admin-dashboard");
     } catch (error) {
       setError("Invalid credentials");
@@ -54,7 +57,7 @@ const Login = () => {
               name="email"
               type="email"
               placeholder="Enter your email"
-              autoComplete="email" // Added autoComplete for email
+              autoComplete="email"
               className="w-full p-2 border border-gray-300 rounded"
               value={admin.email}
               onChange={(e) => setAdmin({ ...admin, email: e.target.value })}
@@ -73,7 +76,7 @@ const Login = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                autoComplete="current-password" // Added autoComplete for password
+                autoComplete="current-password"
                 className="w-full p-2 border border-gray-300 rounded"
                 value={admin.password}
                 onChange={(e) =>
@@ -84,8 +87,7 @@ const Login = () => {
                 className="absolute text-gray-500 cursor-pointer right-2 top-2"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? "🙈" : "👁️"}{" "}
-                {/* Toggle between hide/show icon */}
+                {showPassword ? "🙈" : "👁️"} {/* Toggle show/hide password */}
               </span>
             </div>
           </div>
