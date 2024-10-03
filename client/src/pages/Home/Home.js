@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -7,9 +7,12 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import Sidebar from "./Sidebar";
+import VisitorCounter from "../../components/VisitorCounter"; // Re-add VisitorCounter
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -20,6 +23,22 @@ function Home() {
     }
   }, []);
 
+  // Calculate header height dynamically
+  const updateHeaderHeight = () => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  };
+
+  useEffect(() => {
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+    };
+  }, []);
+
+  // Handle logout logic
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -29,23 +48,25 @@ function Home() {
   return (
     <div className="relative bg-inherit">
       {/* Header */}
-      <Header />
+      <div ref={headerRef}>
+        <Header />
+      </div>
 
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
-        <div className="z-50 w-full px-4 py-2 text-white bg-red-600 fixed top-[92px]">
-          {/* Adjust `top-[72px]` to match your header height */}
-          <div className="flex justify-end">
-            <span className="text-sm md:text-base">
-              Admin!{" "}
-              <span
-                onClick={handleLogout}
-                className="font-bold underline cursor-pointer hover:text-gray-300"
-              >
-                LOG OUT
-              </span>
+        <div
+          className="fixed top-[92px] right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }} // Dynamically positioned based on header height
+        >
+          <span className="text-sm md:text-base">
+            Admin!{" "}
+            <span
+              onClick={handleLogout}
+              className="font-bold underline cursor-pointer hover:text-gray-300"
+            >
+              LOG OUT
             </span>
-          </div>
+          </span>
         </div>
       )}
 
@@ -60,6 +81,9 @@ function Home() {
         <Contact />
         <Sidebar />
       </div>
+
+      {/* Visitor Counter */}
+      <VisitorCounter />
 
       <Footer />
     </div>
