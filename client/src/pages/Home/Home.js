@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -10,18 +10,25 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null);
 
-  // Check if admin is still logged in
+  // Check if admin is logged in
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const isAdmin = localStorage.getItem("isAdminLogin");
-
     if (token && isAdmin === "true") {
       setIsAdminLoggedIn(true);
     }
   }, []);
 
-  // Handle logout logic
+  // Set header height dynamically
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  }, [headerRef]);
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -29,31 +36,40 @@ function Home() {
   };
 
   return (
-    <div className="pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
-      <Header />
+    <div className="relative bg-inherit">
+      {/* Header */}
+      <div ref={headerRef}>
+        <Header />
+      </div>
 
-      {/* Reminder Box */}
+      {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
-        <div className="z-40 text-center text-white bg-red-600 fix top-20 right-7 w-fit ">
-          <p className="font-bold">
-            You are still logged in as Admin! Please{" "}
+        <div
+          className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }}
+        >
+          <span>
+            Admin!{" "}
             <span
               onClick={handleLogout}
-              className="underline cursor-pointer hover:text-gray-300"
+              className="font-bold underline cursor-pointer hover:text-gray-300"
             >
-              log out
-            </span>{" "}
-            for security reasons.
-          </p>
+              LOG OUT
+            </span>
+          </span>
         </div>
       )}
 
-      <Intro />
-      <About />
-      <Experiences />
-      <Projects />
-      <Contact />
-      <Sidebar />
+      {/* Main Content */}
+      <div className="mt-4">
+        <Intro />
+        <About />
+        <Experiences />
+        <Projects />
+        <Contact />
+        <Sidebar />
+      </div>
+
       <Footer />
     </div>
   );
