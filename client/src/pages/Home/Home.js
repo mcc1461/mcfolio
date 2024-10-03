@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -13,8 +13,6 @@ function Home() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
 
-  console.log(headerRef);
-  console.log(headerHeight);
   // Check if admin is logged in
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -24,16 +22,14 @@ function Home() {
     }
   }, []);
 
-  // Set header height dynamically
-  const updateHeaderHeight = () => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  };
-  console.log(updateHeaderHeight);
+  // Use layout effect to ensure DOM is ready before calculating the height
+  useLayoutEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
 
-  // Calculate the header height after mounting and on window resize
-  useEffect(() => {
     updateHeaderHeight();
     window.addEventListener("resize", updateHeaderHeight);
 
@@ -59,7 +55,7 @@ function Home() {
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
+          className="fixed right-0 z-50 px-4 py-2 text-white bg-red-600"
           style={{ top: `${headerHeight}px` }}
         >
           <span>
