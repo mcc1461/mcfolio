@@ -10,7 +10,6 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null); // Ref to get the header height
 
   // Check if admin is still logged in
@@ -22,13 +21,6 @@ function Home() {
       setIsAdminLoggedIn(true);
     }
   }, []);
-
-  // Dynamically set header height on mount
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  }, [headerRef]);
 
   // Handle logout logic
   const handleLogout = () => {
@@ -47,8 +39,8 @@ function Home() {
       {/* Admin Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed left-0 right-0 z-50 p-4 text-center text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Dynamically position below the header
+          className="absolute left-0 right-0 z-50 p-4 text-center text-white bg-red-600"
+          style={{ top: `${headerRef.current?.offsetHeight || 0}px` }} // Position based on the header height
         >
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
@@ -65,8 +57,6 @@ function Home() {
 
       {/* Main Content */}
       <div className="mt-4">
-        {" "}
-        {/* Optional margin */}
         <Intro />
         <About />
         <Experiences />
