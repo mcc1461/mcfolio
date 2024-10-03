@@ -96,7 +96,7 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm(
-        "service_ldfrkag", // Ensure this is the correct service ID
+        "service_musco777", // Ensure this is the correct service ID
         "template_n19oxg6", // Ensure this is the correct template ID
         formRef.current,
         publicKey // Pass the public key as the user ID
@@ -113,7 +113,7 @@ const Contact = () => {
 
       // Send auto-reply
       await emailjs.send(
-        "service_ldfrkag", // Service ID
+        "service_musco777", // Service ID
         "template_skv7rk8", // Auto-reply template ID
         templateParams
       );
