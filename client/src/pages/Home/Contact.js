@@ -105,7 +105,7 @@ const Contact = () => {
         user_name: emailData.user_name,
         user_email: emailData.user_email,
         message: emailData.message, // Include the user's message here
-        reply_to: "info@musco.dev", // Your email to send reply from
+        reply_to: emailData.user_email, // Your email to send reply from
         contact_number: Math.floor(Math.random() * 10000), // Random number
       };
 
