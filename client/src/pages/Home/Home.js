@@ -50,7 +50,7 @@ function Home() {
       {/* Admin Warning (Sticky Bar) */}
       {isAdminLoggedIn && (
         <div
-          className="fixed left-0 right-0 z-50 py-4 text-center text-white bg-red-600"
+          className="fixed left-0 right-0 z-50 py-4 text-center text-white bg-red-600 top-72"
           style={{ top: `${headerHeight}px` }} // Position just beneath the header
         >
           <p className="font-bold">
