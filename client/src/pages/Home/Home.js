@@ -22,30 +22,27 @@ function Home() {
     }
   }, []);
 
-  // Set header height dynamically using getBoundingClientRect()
-  const updateHeaderHeight = () => {
-    if (headerRef.current) {
-      const headerRect = headerRef.current.getBoundingClientRect();
-      const height = headerRect.height || 0; // More reliable than clientHeight or offsetHeight
-      console.log("Header Height Calculated: ", height); // Debugging log
-      setHeaderHeight(height);
-    }
-  };
-
-  // Calculate the header height after mounting and on window resize
+  // Use ResizeObserver to dynamically track header height changes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      updateHeaderHeight();
-    }, 200); // Ensure that header is fully rendered before calculating height
+    const resizeObserver = new ResizeObserver(() => {
+      if (headerRef.current) {
+        const headerHeight = headerRef.current.getBoundingClientRect().height;
+        console.log("Header Height Calculated: ", headerHeight);
+        setHeaderHeight(headerHeight);
+      }
+    });
 
-    window.addEventListener("resize", updateHeaderHeight);
+    if (headerRef.current) {
+      resizeObserver.observe(headerRef.current);
+    }
 
-    // Cleanup event listener on component unmount
+    // Cleanup observer on component unmount
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener("resize", updateHeaderHeight);
+      if (headerRef.current) {
+        resizeObserver.unobserve(headerRef.current);
+      }
     };
-  }, []);
+  }, [headerRef]);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -63,8 +60,8 @@ function Home() {
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }}
+          className="fixed right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }} // Set the top dynamically based on the header height
         >
           <span>
             Admin!{" "}
