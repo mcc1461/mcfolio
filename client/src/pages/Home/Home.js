@@ -29,6 +29,8 @@ function Home() {
     }
   }, [headerRef]);
 
+  console.log(headerHeight);
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
