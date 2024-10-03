@@ -23,13 +23,23 @@ function Home() {
   }, []);
 
   // Set header height dynamically
-  useEffect(() => {
+  const updateHeaderHeight = () => {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
     }
-  }, [headerRef]);
+  };
+  console.log(updateHeaderHeight);
 
-  console.log(headerHeight);
+  // Calculate the header height after mounting and on window resize
+  useEffect(() => {
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -47,7 +57,7 @@ function Home() {
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed z-50 px-4 py-2 text-white bg-red-600 top-10 right-10"
+          className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
           style={{ top: `${headerHeight}px` }}
         >
           <span>
