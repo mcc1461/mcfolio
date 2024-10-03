@@ -7,7 +7,7 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import Sidebar from "./Sidebar";
-import VisitorCounter from "../../components/VisitorCounter"; // Re-add VisitorCounter
+import VisitorCounter from "../../components/VisitorCounter"; // Retain VisitorCounter component
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
@@ -23,22 +23,13 @@ function Home() {
     }
   }, []);
 
-  // Calculate header height dynamically
-  const updateHeaderHeight = () => {
+  // Dynamically set header height
+  useEffect(() => {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
     }
-  };
-
-  useEffect(() => {
-    updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-    return () => {
-      window.removeEventListener("resize", updateHeaderHeight);
-    };
   }, []);
 
-  // Handle logout logic
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -51,12 +42,11 @@ function Home() {
       <div ref={headerRef}>
         <Header />
       </div>
-
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed top-[10%] right-5 z-50 px-4 py-2 text-white bg-red-600 rounded-lg shadow-lg cursor-pointer w-[200px] text-center"
-          style={{ top: `${headerHeight}px` }} // Dynamically positioned based on header height
+          className="fixed top-[72px] right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }}
         >
           <span className="text-sm md:text-base">
             Admin!{" "}
@@ -69,11 +59,8 @@ function Home() {
           </span>
         </div>
       )}
-
       {/* Main Content */}
       <div className="pt-[72px]">
-        {" "}
-        {/* Add padding top equal to the header height */}
         <Intro />
         <About />
         <Experiences />
@@ -81,10 +68,8 @@ function Home() {
         <Contact />
         <Sidebar />
       </div>
-
       {/* Visitor Counter */}
-      <VisitorCounter />
-
+      <VisitorCounter /> {/* Restored visitor counter */}
       <Footer />
     </div>
   );
