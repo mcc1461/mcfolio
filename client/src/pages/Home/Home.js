@@ -13,6 +13,9 @@ function Home() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
 
+  console.log("Header Ref: ", headerRef);
+  console.log("Header Height (before calculation): ", headerHeight);
+
   // Check if admin is logged in
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -22,27 +25,29 @@ function Home() {
     }
   }, []);
 
-  // Use ResizeObserver to dynamically track header height changes
+  // Add a slight delay to calculate header height after it's rendered
   useEffect(() => {
-    const resizeObserver = new ResizeObserver(() => {
+    const calculateHeaderHeight = () => {
       if (headerRef.current) {
-        const headerHeight = headerRef.current.getBoundingClientRect().height;
-        console.log("Header Height Calculated: ", headerHeight);
-        setHeaderHeight(headerHeight);
-      }
-    });
-
-    if (headerRef.current) {
-      resizeObserver.observe(headerRef.current);
-    }
-
-    // Cleanup observer on component unmount
-    return () => {
-      if (headerRef.current) {
-        resizeObserver.unobserve(headerRef.current);
+        const calculatedHeight =
+          headerRef.current.getBoundingClientRect().height;
+        console.log("Header Height Calculated: ", calculatedHeight);
+        setHeaderHeight(calculatedHeight);
       }
     };
-  }, [headerRef]);
+
+    // Delay height calculation to ensure header is fully rendered
+    setTimeout(() => {
+      calculateHeaderHeight();
+    }, 100);
+
+    // Add event listener to handle window resize
+    window.addEventListener("resize", calculateHeaderHeight);
+
+    return () => {
+      window.removeEventListener("resize", calculateHeaderHeight);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -61,7 +66,7 @@ function Home() {
       {isAdminLoggedIn && (
         <div
           className="fixed right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Set the top dynamically based on the header height
+          style={{ top: `${headerHeight}px` }}
         >
           <span>
             Admin!{" "}
