@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -10,7 +10,6 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const headerRef = useRef(null);
 
   // Check if admin is still logged in
   useEffect(() => {
@@ -32,16 +31,11 @@ function Home() {
   return (
     <div className="relative bg-inherit">
       {/* Header */}
-      <div ref={headerRef}>
-        <Header />
-      </div>
+      <Header />
 
-      {/* Admin Warning */}
-      {isAdminLoggedIn && (
-        <div
-          className="fixed top-0 left-0 right-0 z-50 w-full p-4 text-center text-white bg-red-600"
-          style={{ marginTop: `${headerRef.current?.offsetHeight}px` }}
-        >
+      {/* Notification Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 p-4 text-center text-white bg-blue-600">
+        {isAdminLoggedIn ? (
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
@@ -52,15 +46,15 @@ function Home() {
             </span>{" "}
             for security reasons.
           </p>
-        </div>
-      )}
+        ) : (
+          <p className="font-bold">Welcome to the Website!</p>
+        )}
+      </div>
 
       {/* Main Content */}
-      <div
-        className={`mt-${
-          isAdminLoggedIn ? "24" : "0"
-        }`} /* Push content down when the warning is visible */
-      >
+      <div className="mt-16">
+        {" "}
+        {/* This adds enough space below the fixed bar */}
         <Intro />
         <About />
         <Experiences />
