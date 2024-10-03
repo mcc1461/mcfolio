@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -10,8 +10,6 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const headerRef = useRef(null);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -20,23 +18,6 @@ function Home() {
     if (token && isAdmin === "true") {
       setIsAdminLoggedIn(true);
     }
-  }, []);
-
-  // Use layout effect to ensure DOM is ready before calculating the height
-  useLayoutEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
-    };
-
-    updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", updateHeaderHeight);
-    };
   }, []);
 
   const handleLogout = () => {
@@ -48,30 +29,30 @@ function Home() {
   return (
     <div className="relative bg-inherit">
       {/* Header */}
-      <div ref={headerRef}>
-        <Header />
-      </div>
+      <Header />
 
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
-        <div
-          className="fixed right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }}
-        >
-          <span>
-            Admin!{" "}
-            <span
-              onClick={handleLogout}
-              className="font-bold underline cursor-pointer hover:text-gray-300"
-            >
-              LOG OUT
+        <div className="z-50 w-full px-4 py-2 text-white bg-red-600 fixed top-[72px]">
+          {/* Adjust `top-[72px]` to match your header height */}
+          <div className="flex justify-end">
+            <span className="text-sm md:text-base">
+              Admin!{" "}
+              <span
+                onClick={handleLogout}
+                className="font-bold underline cursor-pointer hover:text-gray-300"
+              >
+                LOG OUT
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       )}
 
       {/* Main Content */}
-      <div className="mt-4">
+      <div className="pt-[72px]">
+        {" "}
+        {/* Add padding top equal to the header height */}
         <Intro />
         <About />
         <Experiences />
