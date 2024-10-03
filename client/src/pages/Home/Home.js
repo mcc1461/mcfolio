@@ -22,9 +22,9 @@ function Home() {
     }
   }, []);
 
-  // Set header height with delay to ensure the DOM is rendered
+  // Use ResizeObserver to dynamically update the header height
   useEffect(() => {
-    const calculateHeaderHeight = () => {
+    const updateHeaderHeight = () => {
       if (headerRef.current) {
         const height = headerRef.current.offsetHeight;
         console.log("Header Height Calculated: ", height); // Debugging line
@@ -32,10 +32,21 @@ function Home() {
       }
     };
 
-    // Delay header height calculation until after rendering
-    setTimeout(() => {
-      requestAnimationFrame(calculateHeaderHeight);
-    }, 100); // Delay to ensure DOM is fully loaded
+    // Use ResizeObserver to track changes in the header size
+    const observer = new ResizeObserver(() => {
+      updateHeaderHeight();
+    });
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current); // Observe the header element
+    }
+
+    // Clean up the observer on component unmount
+    return () => {
+      if (headerRef.current) {
+        observer.unobserve(headerRef.current);
+      }
+    };
   }, []);
 
   const handleLogout = () => {
