@@ -33,7 +33,7 @@ function Home() {
 
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
-        <div className="z-50 w-full px-4 py-2 text-white bg-red-600 fixed top-[72px]">
+        <div className="z-50 w-full px-4 py-2 text-white bg-red-600 fixed top-[92px]">
           {/* Adjust `top-[72px]` to match your header height */}
           <div className="flex justify-end">
             <span className="text-sm md:text-base">
