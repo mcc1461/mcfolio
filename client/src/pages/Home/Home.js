@@ -34,7 +34,7 @@ function Home() {
 
       {/* Reminder Box */}
       {isAdminLoggedIn && (
-        <div className="p-4 text-center text-white bg-red-600">
+        <div className="text-center text-white bg-red-600 pt-44">
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
