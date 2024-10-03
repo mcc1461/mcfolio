@@ -54,10 +54,7 @@ function Home() {
 
       {/* Admin Warning */}
       {isAdminLoggedIn && (
-        <div
-          className="fixed left-0 right-0 z-50 p-4 text-center text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Dynamically position below the header
-        >
+        <div className="w-full p-4 text-center text-white bg-red-600">
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
@@ -73,7 +70,9 @@ function Home() {
 
       {/* Main Content */}
       <div
-        style={{ marginTop: `${headerHeight + (isAdminLoggedIn ? 56 : 0)}px` }}
+        style={{
+          marginTop: isAdminLoggedIn ? `${headerHeight}px` : "0px",
+        }}
       >
         <Intro />
         <About />
