@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
-// import Notification from "../../components/Notification";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
 import About from "./About";
@@ -24,7 +23,7 @@ function Home() {
     }
   }, []);
 
-  // Dynamically set header height on mount
+  // Get header height dynamically and set it for spacing
   useEffect(() => {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
@@ -39,29 +38,45 @@ function Home() {
   };
 
   return (
-    <div className="relative bg-inherit">
+    <div className="min-h-screen">
       {/* Header */}
       <div ref={headerRef}>
         <Header />
       </div>
-      {/* <div>
-        <Notification
-          isAdminLoggedIn={isAdminLoggedIn}
-          handleLogout={handleLogout}
-        />
-      </div> */}
+
+      {/* Spacer for the height of the header */}
+      <div style={{ height: `${headerHeight}px` }} />
+
+      {/* Admin Warning (Sticky Bar) */}
+      {isAdminLoggedIn && (
+        <div
+          className="fixed left-0 right-0 z-50 py-4 text-center text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }} // Position just beneath the header
+        >
+          <p className="font-bold">
+            You are still logged in as Admin! Please{" "}
+            <span
+              onClick={handleLogout}
+              className="underline cursor-pointer hover:text-gray-300"
+            >
+              log out
+            </span>{" "}
+            for security reasons.
+          </p>
+        </div>
+      )}
+
       {/* Main Content */}
-      <div style={{ marginTop: `${headerHeight + 64}px` }}>
-        {" "}
-        {/* Adjust margin based on header and notification bar */}
+      <div className="mt-4">
         <Intro />
         <About />
         <Experiences />
         <Projects />
         <Contact />
         <Sidebar />
-        <Footer />
       </div>
+
+      <Footer />
     </div>
   );
 }
