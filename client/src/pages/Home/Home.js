@@ -10,8 +10,8 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -22,34 +22,24 @@ function Home() {
     }
   }, []);
 
-  // Set header height dynamically
-  const calculateHeaderHeight = () => {
-    if (headerRef.current) {
-      const calculatedHeight = headerRef.current.getBoundingClientRect().height;
-      console.log("Header Height Calculated: ", calculatedHeight);
-      setHeaderHeight(calculatedHeight);
-    }
-  };
-
-  // Trigger height calculation after rendering
+  // Dynamically set header height to avoid the warning covering the header
   useEffect(() => {
     if (headerRef.current) {
-      // Using setTimeout to ensure it calculates after everything is rendered
-      setTimeout(() => {
-        calculateHeaderHeight();
-      }, 0);
+      setHeaderHeight(headerRef.current.offsetHeight);
     }
-  }, []);
 
-  // Another fallback: use a window resize event listener to recalculate the height
-  useEffect(() => {
-    const onResize = () => calculateHeaderHeight();
-    window.addEventListener("resize", onResize);
+    const handleResize = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [headerRef]);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -67,8 +57,10 @@ function Home() {
       {/* Admin Logout Warning */}
       {isAdminLoggedIn && (
         <div
-          className="fixed right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Position it below the header
+          className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{
+            top: `${headerHeight}px`, // Dynamically adjust position based on header height
+          }}
         >
           <span>
             Admin!{" "}
