@@ -29,10 +29,10 @@ function Home() {
   };
 
   return (
-    <div className="relative pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
+    <div className="relative bg-inherit">
       {/* Reminder Box */}
       {isAdminLoggedIn && (
-        <div className="fixed top-0 left-0 right-0 z-50 p-4 text-center text-white bg-red-600">
+        <div className="absolute top-0 left-0 right-0 z-50 p-4 text-center text-white bg-red-600">
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
@@ -46,11 +46,9 @@ function Home() {
         </div>
       )}
 
-      <Header />
-
-      <div className="mt-16">
-        {" "}
-        {/* Add margin to offset the warning */}
+      {/* Adding top padding/margin to make sure the content below isn't hidden by the warning */}
+      <div className={isAdminLoggedIn ? "pt-16" : ""}>
+        <Header />
         <Intro />
         <About />
         <Experiences />
