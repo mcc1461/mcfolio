@@ -34,25 +34,23 @@ function Home() {
     }
   };
 
-  // Use MutationObserver to detect changes in the header's layout
+  // Use ResizeObserver to dynamically observe height changes
   useEffect(() => {
     if (headerRef.current) {
-      calculateHeaderHeight(); // Initial calculation after mount
+      calculateHeaderHeight(); // Initial calculation
 
-      const observer = new MutationObserver(() => {
+      const resizeObserver = new ResizeObserver(() => {
         calculateHeaderHeight();
       });
 
-      observer.observe(headerRef.current, { childList: true, subtree: true });
+      resizeObserver.observe(headerRef.current);
 
-      // Cleanup observer when the component unmounts
       return () => {
-        observer.disconnect();
+        resizeObserver.disconnect();
       };
     }
   }, []);
 
-  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
