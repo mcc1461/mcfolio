@@ -49,7 +49,7 @@ function Home() {
         {isAdminLoggedIn && (
           <div
             className="sticky p-4 text-center text-white bg-red-600"
-            style={{ top: `${headerHeight}px` }} // Dynamically position below header
+            style={{ top: `(${headerHeight}+100)px` }} // Dynamically position below header
           >
             <p className="font-bold">
               You are still logged in as Admin! Please{" "}
