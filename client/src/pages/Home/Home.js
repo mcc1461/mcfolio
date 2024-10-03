@@ -10,7 +10,6 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
 
   // Check if admin is still logged in
@@ -22,13 +21,6 @@ function Home() {
       setIsAdminLoggedIn(true);
     }
   }, []);
-
-  // Dynamically set header height on mount
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  }, [headerRef]);
 
   // Handle logout logic
   const handleLogout = () => {
@@ -45,13 +37,11 @@ function Home() {
       </div>
 
       {/* Admin Warning */}
-      <div
-        className={`transition-all duration-300 ease-in-out ${
-          isAdminLoggedIn ? "block" : "hidden"
-        } w-full bg-red-600 text-center text-white p-4`}
-        style={{ minHeight: "60px" }} // Set minimum height for consistency
-      >
-        {isAdminLoggedIn && (
+      {isAdminLoggedIn && (
+        <div
+          className="fixed top-0 left-0 right-0 z-50 w-full p-4 text-center text-white bg-red-600"
+          style={{ marginTop: `${headerRef.current?.offsetHeight}px` }}
+        >
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
             <span
@@ -62,15 +52,14 @@ function Home() {
             </span>{" "}
             for security reasons.
           </p>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div
-        className="mt-4"
-        style={{
-          marginTop: isAdminLoggedIn ? "60px" : "0px", // Adjust margin-top to reserve space for the admin warning
-        }}
+        className={`mt-${
+          isAdminLoggedIn ? "24" : "0"
+        }`} /* Push content down when the warning is visible */
       >
         <Intro />
         <About />
