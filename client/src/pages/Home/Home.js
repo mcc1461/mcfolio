@@ -11,16 +11,17 @@ import Sidebar from "./Sidebar";
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  // Check if authToken and isAdminLogin are present in localStorage
+  // Check if admin is still logged in
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    const adminStatus = localStorage.getItem("isAdminLogin");
+    const isAdmin = localStorage.getItem("isAdminLogin");
 
-    if (token && adminStatus === "true") {
+    if (token && isAdmin === "true") {
       setIsAdminLoggedIn(true);
     }
   }, []);
 
+  // Handle logout logic
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -31,7 +32,7 @@ function Home() {
     <div className="pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
       <Header />
 
-      {/* Log-out warning */}
+      {/* Reminder Box */}
       {isAdminLoggedIn && (
         <div className="p-4 text-center text-white bg-red-600">
           <p className="font-bold">
