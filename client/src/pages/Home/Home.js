@@ -10,8 +10,8 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null); // Ref to get the header height
+  const [headerHeight, setHeaderHeight] = useState(0); // State to store header height
 
   // Check if admin is still logged in
   useEffect(() => {
@@ -23,7 +23,7 @@ function Home() {
     }
   }, []);
 
-  // Get header height dynamically and set it for spacing
+  // Dynamically calculate and store the height of the header
   useEffect(() => {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
@@ -38,36 +38,31 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="relative bg-inherit">
       {/* Header */}
       <div ref={headerRef}>
         <Header />
       </div>
 
-      {/* Spacer for the height of the header */}
-      <div style={{ height: `${headerHeight}px` }} />
-
-      {/* Admin Warning (Sticky Bar) */}
-      {isAdminLoggedIn && (
-        <div
-          className="fixed left-0 right-0 z-50 py-4 text-center text-white bg-red-600 top-72"
-          style={{ top: `${headerHeight}px` }} // Position just beneath the header
-        >
-          <p className="font-bold">
-            You are still logged in as Admin! Please{" "}
-            <span
-              onClick={handleLogout}
-              className="underline cursor-pointer hover:text-gray-300"
-            >
-              log out
-            </span>{" "}
-            for security reasons.
-          </p>
-        </div>
-      )}
-
       {/* Main Content */}
       <div className="mt-4">
+        {isAdminLoggedIn && (
+          <div
+            className="sticky p-4 text-center text-white bg-red-600"
+            style={{ top: `${headerHeight}px` }} // Dynamically position below header
+          >
+            <p className="font-bold">
+              You are still logged in as Admin! Please{" "}
+              <span
+                onClick={handleLogout}
+                className="underline cursor-pointer hover:text-gray-300"
+              >
+                log out
+              </span>{" "}
+              for security reasons.
+            </p>
+          </div>
+        )}
         <Intro />
         <About />
         <Experiences />
