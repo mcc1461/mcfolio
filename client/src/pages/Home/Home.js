@@ -10,8 +10,8 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const headerRef = useRef(null); // Ref to get the header height
-  const [headerHeight, setHeaderHeight] = useState(0); // State to store header height
+  const [headerHeight, setHeaderHeight] = useState(0); // Store header height
+  const headerRef = useRef(null);
 
   // Check if admin is still logged in
   useEffect(() => {
@@ -23,14 +23,13 @@ function Home() {
     }
   }, []);
 
-  // Dynamically calculate and store the height of the header
+  // Dynamically calculate the header height
   useEffect(() => {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
     }
   }, [headerRef]);
 
-  // Handle logout logic
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -44,25 +43,27 @@ function Home() {
         <Header />
       </div>
 
+      {/* Admin Warning */}
+      {isAdminLoggedIn && (
+        <div
+          className="p-4 text-center text-white bg-red-600"
+          style={{ marginTop: `${headerHeight}px` }} // Position beneath header
+        >
+          <p className="font-bold">
+            You are still logged in as Admin! Please{" "}
+            <span
+              onClick={handleLogout}
+              className="underline cursor-pointer hover:text-gray-300"
+            >
+              log out
+            </span>{" "}
+            for security reasons.
+          </p>
+        </div>
+      )}
+
       {/* Main Content */}
       <div className="mt-4">
-        {isAdminLoggedIn && (
-          <div
-            className="sticky p-4 text-center text-white bg-red-600"
-            style={{ top: `(${headerHeight}+700)px` }} // Dynamically position below header
-          >
-            <p className="font-bold">
-              You are still logged in as Admin! Please{" "}
-              <span
-                onClick={handleLogout}
-                className="underline cursor-pointer hover:text-gray-300"
-              >
-                log out
-              </span>{" "}
-              for security reasons.
-            </p>
-          </div>
-        )}
         <Intro />
         <About />
         <Experiences />
