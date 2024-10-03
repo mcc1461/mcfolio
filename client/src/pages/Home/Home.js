@@ -25,30 +25,34 @@ function Home() {
     }
   }, []);
 
-  // Add a slight delay to calculate header height after it's rendered
+  // Function to calculate the header height
+  const calculateHeaderHeight = () => {
+    if (headerRef.current) {
+      const calculatedHeight = headerRef.current.getBoundingClientRect().height;
+      console.log("Header Height Calculated: ", calculatedHeight);
+      setHeaderHeight(calculatedHeight);
+    }
+  };
+
+  // Use MutationObserver to detect changes in the header's layout
   useEffect(() => {
-    const calculateHeaderHeight = () => {
-      if (headerRef.current) {
-        const calculatedHeight =
-          headerRef.current.getBoundingClientRect().height;
-        console.log("Header Height Calculated: ", calculatedHeight);
-        setHeaderHeight(calculatedHeight);
-      }
-    };
+    if (headerRef.current) {
+      calculateHeaderHeight(); // Initial calculation after mount
 
-    // Delay height calculation to ensure header is fully rendered
-    setTimeout(() => {
-      calculateHeaderHeight();
-    }, 100);
+      const observer = new MutationObserver(() => {
+        calculateHeaderHeight();
+      });
 
-    // Add event listener to handle window resize
-    window.addEventListener("resize", calculateHeaderHeight);
+      observer.observe(headerRef.current, { childList: true, subtree: true });
 
-    return () => {
-      window.removeEventListener("resize", calculateHeaderHeight);
-    };
+      // Cleanup observer when the component unmounts
+      return () => {
+        observer.disconnect();
+      };
+    }
   }, []);
 
+  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
