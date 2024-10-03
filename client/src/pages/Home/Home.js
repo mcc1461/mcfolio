@@ -22,22 +22,20 @@ function Home() {
     }
   }, []);
 
-  // Function to update the header height dynamically using ResizeObserver
+  // Set header height with delay to ensure the DOM is rendered
   useEffect(() => {
-    const headerElement = headerRef.current;
-    if (headerElement) {
-      const resizeObserver = new ResizeObserver((entries) => {
-        for (let entry of entries) {
-          setHeaderHeight(entry.contentRect.height);
-        }
-      });
-      resizeObserver.observe(headerElement);
+    const calculateHeaderHeight = () => {
+      if (headerRef.current) {
+        const height = headerRef.current.offsetHeight;
+        console.log("Header Height Calculated: ", height); // Debugging line
+        setHeaderHeight(height);
+      }
+    };
 
-      // Clean up the observer on unmount
-      return () => {
-        if (headerElement) resizeObserver.unobserve(headerElement);
-      };
-    }
+    // Delay header height calculation until after rendering
+    setTimeout(() => {
+      requestAnimationFrame(calculateHeaderHeight);
+    }, 100); // Delay to ensure DOM is fully loaded
   }, []);
 
   const handleLogout = () => {
