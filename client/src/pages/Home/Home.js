@@ -22,30 +22,27 @@ function Home() {
     }
   }, []);
 
-  // Use ResizeObserver to dynamically update the header height
+  // Set header height dynamically with delay to ensure Header is rendered
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
-        const height = headerRef.current.offsetHeight;
-        console.log("Header Height Calculated: ", height); // Debugging line
+        const height =
+          headerRef.current.clientHeight || headerRef.current.offsetHeight;
+        console.log("Header Height Calculated: ", height); // Debugging log
         setHeaderHeight(height);
       }
     };
 
-    // Use ResizeObserver to track changes in the header size
-    const observer = new ResizeObserver(() => {
+    const timer = setTimeout(() => {
       updateHeaderHeight();
-    });
+    }, 100); // Delay the calculation slightly to ensure Header is rendered
 
-    if (headerRef.current) {
-      observer.observe(headerRef.current); // Observe the header element
-    }
+    window.addEventListener("resize", updateHeaderHeight);
 
-    // Clean up the observer on component unmount
+    // Cleanup event listener and timeout on component unmount
     return () => {
-      if (headerRef.current) {
-        observer.unobserve(headerRef.current);
-      }
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateHeaderHeight);
     };
   }, []);
 
@@ -66,7 +63,7 @@ function Home() {
       {isAdminLoggedIn && (
         <div
           className="fixed top-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Dynamically positioned beneath the header
+          style={{ top: `${headerHeight}px` }} // Position the logout warning right below the header
         >
           <span>
             Admin!{" "}
