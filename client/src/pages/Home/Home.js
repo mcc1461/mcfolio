@@ -10,8 +10,8 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -22,22 +22,27 @@ function Home() {
     }
   }, []);
 
-  // Dynamically set header height to avoid the warning covering the header
+  // Dynamically set header height after rendering
   useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-
-    const handleResize = () => {
+    const calculateHeaderHeight = () => {
       if (headerRef.current) {
         setHeaderHeight(headerRef.current.offsetHeight);
+        console.log(
+          "Header Height Calculated: ",
+          headerRef.current.offsetHeight
+        );
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    // Delay the height calculation to ensure the header has rendered
+    setTimeout(() => {
+      calculateHeaderHeight();
+    }, 500); // Adding a 500ms delay to ensure header renders before measurement
+
+    window.addEventListener("resize", calculateHeaderHeight);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", calculateHeaderHeight);
     };
   }, [headerRef]);
 
