@@ -15,13 +15,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/admin-login",
-        {
-          email: admin.email,
-          password: admin.password,
-        }
-      );
+      const response = await axios.post("https://musco.dev/api/admin-login", {
+        email: admin.email,
+        password: admin.password,
+      });
 
       // Save the token in localStorage
       localStorage.setItem("authToken", response.data.token);

@@ -63,8 +63,8 @@ const AdminExperience = () => {
       const token = localStorage.getItem("authToken");
 
       const url = selectedExperience
-        ? `http://127.0.0.1:8000/api/experiences/${selectedExperience._id}`
-        : "http://127.0.0.1:8000/api/experiences";
+        ? `https://musco.dev/api/experiences/${selectedExperience._id}`
+        : "https://musco.dev/api/experiences";
 
       const method = selectedExperience ? "put" : "post";
 
@@ -128,7 +128,7 @@ const AdminExperience = () => {
 
       const token = localStorage.getItem("authToken");
       const response = await axios.delete(
-        `http://127.0.0.1:8000/api/experiences/${experienceToDelete._id}`,
+        `https://musco.dev/api/experiences/${experienceToDelete._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

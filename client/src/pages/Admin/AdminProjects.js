@@ -53,7 +53,7 @@ const AdminProject = () => {
       dispatch(showLoader(true));
       const token = localStorage.getItem("authToken");
       const response = await axios.delete(
-        `http://127.0.0.1:8000/api/projects/${selectedProject._id}`,
+        `https://musco.dev/api/projects/${selectedProject._id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -83,8 +83,8 @@ const AdminProject = () => {
       const token = localStorage.getItem("authToken");
 
       const url = selectedProject
-        ? `http://127.0.0.1:8000/api/projects/${selectedProject._id}`
-        : "http://127.0.0.1:8000/api/projects";
+        ? `https://musco.dev/api/projects/${selectedProject._id}`
+        : "https://musco.dev/api/projects";
       const method = selectedProject ? "put" : "post";
 
       const response = await axios({

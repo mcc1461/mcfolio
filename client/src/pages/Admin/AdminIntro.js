@@ -49,7 +49,7 @@ const AdminIntro = () => {
       }
 
       const response = await axios.put(
-        "http://127.0.0.1:8000/api/intro",
+        "https://musco.dev/api/intro",
         {
           ...formData,
           _id: portfolioData.intros[0]._id, // Ensure to send the ID of the intro
