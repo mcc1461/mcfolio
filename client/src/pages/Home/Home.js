@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -10,6 +10,8 @@ import Sidebar from "./Sidebar";
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null); // Ref to get the header height
 
   // Check if admin is still logged in
   useEffect(() => {
@@ -21,6 +23,13 @@ function Home() {
     }
   }, []);
 
+  // Dynamically set header height on mount
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  }, [headerRef]);
+
   // Handle logout logic
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -31,10 +40,15 @@ function Home() {
   return (
     <div className="relative bg-inherit">
       {/* Header */}
-      <Header />
+      <div ref={headerRef}>
+        <Header />
+      </div>
 
       {/* Notification Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 p-4 text-center text-white bg-blue-600">
+      <div
+        className="fixed left-0 right-0 z-50 p-4 text-center text-white bg-blue-600"
+        style={{ top: `${headerHeight}px` }} // Dynamically position below the header
+      >
         {isAdminLoggedIn ? (
           <p className="font-bold">
             You are still logged in as Admin! Please{" "}
@@ -52,9 +66,9 @@ function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="mt-16">
+      <div style={{ marginTop: `${headerHeight + 64}px` }}>
         {" "}
-        {/* This adds enough space below the fixed bar */}
+        {/* Adjust margin based on header and notification bar */}
         <Intro />
         <About />
         <Experiences />
