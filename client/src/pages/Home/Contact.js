@@ -98,14 +98,15 @@ const Contact = () => {
       await emailjs.sendForm(
         "service_musco", // Ensure this is the correct service ID
         "template_n19oxg6", // Ensure this is the correct template ID
-        formRef.current
+        formRef.current,
+        publicKey // Pass the public key as the user ID
       );
 
       const templateParams = {
         user_name: emailData.user_name,
         user_email: emailData.user_email,
         message: emailData.message, // Include the user's message here
-        reply_to: "info@musco.dev", // Your email to send reply from
+        reply_to: emailData.user_email, // Set reply-to as the user's email
         contact_number: Math.floor(Math.random() * 10000), // Random number
       };
 
