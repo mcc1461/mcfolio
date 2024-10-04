@@ -1,8 +1,10 @@
-// server.js
-
 // Import required modules
 const dotenv = require("dotenv"); // Import dotenv
 const path = require("path"); // Import path module
+const express = require("express");
+const cors = require("cors");
+const createError = require("http-errors"); // To handle 404 errors
+const dbConnection = require("./config/dbConnection"); // Ensure database connection function is imported
 
 // Determine the environment and load the corresponding .env file
 const envFile =
@@ -12,15 +14,6 @@ const envFile =
 
 // Configure dotenv to load environment variables from the specified file
 dotenv.config({ path: path.resolve(__dirname, envFile) });
-
-// Continue with other imports
-const express = require("express");
-const cors = require("cors");
-const dbConnection = require("./config/dbConnection");
-const portfolioRoutes = require("./routes/portfolioRoutes");
-const authRoutes = require("./routes/authRoutes"); // If applicable
-const visitorRoutes = require("./routes/visitorRoutes");
-const createError = require("http-errors"); // To handle 404 errors
 
 // Initialize Express app
 const app = express();
@@ -38,26 +31,30 @@ const allowedOrigins = [
 console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
 
 // Database connection
-dbConnection();
+dbConnection(); // Make sure database connection is established
 
 // Middleware setup
 app.use(
   cors({
     origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // If you need to send cookies or auth headers
+    credentials: true, // Allows cookies and authentication headers
   })
 );
 
-app.use(express.json());
+app.use(express.json()); // Parse JSON request bodies
 app.use(express.static("public")); // Serve static files
 
-// Define routes
+// Import and use your route files
+const portfolioRoutes = require("./routes/portfolioRoutes");
+const authRoutes = require("./routes/authRoutes"); // If applicable
+const visitorRoutes = require("./routes/visitorRoutes");
+
 app.use("/api", portfolioRoutes);
-app.use("/api", authRoutes); // If applicable
+app.use("/api", authRoutes); // Add authentication routes if applicable
 app.use("/api", visitorRoutes);
 
-// Default route
+// Default root route
 app.get("/", (req, res) => {
   res.send("Hello World from MusCo Portfolio API");
 });
@@ -69,7 +66,7 @@ app.use((req, res, next) => {
 
 // Global error handling middleware
 app.use((err, req, res, next) => {
-  // Log the error for debugging
+  // Log the error for debugging purposes
   console.error(err.stack);
 
   // Customize the error response
@@ -79,7 +76,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+// Start the server
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
 });
