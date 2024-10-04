@@ -70,7 +70,7 @@ router.post("/admin-register", async (req, res) => {
 // Protected Admin Route
 router.get("/admin-dashboard", authMiddleware, (req, res) => {
   // Only accessible if the token is valid
-  res.status(200).send("Welcome to the Admin Dashboard");
+  return res.status(200).json({ message: "Welcome to the Admin Dashboard" });
 });
 
 module.exports = router;

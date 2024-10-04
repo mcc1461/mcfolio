@@ -25,8 +25,20 @@ const authMiddleware = (req, res, next) => {
   try {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach decoded token data to req.user
-    next(); // Call the next middleware or route handler
+
+    // Check if the user is an admin
+    if (!decoded.isAdmin) {
+      return res.status(403).json({
+        message:
+          "Access denied. You do not have the required privileges to access this page.",
+      });
+    }
+
+    // Attach the decoded user data to req object
+    req.user = decoded;
+
+    // Proceed to the next middleware or route handler
+    next();
   } catch (error) {
     // Handle invalid token
     return res.status(403).json({
