@@ -16,11 +16,22 @@ function Home() {
 
   // Check if admin is logged in
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    const isAdmin = localStorage.getItem("isAdminLogin");
-    if (token && isAdmin === "true") {
-      setIsAdminLoggedIn(true);
-    }
+    const checkAdminLogin = () => {
+      const token = localStorage.getItem("authToken");
+      const isAdmin = localStorage.getItem("isAdminLogin");
+      setIsAdminLoggedIn(token && isAdmin === "true");
+    };
+
+    // Initial check on component mount
+    checkAdminLogin();
+
+    // Listen for changes to localStorage (e.g., logout from the dashboard)
+    window.addEventListener("storage", checkAdminLogin);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("storage", checkAdminLogin);
+    };
   }, []);
 
   // Handle logout logic
@@ -58,7 +69,6 @@ function Home() {
       {isAdminLoggedIn && (
         <div className="fixed z-50 flex flex-col items-end gap-3 bottom-5 right-5">
           {/* Admin Dashboard Button */}
-
           <button
             onClick={handleAdminDashboard}
             className="flex items-center justify-center px-4 py-2 text-white bg-blue-500 rounded-lg shadow-lg hover:bg-blue-600"
