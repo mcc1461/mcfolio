@@ -7,7 +7,7 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import Sidebar from "./Sidebar";
-import VisitorCounter from "../../components/VisitorCounter"; // Assuming this exists as per previous discussions
+import VisitorCounter from "../../components/VisitorCounter"; // Assuming this exists
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
@@ -30,13 +30,13 @@ function Home() {
   return (
     <div className="relative min-h-screen bg-inherit">
       {/* Header */}
-      <div>
+      <div className="relative z-50">
         <Header />
       </div>
 
       {/* Admin Warning */}
       {isAdminLoggedIn && (
-        <div className="relative z-50 w-full p-2 text-center text-white bg-red-600">
+        <div className="relative z-40 w-full p-2 text-center text-white bg-red-600">
           <span>
             ADMIN LOGGED IN!{" "}
             <span
