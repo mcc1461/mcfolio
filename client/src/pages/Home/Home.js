@@ -11,6 +11,8 @@ import VisitorCounter from "../../components/VisitorCounter"; // Assuming this e
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const headerRef = useRef(null); // Ref for Header
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -21,6 +23,13 @@ function Home() {
     }
   }, []);
 
+  // Calculate header height to place warning under it
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  }, [headerRef]);
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -30,13 +39,16 @@ function Home() {
   return (
     <div className="relative min-h-screen bg-inherit">
       {/* Header */}
-      <div className="relative z-50">
+      <div ref={headerRef} className="relative z-50">
         <Header />
       </div>
 
       {/* Admin Warning */}
       {isAdminLoggedIn && (
-        <div className="sticky top-0 z-40 w-full p-2 text-center text-white bg-red-600">
+        <div
+          className="fixed z-40 w-full p-2 text-center text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }} // Ensures it's right below the header
+        >
           <span>
             ADMIN LOGGED IN!{" "}
             <span
@@ -49,30 +61,21 @@ function Home() {
         </div>
       )}
 
-      {/* Main Content with Sidebar */}
-      <div className="flex">
-        {/* Sidebar */}
-        <div className="z-30 hidden w-1/4 text-white bg-gray-800 lg:block">
-          <Sidebar />
-        </div>
-
-        {/* Main Content */}
-        <div className="w-full pt-4 lg:w-3/4">
-          <Intro />
-          <About />
-          <Experiences />
-          <Projects />
-          <Contact />
-        </div>
+      {/* Main Content */}
+      <div className="pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
+        <Intro />
+        <About />
+        <Experiences />
+        <Projects />
+        <Contact />
+        <Sidebar />
+        <Footer />
       </div>
 
       {/* Visitor Counter */}
       <div className="fixed bottom-6 right-6">
         <VisitorCounter />
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
