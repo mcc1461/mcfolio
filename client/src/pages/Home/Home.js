@@ -7,12 +7,10 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import Sidebar from "./Sidebar";
-import VisitorCounter from "../../components/VisitorCounter"; // Assuming VisitorCounter is a separate component
+import VisitorCounter from "../../components/VisitorCounter"; // Assuming this exists as per previous discussions
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0); // Track header height
-  const headerRef = useRef(null);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -23,13 +21,6 @@ function Home() {
     }
   }, []);
 
-  // Dynamically set header height on mount
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
@@ -37,20 +28,17 @@ function Home() {
   };
 
   return (
-    <div className="relative bg-inherit">
+    <div className="relative min-h-screen bg-inherit">
       {/* Header */}
-      <div ref={headerRef}>
+      <div>
         <Header />
       </div>
 
-      {/* Admin Logout Warning */}
+      {/* Admin Warning */}
       {isAdminLoggedIn && (
-        <div
-          className="fixed left-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Place right beneath the header
-        >
+        <div className="relative z-50 w-full p-2 text-center text-white bg-red-600">
           <span>
-            Admin!{" "}
+            ADMIN LOGGED IN!{" "}
             <span
               onClick={handleLogout}
               className="font-bold underline cursor-pointer hover:text-gray-300"
@@ -61,11 +49,8 @@ function Home() {
         </div>
       )}
 
-      {/* Visitor Counter */}
-      <VisitorCounter />
-
       {/* Main Content */}
-      <div className="mt-4">
+      <div className="pt-4">
         <Intro />
         <About />
         <Experiences />
@@ -74,6 +59,12 @@ function Home() {
         <Sidebar />
       </div>
 
+      {/* Visitor Counter */}
+      <div className="fixed bottom-6 right-6">
+        <VisitorCounter />
+      </div>
+
+      {/* Footer */}
       <Footer />
     </div>
   );
