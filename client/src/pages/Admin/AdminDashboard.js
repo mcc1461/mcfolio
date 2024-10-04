@@ -85,7 +85,7 @@ const AdminDashboard = () => {
     <main className="min-h-screen bg-mc-white">
       <Header />
       <div className="container max-w-6xl px-4 mx-auto">
-        <div className="mt-10 text-center">
+        <div className="text-center mt-28">
           <h1 className="text-4xl font-bold text-violet-700 drop-shadow-md">
             Admin Dashboard
           </h1>
