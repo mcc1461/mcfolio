@@ -76,6 +76,8 @@ const AdminExperience = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      }).then((res) => {
+        console.log(res.data);
       });
 
       if (
@@ -93,6 +95,7 @@ const AdminExperience = () => {
     } catch (error) {
       setAlertMessage("Request failed: " + error.message);
       setAlertType("error");
+      console.log(error.res.data.message);
     } finally {
       dispatch(showLoader(false));
     }
