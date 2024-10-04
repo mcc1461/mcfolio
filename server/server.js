@@ -51,7 +51,7 @@ const authRoutes = require("./routes/authRoutes"); // If applicable
 const visitorRoutes = require("./routes/visitorRoutes");
 
 app.use("/api", portfolioRoutes);
-app.use("/", authRoutes); // Add authentication routes if applicable
+app.use("/api", authRoutes); // Add authentication routes if applicable
 app.use("/api", visitorRoutes);
 
 // Default root route
