@@ -10,19 +10,21 @@ router.post("/admin-login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Check if the admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // Compare password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Create a JWT token
+    // Generate JWT token
     const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "1d", // Token expiry time
     });
 
     return res.status(200).json({ token });
@@ -32,11 +34,10 @@ router.post("/admin-login", async (req, res) => {
 });
 
 // Admin registration route
-// Admin registration route
 router.post("/admin-register", async (req, res) => {
   const { email, password, specialCode } = req.body;
 
-  // Validate special code
+  // Validate the special code for admin registration
   if (specialCode !== process.env.ADMIN_SECRET_CODE) {
     return res.status(400).json({ message: "Invalid admin code!" });
   }
@@ -48,8 +49,11 @@ router.post("/admin-register", async (req, res) => {
       return res.status(400).json({ message: "Admin already exists" });
     }
 
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     // Create new admin
-    const admin = new Admin({ email, password });
+    const admin = new Admin({ email, password: hashedPassword });
     await admin.save();
 
     // Generate JWT token
@@ -64,9 +68,9 @@ router.post("/admin-register", async (req, res) => {
 });
 
 // Protected Admin Route
-router.get("/admin", authMiddleware, (req, res) => {
+router.get("/admin-dashboard", authMiddleware, (req, res) => {
   // Only accessible if the token is valid
-  res.send("Welcome to the Admin Panel");
+  res.status(200).send("Welcome to the Admin Dashboard");
 });
 
 module.exports = router;
