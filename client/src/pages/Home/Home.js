@@ -11,6 +11,8 @@ import VisitorCounter from "../../components/VisitorCounter"; // Assuming Visito
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0); // Track header height
+  const headerRef = useRef(null);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -18,6 +20,13 @@ function Home() {
     const isAdmin = localStorage.getItem("isAdminLogin");
     if (token && isAdmin === "true") {
       setIsAdminLoggedIn(true);
+    }
+  }, []);
+
+  // Dynamically set header height on mount
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
     }
   }, []);
 
@@ -30,40 +39,42 @@ function Home() {
   return (
     <div className="relative bg-inherit">
       {/* Header */}
-      <Header />
-
-      {/* Main Content Grid Layout */}
-      <div className="grid grid-rows-[auto_auto_1fr]">
-        {/* Admin Logout Warning */}
-        {isAdminLoggedIn && (
-          <div className="fixed top-0 z-50 w-full px-4 py-2 text-center text-white bg-red-600">
-            <span>
-              Admin!{" "}
-              <span
-                onClick={handleLogout}
-                className="font-bold underline cursor-pointer hover:text-gray-300"
-              >
-                LOG OUT
-              </span>
-            </span>
-          </div>
-        )}
-
-        {/* Visitor Counter */}
-        <VisitorCounter />
-
-        {/* Main Content */}
-        <div className="mt-4">
-          <Intro />
-          <About />
-          <Experiences />
-          <Projects />
-          <Contact />
-          <Sidebar />
-        </div>
-
-        <Footer />
+      <div ref={headerRef}>
+        <Header />
       </div>
+
+      {/* Admin Logout Warning */}
+      {isAdminLoggedIn && (
+        <div
+          className="fixed left-0 right-0 z-50 px-4 py-2 text-white bg-red-600"
+          style={{ top: `${headerHeight}px` }} // Place right beneath the header
+        >
+          <span>
+            Admin!{" "}
+            <span
+              onClick={handleLogout}
+              className="font-bold underline cursor-pointer hover:text-gray-300"
+            >
+              LOG OUT
+            </span>
+          </span>
+        </div>
+      )}
+
+      {/* Visitor Counter */}
+      <VisitorCounter />
+
+      {/* Main Content */}
+      <div className="mt-4">
+        <Intro />
+        <About />
+        <Experiences />
+        <Projects />
+        <Contact />
+        <Sidebar />
+      </div>
+
+      <Footer />
     </div>
   );
 }
