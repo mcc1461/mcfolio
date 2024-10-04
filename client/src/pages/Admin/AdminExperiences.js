@@ -61,6 +61,7 @@ const AdminExperience = () => {
       };
 
       const token = localStorage.getItem("authToken");
+      console.log(token);
 
       const url = selectedExperience
         ? `https://musco.dev/api/experiences/${selectedExperience._id}`
