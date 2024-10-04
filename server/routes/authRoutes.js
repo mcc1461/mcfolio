@@ -22,10 +22,12 @@ router.post("/admin-login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d", // Token expiry time
-    });
+    // Generate JWT token with isAdmin flag
+    const token = jwt.sign(
+      { id: admin._id, isAdmin: true }, // Add isAdmin: true here
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" } // Token expiry time
+    );
 
     return res.status(200).json({ token });
   } catch (error) {
@@ -56,10 +58,12 @@ router.post("/admin-register", async (req, res) => {
     const admin = new Admin({ email, password: hashedPassword });
     await admin.save();
 
-    // Generate JWT token
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    // Generate JWT token with isAdmin flag
+    const token = jwt.sign(
+      { id: admin._id, isAdmin: true }, // Add isAdmin: true here
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" } // Token expiry time
+    );
 
     return res.status(201).json({ token });
   } catch (error) {
@@ -69,7 +73,7 @@ router.post("/admin-register", async (req, res) => {
 
 // Protected Admin Route
 router.get("/admin-dashboard", authMiddleware, (req, res) => {
-  // Only accessible if the token is valid
+  // Only accessible if the token is valid and has isAdmin: true
   return res.status(200).json({ message: "Welcome to the Admin Dashboard" });
 });
 
