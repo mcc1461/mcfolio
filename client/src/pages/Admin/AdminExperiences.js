@@ -65,10 +65,11 @@ const AdminExperience = () => {
 
       const url = selectedExperience
         ? `https://musco.dev/api/experiences/${selectedExperience._id}`
-        : "https://musco.dev/api/experiences";
+        : `https://musco.dev/api/experiences`;
 
       const method = selectedExperience ? "put" : "post";
 
+      // Await the axios call and directly handle response
       const response = await axios({
         method,
         url,
@@ -76,10 +77,9 @@ const AdminExperience = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((res) => {
-        console.log(res.data);
       });
 
+      // Check for a successful response
       if (
         response.status === 201 ||
         (response.status === 200 && response.data.success)
@@ -93,22 +93,25 @@ const AdminExperience = () => {
         setAlertType("error");
       }
     } catch (error) {
-      setAlertMessage("Request failed: " + error.message);
+      // Catch any error and handle it gracefully
+      setAlertMessage(
+        "Request failed: " + (error.response?.data?.message || error.message)
+      );
       setAlertType("error");
-      console.log(error.res.data.message);
+      console.log(error.response?.data?.message || error.message); // Improved logging
     } finally {
       dispatch(showLoader(false));
     }
   };
 
-  const handleEditClick = (experience) => {
+  function handleEditClick(experience) {
     setSelectedExperience(experience);
     setFormData({
       ...experience,
       location: experience.location.join(", "),
     });
     setShowEditModal(true);
-  };
+  }
 
   const handleAddClick = () => {
     setSelectedExperience(null);
