@@ -29,7 +29,10 @@ const Login = () => {
       // Navigate to the admin dashboard or another protected route
       navigate("/admin-dashboard");
     } catch (error) {
-      setError("Invalid credentials");
+      // Handle error: Use server error message if available
+      setError(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
