@@ -18,16 +18,9 @@ const Intro = () => {
     lastName = "",
     description = "",
     details = "",
-    cvLink,
+    cvLinkPdf = "",
+    cvLinkDocx = "",
   } = intro;
-
-  const defaultCvLinkPdf =
-    "https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/musco01.pdf?alt=media&token=3bef9831-6f63-4cb9-ae05-49a583306a2f";
-  const finalCvLinkPdf = cvLink || defaultCvLinkPdf;
-
-  const defaultCvLinkDocx =
-    "https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/musco01.docx?alt=media&token=3947ed91-f5b7-4cd2-b9af-52949bb392d9";
-  const finalCvLinkDocx = cvLink || defaultCvLinkDocx;
 
   const handleImageError = () => {
     setImgSrc(photo);
@@ -42,13 +35,13 @@ const Intro = () => {
   };
 
   const handleView = () => {
-    window.open(finalCvLinkPdf, "_blank");
+    window.open(cvLinkPdf, "_blank");
     setIsModalVisible(false);
   };
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = finalCvLinkDocx;
+    link.href = cvLinkDocx;
     link.download = "MusCo_CV.docx";
     document.body.appendChild(link);
     link.click();
