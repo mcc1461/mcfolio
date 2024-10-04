@@ -52,7 +52,7 @@ function Home() {
       </div>
 
       {/* Visitor Counter */}
-      <div className="fixed z-30 top-5 right-5">
+      <div className="fixed z-40 top-20 right-5">
         <VisitorCounter />
       </div>
 
