@@ -36,7 +36,7 @@ function Home() {
 
       {/* Admin Warning */}
       {isAdminLoggedIn && (
-        <div className="relative z-40 w-full p-2 text-center text-white bg-red-600">
+        <div className="sticky top-0 z-40 w-full p-2 text-center text-white bg-red-600">
           <span>
             ADMIN LOGGED IN!{" "}
             <span
@@ -49,14 +49,21 @@ function Home() {
         </div>
       )}
 
-      {/* Main Content */}
-      <div className="pt-4">
-        <Intro />
-        <About />
-        <Experiences />
-        <Projects />
-        <Contact />
-        <Sidebar />
+      {/* Main Content with Sidebar */}
+      <div className="flex">
+        {/* Sidebar */}
+        <div className="z-30 hidden w-1/4 text-white bg-gray-800 lg:block">
+          <Sidebar />
+        </div>
+
+        {/* Main Content */}
+        <div className="w-full pt-4 lg:w-3/4">
+          <Intro />
+          <About />
+          <Experiences />
+          <Projects />
+          <Contact />
+        </div>
       </div>
 
       {/* Visitor Counter */}
