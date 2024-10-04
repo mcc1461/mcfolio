@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Intro from "./Intro";
 import Footer from "../../components/Footer";
@@ -7,12 +7,12 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import Sidebar from "./Sidebar";
-import VisitorCounter from "../../components/VisitorCounter"; // Assuming this exists
+import VisitorCounter from "../../components/VisitorCounter";
+import { useNavigate } from "react-router-dom"; // Assuming you use react-router-dom for navigation
 
 function Home() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
-  const headerRef = useRef(null); // Ref for Header
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const navigate = useNavigate();
 
   // Check if admin is logged in
   useEffect(() => {
@@ -23,43 +23,22 @@ function Home() {
     }
   }, []);
 
-  // Calculate header height to place warning under it
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  }, [headerRef]);
-
+  // Handle logout logic
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("isAdminLogin");
     setIsAdminLoggedIn(false);
   };
 
+  // Navigate to Admin Dashboard
+  const handleAdminDashboard = () => {
+    navigate("/admin-dashboard"); // Adjust based on your actual admin dashboard route
+  };
+
   return (
     <div className="relative min-h-screen bg-inherit">
       {/* Header */}
-      <div ref={headerRef} className="relative z-50">
-        <Header />
-      </div>
-
-      {/* Admin Warning */}
-      {isAdminLoggedIn && (
-        <div
-          className="fixed z-40 w-full p-2 text-center text-white bg-red-600"
-          style={{ top: `${headerHeight}px` }} // Ensures it's right below the header
-        >
-          <span>
-            ADMIN LOGGED IN!{" "}
-            <span
-              onClick={handleLogout}
-              className="font-bold underline cursor-pointer hover:text-gray-300"
-            >
-              LOG OUT
-            </span>
-          </span>
-        </div>
-      )}
+      <Header />
 
       {/* Main Content */}
       <div className="pl-12 bg-inherit lg:pl-0 md:pl-0 sm:pl-0">
@@ -76,6 +55,30 @@ function Home() {
       <div className="fixed bottom-6 right-6">
         <VisitorCounter />
       </div>
+
+      {/* Admin Warning and Admin Dashboard Button */}
+      {isAdminLoggedIn && (
+        <div className="fixed flex flex-col items-end gap-3 bottom-6 right-6">
+          {/* Admin Logout Warning */}
+          <div className="flex items-center justify-between p-3 text-sm text-white bg-red-600 rounded-lg shadow-lg opacity-90">
+            <span>ADMIN LOGGED IN!</span>
+            <button
+              onClick={handleLogout}
+              className="ml-4 text-xs font-bold underline cursor-pointer hover:text-gray-300"
+            >
+              LOG OUT
+            </button>
+          </div>
+
+          {/* Admin Dashboard Button */}
+          <button
+            onClick={handleAdminDashboard}
+            className="flex items-center justify-center px-4 py-2 text-white bg-blue-500 rounded-lg shadow-lg hover:bg-blue-600"
+          >
+            Admin Dashboard
+          </button>
+        </div>
+      )}
     </div>
   );
 }
