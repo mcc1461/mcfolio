@@ -52,13 +52,19 @@ function Home() {
       </div>
 
       {/* Visitor Counter */}
-      <div className="fixed z-40 top-20 left-5">
-        <VisitorCounter />
-      </div>
+      <VisitorCounter />
 
       {/* Admin Warning and Admin Dashboard Button */}
       {isAdminLoggedIn && (
         <div className="fixed flex flex-col items-end gap-3 bottom-5 right-5">
+          {/* Admin Dashboard Button */}
+
+          <button
+            onClick={handleAdminDashboard}
+            className="flex items-center justify-center px-4 py-2 text-white bg-blue-500 rounded-lg shadow-lg hover:bg-blue-600"
+          >
+            Admin Dashboard
+          </button>
           {/* Admin Logout Warning */}
           <div className="flex items-center justify-between p-3 text-sm text-white bg-red-600 rounded-lg shadow-lg opacity-90">
             <span>ADMIN LOGGED IN!</span>
@@ -69,14 +75,6 @@ function Home() {
               LOG OUT
             </button>
           </div>
-
-          {/* Admin Dashboard Button */}
-          <button
-            onClick={handleAdminDashboard}
-            className="flex items-center justify-center px-4 py-2 text-white bg-blue-500 rounded-lg shadow-lg hover:bg-blue-600"
-          >
-            Admin Dashboard
-          </button>
         </div>
       )}
     </div>
