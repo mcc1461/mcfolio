@@ -151,7 +151,7 @@ const Contact = () => {
         <div className="flex justify-end w-full sm:justify-center md:justify-center">
           <video
             ref={videoRef}
-            className=" w-[95%] rounded-lg min-w-[350px] max-w-[500px]"
+            className=" w-[75%] rounded-lg min-w-[250px] max-w-[500px]"
             controls={false}
             muted
             playsInline
