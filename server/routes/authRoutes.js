@@ -62,7 +62,7 @@ router.post("/admin-register", async (req, res) => {
     const token = jwt.sign(
       { id: admin._id, isAdmin: true }, // Add isAdmin: true here
       process.env.JWT_SECRET,
-      { expiresIn: "5m" } // Token expiry time
+      { expiresIn: "3h" } // Token expiry time
     );
 
     return res.status(201).json({ token });
