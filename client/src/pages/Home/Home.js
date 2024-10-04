@@ -52,13 +52,13 @@ function Home() {
       </div>
 
       {/* Visitor Counter */}
-      <div className="fixed bottom-6 right-6">
+      <div className="fixed top-5 right-5">
         <VisitorCounter />
       </div>
 
       {/* Admin Warning and Admin Dashboard Button */}
       {isAdminLoggedIn && (
-        <div className="fixed flex flex-col items-end gap-3 bottom-6 right-6">
+        <div className="fixed flex flex-col items-end gap-3 bottom-5 right-5">
           {/* Admin Logout Warning */}
           <div className="flex items-center justify-between p-3 text-sm text-white bg-red-600 rounded-lg shadow-lg opacity-90">
             <span>ADMIN LOGGED IN!</span>
