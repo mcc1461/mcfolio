@@ -30,10 +30,14 @@ const VisitorCounter = () => {
       const userIP = await getUserIP();
       if (userIP) {
         try {
+          // Get the token from local storage (if needed)
+          const token = localStorage.getItem("authToken");
+
           const response = await fetch("https://musco.dev/api/visitor-count", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: token ? `Bearer ${token}` : "", // Include the token if available
             },
             body: JSON.stringify({ ip: userIP }),
           });
