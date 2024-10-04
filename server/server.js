@@ -3,7 +3,7 @@ const dotenv = require("dotenv"); // Import dotenv
 const path = require("path"); // Import path module
 const express = require("express");
 const cors = require("cors");
-const dbConnection = require("./config/dbConnection");
+const mongoose = require("mongoose"); // Ensure mongoose is imported
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const adminRoutes = require("./routes/adminRoutes"); // Adjusted to include admin routes
 const visitorRoutes = require("./routes/visitorRoutes");
@@ -33,7 +33,21 @@ const allowedOrigins = [
 // Log CLIENT_ORIGIN for debugging
 console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
 
-// Connect to the database
+// Database connection
+const dbConnection = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Database connected successfully");
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    process.exit(1); // Exit the process with failure
+  }
+};
+
+// Call database connection function
 dbConnection();
 
 // Middleware setup
