@@ -56,7 +56,7 @@ function Home() {
 
       {/* Admin Warning and Admin Dashboard Button */}
       {isAdminLoggedIn && (
-        <div className="fixed flex flex-col items-end gap-3 bottom-5 right-5">
+        <div className="fixed z-50 flex flex-col items-end gap-3 bottom-5 right-5">
           {/* Admin Dashboard Button */}
 
           <button
