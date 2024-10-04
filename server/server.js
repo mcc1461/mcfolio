@@ -20,6 +20,7 @@ const dbConnection = require("./config/dbConnection");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const authRoutes = require("./routes/authRoutes"); // If applicable
 const visitorRoutes = require("./routes/visitorRoutes");
+const createError = require("http-errors"); // To handle 404 errors
 
 // Initialize Express app
 const app = express();
@@ -59,6 +60,23 @@ app.use("/api", visitorRoutes);
 // Default route
 app.get("/", (req, res) => {
   res.send("Hello World from MusCo Portfolio API");
+});
+
+// Handle 404 errors for unknown routes
+app.use((req, res, next) => {
+  next(createError(404, "Route not found"));
+});
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  // Log the error for debugging
+  console.error(err.stack);
+
+  // Customize the error response
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
 });
 
 // Start server
