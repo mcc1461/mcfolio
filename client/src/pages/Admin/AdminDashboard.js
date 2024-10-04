@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import AdminAbout from "./AdminAbout";
 import AdminIntro from "./AdminIntro";
 import AdminExperiences from "./AdminExperiences";
 import AdminProjects from "./AdminProjects";
 import AdminContact from "./AdminContact";
-import { useNavigate } from "react-router-dom";
 
 // Custom Tabs Component
 const Tabs = ({ items }) => {
@@ -47,6 +47,21 @@ const Tabs = ({ items }) => {
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+
+  // Check for auth token and admin login status on page load
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const isAdminLogin = localStorage.getItem("isAdminLogin");
+
+    if (!token || isAdminLogin !== "true") {
+      // If no token or isAdminLogin is false, redirect to login
+      navigate("/admin-login", {
+        state: {
+          message: "You need to LOG IN as admin to access the dashboard.",
+        },
+      });
+    }
+  }, [navigate]); // Dependency array to only run on initial load
 
   const items = [
     {
