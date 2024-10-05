@@ -199,7 +199,7 @@ const AdminExperience = () => {
     console.log("Experiences data:", experiences);
   }, [experiences]);
 
-  // Sort experiences by order, ensuring order is a number
+  // Sort experiences by order in ascending order, ensuring order is a number
   const sortedExperiences = [...experiences].sort((a, b) => {
     const orderA = a.order !== undefined ? Number(a.order) : Infinity;
     const orderB = b.order !== undefined ? Number(b.order) : Infinity;
