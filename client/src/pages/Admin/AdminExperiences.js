@@ -192,6 +192,9 @@ const AdminExperience = () => {
     getPortfolioData();
   }, [getPortfolioData]);
 
+  // Sort experiences by order
+  const sortedExperiences = [...experiences].sort((a, b) => a.order - b.order);
+
   return (
     <>
       {/* Alert message */}
@@ -228,7 +231,7 @@ const AdminExperience = () => {
 
       {/* Experiences list */}
       <div className="grid grid-cols-1 gap-4">
-        {experiences.map((experience) => (
+        {sortedExperiences.map((experience) => (
           <div
             key={experience._id}
             className="p-5 bg-white border rounded-lg shadow-lg"
