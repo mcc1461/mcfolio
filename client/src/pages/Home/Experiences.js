@@ -7,12 +7,19 @@ const Experiences = () => {
   const { portfolioData } = useSelector((state) => state.root);
   const experiences = portfolioData?.experiences || [];
 
+  // Sort experiences by the 'order' field in ascending order
+  const sortedExperiences = [...experiences].sort((a, b) => {
+    const orderA = a.order !== undefined ? Number(a.order) : Infinity;
+    const orderB = b.order !== undefined ? Number(b.order) : Infinity;
+    return orderA - orderB; // Ascending order
+  });
+
   return (
     <>
       <SectionTitle title="Experiences" />
       <div className="flex flex-col items-center justify-center h-full overflow-hidden bg-mc-blue">
-        <div className="flex flex-col w-full max-w-5xl px-4 md:px-6 lg:px-8 mx-auto">
-          {experiences.map((experience) => (
+        <div className="flex flex-col w-full max-w-5xl px-4 mx-auto md:px-6 lg:px-8">
+          {sortedExperiences.map((experience) => (
             <div
               key={experience._id}
               className="flex flex-col items-center justify-center w-full p-4 mb-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
