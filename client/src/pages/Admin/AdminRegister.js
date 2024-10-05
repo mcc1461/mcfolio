@@ -113,7 +113,7 @@ const AdminRegistration = () => {
               className="absolute text-2xl text-gray-600 top-9 right-3"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              {showConfirmPassword ? "👁️" : "🙈"}
+              {showConfirmPassword ? "🙈" : "👁️"}
             </button>
           </div>
 
