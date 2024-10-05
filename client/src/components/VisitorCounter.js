@@ -81,7 +81,7 @@ const VisitorCounter = () => {
   }
 
   return (
-    <div className="fixed z-50 flex items-center px-6 py-3 text-sm text-white transition transform rounded-full shadow-lg bg-gradient-to-r from-purple-700 via-fuchsia-700 to-indigo-700 top-24 right-5 sm:text-base hover:scale-105 hover:shadow-xl opacity-90 md:top-28 lg:top-36">
+    <div className="fixed z-50 flex items-center px-6 py-3 text-sm text-white transition transform rounded-full shadow-lg bg-gradient-to-r from-purple-700 via-fuchsia-700 to-indigo-700 top-24 right-5 sm:text-base hover:scale-105 hover:shadow-xl opacity-90 md:top-32 lg:top-36">
       {/* The opacity-90 class makes the visitor counter slightly transparent */}
       <div className="flex items-center">
         <div className="mr-3 text-lg font-semibold text-white sm:text-base md:text-lg">
