@@ -15,6 +15,7 @@ const AdminExperience = () => {
     period: "",
     desc: "",
     location: "",
+    order: 0,
   });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -37,6 +38,7 @@ const AdminExperience = () => {
           period: "",
           desc: "",
           location: "",
+          order: 0,
         });
       }
     }
@@ -46,7 +48,7 @@ const AdminExperience = () => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: name === "order" ? parseInt(value, 10) : value,
     }));
   };
 
@@ -69,7 +71,6 @@ const AdminExperience = () => {
 
       const method = selectedExperience ? "put" : "post";
 
-      // Await the axios call and directly handle response
       const response = await axios({
         method,
         url,
@@ -79,7 +80,6 @@ const AdminExperience = () => {
         },
       });
 
-      // Check for a successful response
       if (
         response.status === 201 ||
         (response.status === 200 && response.data.success)
@@ -93,12 +93,11 @@ const AdminExperience = () => {
         setAlertType("error");
       }
     } catch (error) {
-      // Catch any error and handle it gracefully
       setAlertMessage(
         "Request failed: " + (error.response?.data?.message || error.message)
       );
       setAlertType("error");
-      console.log(error.response?.data?.message || error.message); // Improved logging
+      console.log(error.response?.data?.message || error.message);
     } finally {
       dispatch(showLoader(false));
     }
@@ -120,6 +119,7 @@ const AdminExperience = () => {
       period: "",
       desc: "",
       location: "",
+      order: 0,
     });
     setShowEditModal(true);
   };
@@ -246,6 +246,9 @@ const AdminExperience = () => {
                 <p key={`${experience._id}-location-${index}`}>{loc}</p>
               ))}
             </div>
+            <p className="mt-2 italic text-gray-300">
+              Order: {experience.order}
+            </p>
             <div className="flex justify-end gap-2 mt-4">
               <button
                 className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
@@ -363,6 +366,24 @@ const AdminExperience = () => {
                       required
                       className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       placeholder="Location"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="order"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Order
+                    </label>
+                    <input
+                      type="number"
+                      name="order"
+                      id="order"
+                      value={formData.order}
+                      onChange={handleInputChange}
+                      required
+                      className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      placeholder="Order"
                     />
                   </div>
                   <div className="flex justify-end mt-4">
