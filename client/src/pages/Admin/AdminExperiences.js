@@ -31,6 +31,7 @@ const AdminExperience = () => {
         setFormData({
           ...selectedExperience,
           location: selectedExperience.location.join(", "),
+          order: selectedExperience.order || 0, // Ensure order is set
         });
       } else {
         setFormData({
@@ -108,6 +109,7 @@ const AdminExperience = () => {
     setFormData({
       ...experience,
       location: experience.location.join(", "),
+      order: experience.order || 0, // Ensure order is set
     });
     setShowEditModal(true);
   }
@@ -192,8 +194,17 @@ const AdminExperience = () => {
     getPortfolioData();
   }, [getPortfolioData]);
 
-  // Sort experiences by order
-  const sortedExperiences = [...experiences].sort((a, b) => a.order - b.order);
+  // Log experiences to check data
+  useEffect(() => {
+    console.log("Experiences data:", experiences);
+  }, [experiences]);
+
+  // Sort experiences by order, ensuring order is a number
+  const sortedExperiences = [...experiences].sort((a, b) => {
+    const orderA = a.order !== undefined ? Number(a.order) : Infinity;
+    const orderB = b.order !== undefined ? Number(b.order) : Infinity;
+    return orderA - orderB;
+  });
 
   return (
     <>
