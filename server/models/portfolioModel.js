@@ -30,6 +30,7 @@ const aboutSchema = new mongoose.Schema(
 
 const experienceSchema = new mongoose.Schema(
   {
+    order: { type: Number, required: true, unique: true },
     period: { type: String, required: true, min: 6, max: 255 },
     location: { type: Array, required: true },
     role: { type: String, required: true, min: 6, max: 255 },
