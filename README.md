@@ -31,25 +31,25 @@ This is a dynamic portfolio website developed using modern technologies. The web
 
 ## Features
 
-- Dynamic Content: Only the admin can access the dashboard, allowing them to make changes such as updating the portfolio's Intro, About, Experiences, Projects, and Contact sections.
+- Dynamic Content: The admin has exclusive access to the dashboard, where they can instantly update sections like Intro, About, Experiences, Projects, and Contact without needing to upload changes.
 
-- Admin Dashboard: The dashboard is secured and accessible via login, making the site dynamic and easily customizable.
+- Admin Dashboard: The dashboard is securely accessible through login, making the site highly dynamic and customizable in real-time.
 
-- Real-Time Updates: Any changes made in the admin dashboard are reflected in real-time on the public site.
+- Real-Time Updates: All changes made in the admin dashboard are reflected immediately on the live site, ensuring the content stays current.
 
-- Secure Authentication: JWT (JSON Web Token) is used for secure authentication, ensuring that only the admin can access the dashboard. Also it includes a special admin code for admin registration as an extra layer of security.
+- Secure Authentication: JWT (JSON Web Token) is used to provide robust authentication. For added security, a special admin code is required for registration, making access highly secure.
 
-- Responsive Design: The website is fully responsive and works on all devices, including desktops, tablets, and mobile phones.
+- Responsive Design: The website is fully responsive and optimized for all devices—whether you're on desktop, tablet, or mobile, it adapts seamlessly.
 
-- Email Integration: The contact form is integrated with EmailJS, allowing users to send emails directly from the website.
+- Email Integration: The contact form is powered by EmailJS, enabling visitors to send emails directly from the site with confirmation notifications.
 
-- Tailored UI: The frontend is styled with Tailwind CSS to provide a clean, responsive design.
+- Tailored UI: Styled with Tailwind CSS, the frontend is clean, modern, and fully responsive, offering an engaging user experience.
 
-- Firebase Integration: The project is integrated with Firebase for image storage. Also CV download is available.
+- Firebase Integration: Firebase is integrated for image storage, and a downloadable CV is available, ensuring accessibility and convenience.
 
-- Canva Integration: The project is integrated with Canva for image editing and graphic design.
+- Canva Integration: Canva is utilized for high-quality image editing and graphic design, adding a professional touch to visuals.
 
-- QR Code Integration: There is a QR code in contact section for easy access to email and linkedin profile of the owner.
+- QR Code Integration: A custom QR code in the contact section provides quick access to the admin’s email and LinkedIn profile, making networking effortless.
 
 ## Technologies Used
 
@@ -70,18 +70,17 @@ This is a dynamic portfolio website developed using modern technologies. The web
 
 ### Deployment
 
-- Vercel for the frontend
-- Backend hosted on a server
+- Fully hosted on a Hostinger VPS server
 
 ## How It Works
 
 ### Public Side
 
-The website displays personal information and portfolio details in a structured manner. Users can explore the website but cannot make any changes.
+The website displays personal information, portfolio details, and projects in a user-friendly format. Visitors can explore the site but cannot make any changes.
 
 ### Admin Side
 
-Only the admin has access to the dashboard. Once logged in, the admin can modify sections like Intro, About, Experiences, Projects, and Contact. All changes are reflected in real-time on the public site.
+Admin access is restricted by a secure login. Once logged in, the admin can modify sections such as Intro, About, Experiences, Projects, and Contact. All changes are immediately reflected on the public site.
 
 ## License
 
@@ -103,10 +102,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Project Status
 
-This project is realized and can be used as a template for personal portfolio websites.
+This project is complete and can be used as a template for personal portfolio websites.
 
 ## Contact
 
 Created by [@musco](https://musco.dev) - feel free to contact me!
-
-Test commit...
