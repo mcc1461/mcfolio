@@ -1,5 +1,7 @@
 # MCFOLIO
 
+(https://github.com/mcc1461/mcfolio/blob/main/musco.png)
+
 ## Description
 
 This is a dynamic portfolio website developed using modern technologies. The website is divided into two parts: a public-facing portfolio and an admin dashboard that allows the owner to manage and update the content.
