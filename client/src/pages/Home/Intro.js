@@ -58,7 +58,7 @@ const Intro = () => {
           {welcomeText}
         </h1>
 
-        <h1 className="p-3 text-3xl font-bold gradient-text bg-clip-text sm:text-xl md:text-2xl lg:text-3xl">
+        <h1 className="p-3 text-2xl font-bold gradient-text bg-clip-text sm:text-xl md:text-2xl lg:text-2xl">
           {firstName} {lastName}
         </h1>
 
