@@ -2,18 +2,17 @@
 
 ## Font Size Adjustments
 
-- Use **Tailwind CSS** classes to adjust font size responsively:
-  - `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl` for different breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`).
+- **Tailwind CSS** provides flexible classes for responsive font sizes. Use:
+  - `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl` for responsive breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`).
+  - Tailor the design for different screen sizes with Tailwind's responsive utility classes.
 
 ## Custom Scrollbar
 
-- For custom scrollbar styles, refer to [W3Schools Custom Scrollbar Guide](https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp).
+- **Custom scrollbar styling** can enhance UX on larger content sections. You can follow the guide provided by [W3Schools Custom Scrollbar](https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp) for detailed instructions.
 
 ## Icons
 
-- Use **Remix Icons**:
-
-  - Add this to the `<head>` of your `index.html` file:
+- **Remix Icons** are used for lightweight, scalable icons in the project. Add the following to the `<head>` of your `index.html`:
 
   ```html
   <link
@@ -22,112 +21,142 @@
   />
   ```
 
-## Image Handling
+## Image Handling with Fallbacks
 
-- Use both Firebase URLs and local fallback images:
-  - **useState Hook**: Initializes the `imgSrc` state with the Firebase URL.
-  - **handleImageError Function**: Switches the `imgSrc` to a local image when the Firebase image fails to load.
-  - **onError Prop in img**: Triggers the `handleImageError` function if the image fails to load from the Firebase URL.
+- Implement both Firebase URLs and local images for fallback to ensure image loading resilience:
+  - Use **useState** to manage the `imgSrc`.
+  - **handleImageError** triggers a fallback to a local image if the Firebase URL fails.
 
 Example:
 
-````javascript
+```javascript
 const [imgSrc, setImgSrc] = useState(firebaseImageUrl);
 
 const handleImageError = () => {
   setImgSrc(localImage);
 };
 
-// Usage in img tag
-<img src={imgSrc} onError={handleImageError} alt="Portfolio" />
-
+<img src={imgSrc} onError={handleImageError} alt="Portfolio" />;
+```
 
 ## Redux Selectors & Memoization
 
-1. Install **reselect** to optimize your Redux selectors and prevent unnecessary rerenders:
-   ```bash
-   npm install reselect
-   ```
-2. Create memoized selectors using the createSelector function from reselect:
+- **Reselect** is crucial for optimizing Redux selectors and preventing unnecessary re-renders. Install it:
 
-```javascript
-// src/redux/selectors.js
+  ```bash
+  npm install reselect
+  ```
 
-import { createSelector } from "reselect";
+- Use **createSelector** to memoize the results of selectors. Example:
 
-// Input selector
+  ```javascript
+  import { createSelector } from "reselect";
 
-const selectPortfolioData = (state) => state.root.portfolioData;
+  const selectPortfolioData = (state) => state.root.portfolioData;
 
-// Memoized selector
+  export const selectMemoizedProjects = createSelector(
+    [selectPortfolioData],
+    (portfolioData) => {
+      return [...(portfolioData?.projects || [])].sort(
+        (a, b) => a.order - b.order
+      );
+    }
+  );
+  ```
 
-export const selectMemoizedProjects = createSelector(
-  [selectPortfolioData],
-  (portfolioData) => {
-    return (portfolioData?.projects || []).sort((a, b) => a.order - b.order);
-  }
-);
-```
-## Sorting Arrays in Redux Selectors
+- Always create new arrays with the spread operator before sorting, preserving immutability.
 
-- When sorting arrays in Redux selectors, always create a new array using the spread operator before sorting to adhere to Redux's immutability principles:
+## useSelector Hook & Memoization
 
-```javascript
-return [...(portfolioData?.projects || [])].sort((a, b) => a.order - b.order);
-```
+- Use memoized selectors with `useSelector` to prevent unnecessary re-renders:
 
-## useSelector Hook & Memoized Selectors
+  ```javascript
+  const memoizedProjects = useSelector(selectMemoizedProjects);
+  ```
 
-- When using the `useSelector` hook in a component, always use memoized selectors to prevent unnecessary rerenders and improve performance.
+- This is crucial for improving performance, especially with large datasets or frequently updated state.
 
 ## Custom Fonts
 
-- To use custom fonts in your project, import the font URL in your CSS file:
+- To include custom fonts, add the import link directly in your `index.html` file (avoiding potential "Verify stylesheet URLs" errors):
 
-```css
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap");
-```
-
-- If you encounter a "Verify stylesheet URLs" error, exclude the font import from your CSS file and add it directly to your `index.html` file:
-
-```html
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap"
-/>
-```
+  ```html
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
+  />
+  ```
 
 ## Performance Optimization
 
-- Use memoized selectors and optimize your Redux selectors with reselect to prevent unnecessary rerenders and improve performance.
+- **Memoized Selectors**: Always use memoized selectors to optimize Redux state management.
+- **Minimize Component Re-renders**: Use `useMemo` and `useCallback` where appropriate to prevent unnecessary re-executions of functions and re-rendering of components.
+- **Lazy Loading**: Consider implementing lazy loading for heavy assets (such as images) to improve the site's performance, especially on slower networks or mobile devices.
 
-## Warning: Selector unknown returned a different result
+## Error Handling in React
 
-- If you encounter the warning "Selector unknown returned a different result when called with the same parameters," use memoized selectors to prevent unnecessary rerenders and optimize performance.
+- **Error Boundaries**: Use error boundaries to catch JavaScript errors in any child component tree and display fallback UI.
 
-## Sorting Arrays in Redux Selectors
+  Example:
 
-- When sorting arrays in Redux selectors, always create a new array using the spread operator before sorting to adhere to Redux's immutability principles.
+  ```javascript
+  class ErrorBoundary extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasError: false };
+    }
+
+    static getDerivedStateFromError(error) {
+      return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+      console.log("Error:", error, "Error Info:", errorInfo);
+    }
+
+    render() {
+      if (this.state.hasError) {
+        return <h1>Something went wrong.</h1>;
+      }
+
+      return this.props.children;
+    }
+  }
+  ```
 
 ## Email Integration with EmailJS
 
-- Use **EmailJS** to integrate the contact form with email services for sending emails directly from the website.
+- Use **EmailJS** for connecting the contact form with email services. It sends messages directly from the website, with an automated confirmation for the sender.
 
-## Deployment
+  ```javascript
+  emailjs
+    .sendForm(
+      "YOUR_SERVICE_ID",
+      "YOUR_TEMPLATE_ID",
+      form.current,
+      "YOUR_USER_ID"
+    )
+    .then(
+      (result) => {
+        console.log(result.text);
+      },
+      (error) => {
+        console.log(error.text);
+      }
+    );
+  ```
 
-- Deploy the frontend on **Vercel** and host the backend on a server.
+## Deployment Notes
 
-## Acknowledgements
+- **Hosting**: The portfolio is entirely hosted on a **VPS server via Hostinger**.
+- **SSL Certification**: Ensure the VPS is properly configured for SSL certification to maintain security across the site.
+- **Auto Updates**: Any updates pushed to GitHub are automatically reflected on the live site via a GitHub-Hostinger sync, ensuring quick deployment without manual intervention.
 
-- **Tailwind CSS**
-- **React.js**
-- **Node.js**
-- **Express.js**
-- **MongoDB**
-- **Mongoose**
-- **JWT**
-- **Vercel**
-- **bcrypt**
-- **jsonwebtoken**
-- **nodemon**
-````
+## JWT Implementation Tips
+
+- **Token Storage**: Store JWT tokens in **localStorage** or **sessionStorage**. Use a secure way to handle them, ensuring the security of the admin dashboard.
+- **Session Expiry**: Make sure JWTs have proper expiry times, and handle token refresh for long sessions.
+
+## QR Code Integration
+
+- For quick access to contact details, a **QR Code** is integrated into the site. Use Canva for generating professional-looking QR codes that lead to your email or LinkedIn profile.
