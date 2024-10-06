@@ -1,6 +1,6 @@
 # MCFOLIO
 
-<img src="https://github.com/mcc1461/mcfolio/blob/main/musco.png" width="777px"> 
+![MCFOLIO Logo](https://github.com/mcc1461/mcfolio/blob/main/musco.png)
 
 ## Description
 
