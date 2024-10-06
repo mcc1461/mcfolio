@@ -160,3 +160,49 @@ const handleImageError = () => {
 ## QR Code Integration
 
 - For quick access to contact details, a **QR Code** is integrated into the site. Use Canva for generating professional-looking QR codes that lead to your email or LinkedIn profile.
+
+## Handling Large Files with Git LFS
+
+- **Git LFS (Large File Storage)** is used to manage large files such as images or media that exceed GitHub's 100 MB file size limit. Git LFS ensures that these large files are efficiently handled in the repository.
+
+### Steps to Use Git LFS
+
+- **Install Git LFS**
+
+  ```bash
+  brew install git-lfs
+  ```
+
+- **Initialize Git LFS in your project**
+
+  ```bash
+  git lfs install
+  ```
+
+- **Track large files (e.g., for .gif files):**
+
+  ```bash
+  git lfs track "*.gif"
+  ```
+
+- **Add and commit the tracked files::**
+
+  ```bash
+   git add .gitattributes mucoPortfolio.gif
+   git commit -m "Track large files with Git LFS"
+  ```
+
+- **Push the changes to the repository:**
+
+  ```bash
+   git push origin main
+  ```
+
+- **Verify that the large files are being tracked by Git LFS:**
+
+  ```bash
+   git lfs ls-files
+  ```
+
+**Important Note**
+If a large file, such as mucoPortfolio.gif, was previously committed to Git, it must be removed from Git history before tracking with Git LFS. You can use tools like BFG Repo-Cleaner to remove large files from the Git history and then re-track them properly using Git LFS.
