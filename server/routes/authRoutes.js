@@ -7,42 +7,47 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware"); // Middleware to protect routes
 
 // *********** ADMIN LOGIN ROUTE *********** //
-// This route handles admin login requests
 router.post("/admin-login", async (req, res) => {
-  const { email, password } = req.body; // Extract email and password from request body
+  const { email, password } = req.body;
 
   try {
-    // Check if the admin exists in the database using the email
+    // Check if the admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
       console.log("Admin not found with this email:", email);
-      return res.status(400).json({ message: "Invalid email or password" }); // Return error if admin not found
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Log retrieved admin data for debugging
     console.log("Admin found:", admin);
 
-    // Compare the provided password with the hashed password stored in the database
+    // Debugging: Display the plain password and hashed password for comparison
+    console.log("Password received (plain):", password);
+    console.log("Hashed password from DB:", admin.password);
+
+    // Compare password: bcrypt compares the plain text password with the hashed password from the database
     const isMatch = await bcrypt.compare(password, admin.password);
+
+    // Log the result of password comparison
     console.log("Password comparison result:", isMatch);
 
+    // If password does not match, return error
     if (!isMatch) {
       console.log("Password does not match for admin with email:", email);
-      return res.status(400).json({ message: "Invalid email or password" }); // Return error if passwords don't match
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // If password matches, generate a JWT token with an "isAdmin" flag
+    // If the password matches, generate the JWT token
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true }, // Payload with admin ID and isAdmin flag
-      process.env.JWT_SECRET, // Secret key for signing the token
-      { expiresIn: "1d" } // Token expiration time of 1 day
+      { id: admin._id, isAdmin: true },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
     );
 
     console.log("Login successful for admin with email:", email);
-    return res.status(200).json({ token }); // Return the generated token to the client
+    return res.status(200).json({ token });
   } catch (error) {
     console.error("Server error during login:", error);
-    return res.status(500).json({ message: "Server error" }); // Return server error for unexpected issues
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
