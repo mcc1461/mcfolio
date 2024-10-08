@@ -24,6 +24,7 @@ router.post("/admin-register", async (req, res) => {
 
     // Hash the password before saving it to the database
     const hashedPassword = await bcrypt.hash(password, 12); // 12 salt rounds for hashing
+    console.log("Hashed password for new admin:", hashedPassword); // Log the hashed password
 
     // Create a new admin and save to the database
     const admin = new Admin({ email, password: hashedPassword });
@@ -59,7 +60,10 @@ router.post("/admin-login", async (req, res) => {
     console.log("Admin found:", admin); // Log the found admin
 
     // Compare the entered password with the hashed password in the database
-    const isMatch = await bcrypt.compare(password, admin.password); // Compare the plain password with the hashed password
+    // const isMatch = await bcrypt.compare(password, admin.password); // Compare the plain password with the hashed password
+    // console.log("Password comparison result:", isMatch); // Log the result of the comparison
+
+    const isMatch = await admin.comparePassword(password); // Compare entered password with hashed password
     console.log("Password comparison result:", isMatch); // Log the result of the comparison
 
     if (!isMatch) {
