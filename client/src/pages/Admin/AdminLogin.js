@@ -1,26 +1,24 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Axios for sending HTTP requests
+import { useNavigate } from "react-router-dom"; // React Router for navigation
 
 const Login = () => {
+  // State to hold admin email and password
   const [admin, setAdmin] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Maintain show/hide password logic
-  const navigate = useNavigate();
 
-  // Handle login form submission
+  const [error, setError] = useState(""); // State to hold error messages
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const navigate = useNavigate(); // Navigation hook to programmatically navigate between routes
+
+  // Function to handle form submission and login the admin
   const loginUser = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the default form submission behavior
 
     try {
-      // Debug log for login values
-      console.log("Login email:", admin.email);
-      console.log("Login password:", admin.password);
-
-      // Send login request to the server
+      // Send login request to the server with email and password
       const response = await axios.post("https://musco.dev/api/admin-login", {
         email: admin.email,
         password: admin.password,
@@ -28,18 +26,17 @@ const Login = () => {
 
       console.log("Login response received:", response.data);
 
-      // Save both authToken and isAdminLogin flag in localStorage
+      // Save both the auth token and the isAdminLogin flag in localStorage
       localStorage.setItem("authToken", response.data.token);
       localStorage.setItem("isAdminLogin", "true");
 
-      // Navigate to the admin dashboard or another protected route
+      // Navigate to the admin dashboard upon successful login
       navigate("/admin-dashboard");
     } catch (error) {
-      // Handle error: Use server error message if available
       console.error("Login error:", error.response?.data?.message);
       setError(
         error.response?.data?.message || "An error occurred. Please try again."
-      );
+      ); // Set the error state with the server's error message or a generic error
     }
   };
 
@@ -50,10 +47,10 @@ const Login = () => {
           Admin Access Only
         </h2>
         <p className="mb-4 text-sm text-center text-gray-700">
-          This section is restricted to authorized personnel. If you are not an
-          admin, please go back to the homepage.
+          This section is restricted to authorized personnel.
         </p>
-        {error && <p className="mb-4 text-red-500">{error}</p>}
+        {error && <p className="mb-4 text-red-500">{error}</p>}{" "}
+        {/* Display error if any */}
         <form onSubmit={loginUser} className="grid gap-4">
           <div>
             <label
@@ -67,10 +64,9 @@ const Login = () => {
               name="email"
               type="email"
               placeholder="Enter your email"
-              autoComplete="email"
               className="w-full p-2 border border-gray-300 rounded"
               value={admin.email}
-              onChange={(e) => setAdmin({ ...admin, email: e.target.value })}
+              onChange={(e) => setAdmin({ ...admin, email: e.target.value })} // Update state on input change
             />
           </div>
           <div>
@@ -84,20 +80,20 @@ const Login = () => {
               <input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"} // Toggle between text and password types
                 placeholder="Enter your password"
-                autoComplete="current-password"
                 className="w-full p-2 border border-gray-300 rounded"
                 value={admin.password}
                 onChange={(e) =>
                   setAdmin({ ...admin, password: e.target.value })
-                }
+                } // Update state on input change
               />
               <span
                 className="absolute text-gray-500 cursor-pointer right-2 top-2"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword(!showPassword)} // Toggle show/hide password
               >
-                {showPassword ? "🙈" : "👁️"} {/* Toggle show/hide password */}
+                {showPassword ? "🙈" : "👁️"}{" "}
+                {/* Toggle eye icon for password visibility */}
               </span>
             </div>
           </div>
@@ -110,7 +106,7 @@ const Login = () => {
         </form>
         <div className="mt-6 text-center">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/")} // Navigate back to the homepage
             className="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-700"
           >
             Go Back to Home
