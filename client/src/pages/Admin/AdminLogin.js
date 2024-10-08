@@ -16,11 +16,17 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      // Debug log for login values
+      console.log("Login email:", admin.email);
+      console.log("Login password:", admin.password);
+
       // Send login request to the server
       const response = await axios.post("https://musco.dev/api/admin-login", {
         email: admin.email,
         password: admin.password,
       });
+
+      console.log("Login response received:", response.data);
 
       // Save both authToken and isAdminLogin flag in localStorage
       localStorage.setItem("authToken", response.data.token);
@@ -30,6 +36,7 @@ const Login = () => {
       navigate("/admin-dashboard");
     } catch (error) {
       // Handle error: Use server error message if available
+      console.error("Login error:", error.response?.data?.message);
       setError(
         error.response?.data?.message || "An error occurred. Please try again."
       );
