@@ -22,6 +22,7 @@ const port = process.env.PORT || 8000;
 // Define allowed origins for CORS
 const allowedOrigins = [
   "http://127.0.0.1:3000",
+  "http://localhost:3000",
   "https://127.0.0.1:3000",
   "https://musco.dev",
   process.env.CLIENT_ORIGIN, // Ensure CLIENT_ORIGIN is defined
@@ -47,11 +48,11 @@ app.use(express.static("public")); // Serve static files
 
 // Import and use your route files
 const portfolioRoutes = require("./routes/portfolioRoutes");
-const authRoutes = require("./routes/authRoutes"); // If applicable
+const adminRoutes = require("./routes/adminRoutes"); // Ensure the correct route is imported
 const visitorRoutes = require("./routes/visitorRoutes");
 
 app.use("/api", portfolioRoutes);
-app.use("/api", authRoutes); // Add authentication routes if applicable
+app.use("/api", adminRoutes); // Use admin routes
 app.use("/api", visitorRoutes);
 
 // Default root route
