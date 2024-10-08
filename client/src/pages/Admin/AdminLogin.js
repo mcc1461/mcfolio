@@ -14,7 +14,7 @@ const Login = () => {
 
     try {
       // Make a POST request to your backend API for login
-      const response = await axios.post("https://musco.dev/api/admin-login", {
+      const response = await axios.post("https://musco.dev/admin-login", {
         email: admin.email,
         password: admin.password,
       });

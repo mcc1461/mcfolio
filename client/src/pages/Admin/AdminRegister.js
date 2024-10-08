@@ -24,14 +24,11 @@ const AdminRegistration = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://musco.dev/api/admin-register",
-        {
-          email: admin.email,
-          password: admin.password,
-          specialCode: admin.specialCode,
-        }
-      );
+      const response = await axios.post("https://musco.dev/admin-register", {
+        email: admin.email,
+        password: admin.password,
+        specialCode: admin.specialCode,
+      });
 
       // You can use the response here if necessary
       if (response.status === 201) {
