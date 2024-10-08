@@ -3,22 +3,17 @@ import axios from "axios"; // Axios for sending HTTP requests
 import { useNavigate } from "react-router-dom"; // React Router for navigation
 
 const Login = () => {
-  // State to hold admin email and password
-  const [admin, setAdmin] = useState({
-    email: "",
-    password: "",
-  });
+  const [admin, setAdmin] = useState({ email: "", password: "" });
+  const [error, setError] = useState(""); // To display error messages
+  const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
+  const navigate = useNavigate(); // For navigation
 
-  const [error, setError] = useState(""); // State to hold error messages
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-  const navigate = useNavigate(); // Navigation hook to programmatically navigate between routes
-
-  // Function to handle form submission and login the admin
+  // Handle login form submission
   const loginUser = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault(); // Prevent default form behavior
 
     try {
-      // Send login request to the server with email and password
+      // Make a POST request to your backend API for login
       const response = await axios.post("https://musco.dev/api/admin-login", {
         email: admin.email,
         password: admin.password,
@@ -26,17 +21,18 @@ const Login = () => {
 
       console.log("Login response received:", response.data);
 
-      // Save both the auth token and the isAdminLogin flag in localStorage
+      // Save the token and isAdminLogin flag to localStorage
       localStorage.setItem("authToken", response.data.token);
       localStorage.setItem("isAdminLogin", "true");
 
-      // Navigate to the admin dashboard upon successful login
+      // Navigate to the admin dashboard
       navigate("/admin-dashboard");
     } catch (error) {
-      console.error("Login error:", error.response?.data?.message);
+      // Display error message
       setError(
         error.response?.data?.message || "An error occurred. Please try again."
-      ); // Set the error state with the server's error message or a generic error
+      );
+      console.error("Login error:", error.response?.data?.message);
     }
   };
 
@@ -50,7 +46,7 @@ const Login = () => {
           This section is restricted to authorized personnel.
         </p>
         {error && <p className="mb-4 text-red-500">{error}</p>}{" "}
-        {/* Display error if any */}
+        {/* Show error message */}
         <form onSubmit={loginUser} className="grid gap-4">
           <div>
             <label
@@ -66,7 +62,7 @@ const Login = () => {
               placeholder="Enter your email"
               className="w-full p-2 border border-gray-300 rounded"
               value={admin.email}
-              onChange={(e) => setAdmin({ ...admin, email: e.target.value })} // Update state on input change
+              onChange={(e) => setAdmin({ ...admin, email: e.target.value })} // Update email state
             />
           </div>
           <div>
@@ -80,20 +76,19 @@ const Login = () => {
               <input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"} // Toggle between text and password types
+                type={showPassword ? "text" : "password"} // Toggle between text and password
                 placeholder="Enter your password"
                 className="w-full p-2 border border-gray-300 rounded"
                 value={admin.password}
                 onChange={(e) =>
                   setAdmin({ ...admin, password: e.target.value })
-                } // Update state on input change
+                } // Update password state
               />
               <span
                 className="absolute text-gray-500 cursor-pointer right-2 top-2"
-                onClick={() => setShowPassword(!showPassword)} // Toggle show/hide password
+                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
               >
-                {showPassword ? "🙈" : "👁️"}{" "}
-                {/* Toggle eye icon for password visibility */}
+                {showPassword ? "🙈" : "👁️"} {/* Toggle eye icon */}
               </span>
             </div>
           </div>
@@ -104,14 +99,6 @@ const Login = () => {
             Login
           </button>
         </form>
-        <div className="mt-6 text-center">
-          <button
-            onClick={() => navigate("/")} // Navigate back to the homepage
-            className="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-700"
-          >
-            Go Back to Home
-          </button>
-        </div>
       </div>
     </div>
   );
