@@ -1,46 +1,46 @@
 const express = require("express");
-const bcrypt = require("bcryptjs"); // For hashing and comparing passwords
-const jwt = require("jsonwebtoken"); // For generating JWT tokens
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const Admin = require("../models/adminModel");
 
-const router = express.Router(); // Router for handling API routes
+const router = express.Router();
+const authMiddleware = require("../middlewares/authMiddleware");
 
-// *********** ADMIN LOGIN ROUTE *********** //
+// Admin login route
 router.post("/admin-login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if the admin exists in the database
+    // Check if the admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Compare the password provided with the hashed password in the database
+    // Compare password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Generate JWT token for the admin
+    // Generate JWT token with isAdmin flag
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true },
-      process.env.JWT_SECRET, // Use your environment secret key
-      { expiresIn: "1d" } // Token expiration (1 day)
+      { id: admin._id, isAdmin: true }, // Add isAdmin: true here
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" } // Token expiry time
     );
 
-    // Respond with the token
     return res.status(200).json({ token });
   } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }
 });
 
-// *********** ADMIN REGISTRATION ROUTE *********** //
+// Admin registration route
 router.post("/admin-register", async (req, res) => {
   const { email, password, specialCode } = req.body;
 
-  // Validate special code for admin registration
+  // Validate the special code for admin registration
   if (specialCode !== process.env.ADMIN_SECRET_CODE) {
     return res.status(400).json({ message: "Invalid admin code!" });
   }
@@ -52,17 +52,18 @@ router.post("/admin-register", async (req, res) => {
       return res.status(400).json({ message: "Admin already exists" });
     }
 
-    // Hash the password before saving the new admin
+    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Create new admin
     const admin = new Admin({ email, password: hashedPassword });
+    await admin.save();
 
-    await admin.save(); // Save the new admin to the database
-
-    // Generate a JWT token for the new admin
+    // Generate JWT token with isAdmin flag
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true },
-      process.env.JWT_SECRET, // Use your environment secret key
-      { expiresIn: "3h" } // Token expiration (3 hours)
+      { id: admin._id, isAdmin: true }, // Add isAdmin: true here
+      process.env.JWT_SECRET,
+      { expiresIn: "3h" } // Token expiry time
     );
 
     return res.status(201).json({ token });
@@ -71,19 +72,10 @@ router.post("/admin-register", async (req, res) => {
   }
 });
 
-// *********** GET ALL ADMIN DATA *********** //
-// This route will fetch and return all admin data (you can customize this as needed)
-router.get("/admin-data", authMiddleware, async (req, res) => {
-  try {
-    // Fetch all admin data from the database
-    const admins = await Admin.find({}, { password: 0 }); // Exclude password field for security reasons
-
-    // Return the admin data in JSON format
-    return res.status(200).json({ success: true, data: admins });
-  } catch (error) {
-    console.error("Error fetching admin data:", error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
+// Protected Admin Route
+router.get("/admin-dashboard", authMiddleware, (req, res) => {
+  // Only accessible if the token is valid and has isAdmin: true
+  return res.status(200).json({ message: "Welcome to the Admin Dashboard" });
 });
 
 module.exports = router;
