@@ -13,29 +13,6 @@ const {
   Contact,
 } = require("../models/portfolioModel");
 
-// *********** AUTH ROUTES *********** //
-
-router.get("/admin-login", async (req, res) => {
-  res.send("Login page");
-});
-
-router.post("/admin-register", async (req, res) => {
-  try {
-    const { email, password, specialCode } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    if (specialCode !== process.env.SPECIAL_CODE) {
-      return res.status(400).json({ message: "Invalid special code" });
-    }
-    const admin = {
-      email,
-      password: hashedPassword,
-    };
-    res.status(201).json({ message: "Admin registered successfully" });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
 // *********** PORTFOLIO ROUTES *********** //
 
 // @desc Get all portfolio data
