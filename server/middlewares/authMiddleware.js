@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
-  const authHeader = req.header("Authorization");
+  const authHeader = req.header("Authorization"); // Get the authorization header
 
   // Check if the Authorization header exists
   if (!authHeader) {
@@ -24,7 +24,7 @@ const authMiddleware = (req, res, next) => {
 
   try {
     // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify the token with the secret key
 
     // Check if the user is an admin
     if (!decoded.isAdmin) {
@@ -48,4 +48,4 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+module.exports = authMiddleware; // Export the middleware for use in protected routes
