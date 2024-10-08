@@ -71,4 +71,19 @@ router.post("/admin-register", async (req, res) => {
   }
 });
 
+// *********** GET ALL ADMIN DATA *********** //
+// This route will fetch and return all admin data (you can customize this as needed)
+router.get("/admin-data", authMiddleware, async (req, res) => {
+  try {
+    // Fetch all admin data from the database
+    const admins = await Admin.find({}, { password: 0 }); // Exclude password field for security reasons
+
+    // Return the admin data in JSON format
+    return res.status(200).json({ success: true, data: admins });
+  } catch (error) {
+    console.error("Error fetching admin data:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 module.exports = router;
