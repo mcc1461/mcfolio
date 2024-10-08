@@ -48,33 +48,33 @@ router.post("/admin-login", async (req, res) => {
     // Check if the admin exists in the database
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      console.log("Admin not found with this email:", email); // Log if the admin is not found
+      console.log("Admin not found with this email:", email);
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    console.log("Admin found:", admin); // Log the found admin
+    console.log("Admin found:", admin);
 
     // Compare the entered password with the hashed password in the database
-    const isMatch = await admin.comparePassword(password); // Use model method for comparison
-    console.log("Password comparison result:", isMatch); // Log the result of the comparison
+    const isMatch = await admin.comparePassword(password);
+    console.log("Password comparison result:", isMatch);
 
     if (!isMatch) {
-      console.log("Password mismatch for admin:", email); // Log if the password doesn't match
+      console.log("Password mismatch for admin:", email);
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Generate a JWT token with the isAdmin flag
     const token = jwt.sign(
       { id: admin._id, isAdmin: true },
-      process.env.JWT_SECRET, // Use the secret from environment variables
-      { expiresIn: "1d" } // Token expiration time of 1 day
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
     );
 
-    console.log("Login successful, token generated:", token); // Log the success message
-    return res.status(200).json({ token }); // Respond with the token
+    console.log("Login successful, token generated:", token);
+    return res.status(200).json({ token });
   } catch (error) {
-    console.error("Server error during login:", error); // Log any server error
-    return res.status(500).json({ message: "Server error" }); // Respond with server error
+    console.error("Server error during login:", error); // Log the error
+    return res.status(500).json({ message: "Server error during login" });
   }
 });
 

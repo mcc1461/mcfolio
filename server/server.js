@@ -22,6 +22,7 @@ const port = process.env.PORT || 8000;
 // Define allowed origins for CORS
 const allowedOrigins = [
   "http://127.0.0.1:3000",
+  "http://localhost:3000",
   "https://127.0.0.1:3000",
   "https://musco.dev",
   process.env.CLIENT_ORIGIN, // Ensure CLIENT_ORIGIN is defined
