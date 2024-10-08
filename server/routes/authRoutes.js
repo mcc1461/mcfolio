@@ -14,30 +14,36 @@ router.post("/admin-login", async (req, res) => {
     // Check if the admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      console.log("Admin not found");
+      console.log("Admin not found with this email:", email);
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
     console.log("Admin found:", admin);
-    console.log("Password received:", password);
+
+    // Debugging: Display the plain password and hashed password for comparison
+    console.log("Password received (plain):", password);
     console.log("Hashed password from DB:", admin.password);
 
-    // Compare password
+    // Compare password: bcrypt compares the plain text password with the hashed password from the database
     const isMatch = await bcrypt.compare(password, admin.password);
+
+    // Log the result of password comparison
     console.log("Password comparison result:", isMatch);
 
+    // If password does not match, return error
     if (!isMatch) {
-      console.log("Password does not match");
+      console.log("Password does not match for admin with email:", email);
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Generate JWT token with isAdmin flag
+    // If the password matches, generate the JWT token
     const token = jwt.sign(
       { id: admin._id, isAdmin: true },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
+    console.log("Login successful for admin with email:", email);
     return res.status(200).json({ token });
   } catch (error) {
     console.error("Server error during login:", error);
@@ -77,6 +83,7 @@ router.post("/admin-register", async (req, res) => {
       { expiresIn: "3h" }
     );
 
+    console.log("Admin registered successfully:", email);
     return res.status(201).json({ token });
   } catch (error) {
     console.error("Server error during registration:", error);
