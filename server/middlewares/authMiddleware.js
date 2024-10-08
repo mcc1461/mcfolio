@@ -41,7 +41,7 @@ const authMiddleware = (req, res, next) => {
     next();
   } catch (error) {
     // Handle invalid token
-    return res.status(403).json({
+    return res.status(401).json({
       message:
         "Invalid token or your session has expired. Please LOG IN again.",
     });

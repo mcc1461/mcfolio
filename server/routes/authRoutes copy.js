@@ -6,7 +6,7 @@ const Admin = require("../models/adminModel");
 const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 
-// *********** ADMIN LOGIN ROUTE *********** //
+// Admin login route
 router.post("/admin-login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -14,20 +14,20 @@ router.post("/admin-login", async (req, res) => {
     // Check if the admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Generate JWT token with isAdmin flag
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true },
+      { id: admin._id, isAdmin: true }, // Add isAdmin: true here
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1d" } // Token expiry time
     );
 
     return res.status(200).json({ token });
@@ -36,10 +36,11 @@ router.post("/admin-login", async (req, res) => {
   }
 });
 
-// *********** ADMIN REGISTRATION ROUTE *********** //
+// Admin registration route
 router.post("/admin-register", async (req, res) => {
   const { email, password, specialCode } = req.body;
 
+  // Validate the special code for admin registration
   if (specialCode !== process.env.ADMIN_SECRET_CODE) {
     return res.status(400).json({ message: "Invalid admin code!" });
   }
@@ -60,9 +61,9 @@ router.post("/admin-register", async (req, res) => {
 
     // Generate JWT token with isAdmin flag
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true },
+      { id: admin._id, isAdmin: true }, // Add isAdmin: true here
       process.env.JWT_SECRET,
-      { expiresIn: "3h" }
+      { expiresIn: "3h" } // Token expiry time
     );
 
     return res.status(201).json({ token });
@@ -71,8 +72,9 @@ router.post("/admin-register", async (req, res) => {
   }
 });
 
-// *********** PROTECTED ADMIN ROUTE *********** //
+// Protected Admin Route
 router.get("/admin-dashboard", authMiddleware, (req, res) => {
+  // Only accessible if the token is valid and has isAdmin: true
   return res.status(200).json({ message: "Welcome to the Admin Dashboard" });
 });
 
