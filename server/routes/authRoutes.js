@@ -59,10 +59,7 @@ router.post("/admin-login", async (req, res) => {
 
     console.log("Admin found:", admin); // Log the found admin
 
-    // Compare the entered password with the hashed password in the database
-    // const isMatch = await bcrypt.compare(password, admin.password); // Compare the plain password with the hashed password
-    // console.log("Password comparison result:", isMatch); // Log the result of the comparison
-
+    // Compare the entered password with the hashed password using the model method
     const isMatch = await admin.comparePassword(password); // Compare entered password with hashed password
     console.log("Password comparison result:", isMatch); // Log the result of the comparison
 
