@@ -1,10 +1,10 @@
 const express = require("express");
-const bcrypt = require("bcryptjs"); // For password hashing and comparison
-const jwt = require("jsonwebtoken"); // For generating JWT tokens
-const Admin = require("../models/adminModel"); // Admin model from your database
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const Admin = require("../models/adminModel");
 
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware"); // Middleware to protect routes
+const authMiddleware = require("../middlewares/authMiddleware");
 
 // *********** ADMIN LOGIN ROUTE *********** //
 router.post("/admin-login", async (req, res) => {
@@ -14,90 +14,85 @@ router.post("/admin-login", async (req, res) => {
     // Check if the admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      console.log("Admin not found with this email:", email);
+      console.log("Admin not found with this email:", email); // Debugging: log the email that was checked
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    console.log("Admin found:", admin);
+    console.log("Admin found:", admin); // Log the admin object to check the fetched data
 
-    // Debugging: Display the plain password and hashed password for comparison
+    // Debugging: Display the plain password and the hashed password for comparison
     console.log("Password received (plain):", password);
     console.log("Hashed password from DB:", admin.password);
 
-    // Compare password: bcrypt compares the plain text password with the hashed password from the database
+    // Compare the provided plain password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, admin.password);
+    console.log("Password comparison result:", isMatch); // Log result of password comparison
 
-    // Log the result of password comparison
-    console.log("Password comparison result:", isMatch);
-
-    // If password does not match, return error
     if (!isMatch) {
-      console.log("Password does not match for admin with email:", email);
+      console.log("Password does not match for admin with email:", email); // Debugging: log mismatched password attempt
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
     // If the password matches, generate the JWT token
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { id: admin._id, isAdmin: true }, // Payload: admin ID and isAdmin flag
+      process.env.JWT_SECRET, // Secret for signing the JWT
+      { expiresIn: "1d" } // Expiration time: 1 day
     );
 
-    console.log("Login successful for admin with email:", email);
+    console.log("Login successful for admin with email:", email); // Log successful login
     return res.status(200).json({ token });
   } catch (error) {
-    console.error("Server error during login:", error);
+    console.error("Server error during login:", error); // Log server errors
     return res.status(500).json({ message: "Server error" });
   }
 });
 
 // *********** ADMIN REGISTRATION ROUTE *********** //
-// This route handles admin registration requests
 router.post("/admin-register", async (req, res) => {
-  const { email, password, specialCode } = req.body; // Extract email, password, and special code from request body
+  const { email, password, specialCode } = req.body;
 
-  // Check if the provided specialCode matches the environment variable for admin registration
+  // Check if the provided special code is correct
   if (specialCode !== process.env.ADMIN_SECRET_CODE) {
-    console.log("Invalid admin code");
-    return res.status(400).json({ message: "Invalid admin code!" }); // Return error if the special code is incorrect
+    console.log("Invalid admin code"); // Debugging: log invalid special code attempts
+    return res.status(400).json({ message: "Invalid admin code!" });
   }
 
   try {
-    // Check if an admin already exists with the same email
+    // Check if the admin already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
-      console.log("Admin already exists");
-      return res.status(400).json({ message: "Admin already exists" }); // Return error if the admin is already registered
+      console.log("Admin already exists with email:", email); // Debugging: log duplicate admin registration attempts
+      return res.status(400).json({ message: "Admin already exists" });
     }
 
-    // Hash the password before saving it to the database
-    const hashedPassword = await bcrypt.hash(password, 12); // Hash the password with 12 salt rounds
-    console.log("Hashed password for new admin:", hashedPassword);
+    // Hash the password before saving the admin
+    const hashedPassword = await bcrypt.hash(password, 12); // Hash with 12 salt rounds
+    console.log("Hashed password for new admin:", hashedPassword); // Debugging: log hashed password for new admin
 
-    // Create a new admin and save it to the database
+    // Create new admin and save to the database
     const admin = new Admin({ email, password: hashedPassword });
-    await admin.save(); // Save the new admin to the database
+    await admin.save(); // Save the new admin
 
-    // Generate a JWT token with an "isAdmin" flag for the new admin
+    // Generate JWT token with isAdmin flag
     const token = jwt.sign(
-      { id: admin._id, isAdmin: true }, // Payload with admin ID and isAdmin flag
-      process.env.JWT_SECRET, // Secret key for signing the token
-      { expiresIn: "3h" } // Token expiration time of 3 hours
+      { id: admin._id, isAdmin: true }, // Payload: admin ID and isAdmin flag
+      process.env.JWT_SECRET, // Secret for signing the JWT
+      { expiresIn: "3h" } // Expiration time: 3 hours
     );
 
-    console.log("Admin registered successfully:", email);
-    return res.status(201).json({ token }); // Return the generated token to the client
+    console.log("Admin registered successfully with email:", email); // Log successful admin registration
+    return res.status(201).json({ token });
   } catch (error) {
-    console.error("Server error during registration:", error);
-    return res.status(500).json({ message: "Server error" }); // Return server error for unexpected issues
+    console.error("Server error during registration:", error); // Log server errors during registration
+    return res.status(500).json({ message: "Server error" });
   }
 });
 
 // *********** PROTECTED ADMIN ROUTE *********** //
-// This route is protected by an authentication middleware
 router.get("/admin-dashboard", authMiddleware, (req, res) => {
-  console.log("Admin dashboard accessed by:", req.user);
-  return res.status(200).json({ message: "Welcome to the Admin Dashboard" }); // Protected route for admins
+  console.log("Admin dashboard accessed by:", req.user); // Log access to the dashboard
+  return res.status(200).json({ message: "Welcome to the Admin Dashboard" });
 });
 
 module.exports = router;
