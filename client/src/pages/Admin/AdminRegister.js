@@ -33,6 +33,7 @@ const AdminRegistration = () => {
         }
       );
 
+      // You can use the response here if necessary
       if (response.status === 201) {
         navigate("/admin-login");
       }
@@ -67,6 +68,7 @@ const AdminRegistration = () => {
             />
           </div>
 
+          {/* Password Field */}
           <div className="relative">
             <label className="block mb-1 text-left text-gray-600">
               Password
@@ -81,6 +83,7 @@ const AdminRegistration = () => {
               onChange={(e) => setAdmin({ ...admin, password: e.target.value })}
               autoComplete="new-password"
             />
+            {/* Toggle Password Visibility */}
             <button
               type="button"
               className="absolute text-2xl text-gray-600 top-9 right-3"
@@ -90,6 +93,7 @@ const AdminRegistration = () => {
             </button>
           </div>
 
+          {/* Confirm Password Field */}
           <div className="relative">
             <label className="block mb-1 text-left text-gray-600">
               Confirm Password
@@ -106,6 +110,7 @@ const AdminRegistration = () => {
               }
               autoComplete="new-password"
             />
+            {/* Toggle Confirm Password Visibility */}
             <button
               type="button"
               className="absolute text-2xl text-gray-600 top-9 right-3"
@@ -115,6 +120,7 @@ const AdminRegistration = () => {
             </button>
           </div>
 
+          {/* Special Code Field */}
           <div className="relative">
             <label className="block mb-1 text-left text-gray-600">
               Special Code
@@ -131,6 +137,7 @@ const AdminRegistration = () => {
               }
               autoComplete="off"
             />
+            {/* Toggle Special Code Visibility */}
             <button
               type="button"
               className="absolute text-2xl text-gray-600 top-9 right-3"
@@ -147,6 +154,15 @@ const AdminRegistration = () => {
             Register
           </button>
         </form>
+
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => navigate("/")}
+            className="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-700"
+          >
+            Go Back to Home
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -45,8 +45,7 @@ const Login = () => {
         <p className="mb-4 text-sm text-center text-gray-700">
           This section is restricted to authorized personnel.
         </p>
-        {error && <p className="mb-4 text-red-500">{error}</p>}{" "}
-        {/* Show error message */}
+        {error && <p className="mb-4 text-red-500">{error}</p>}
         <form onSubmit={loginUser} className="grid gap-4">
           <div>
             <label

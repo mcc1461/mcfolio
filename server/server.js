@@ -47,11 +47,11 @@ app.use(express.static("public")); // Serve static files
 
 // Import and use your route files
 const portfolioRoutes = require("./routes/portfolioRoutes");
-const authRoutes = require("./routes/authRoutes"); // If applicable
+const adminRoutes = require("./routes/adminRoutes"); // Corrected to adminRoutes
 const visitorRoutes = require("./routes/visitorRoutes");
 
 app.use("/api", portfolioRoutes);
-app.use("/api", authRoutes); // Add authentication routes if applicable
+app.use("/api", adminRoutes); // Use admin routes
 app.use("/api", visitorRoutes);
 
 // Default root route
