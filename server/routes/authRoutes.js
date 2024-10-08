@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcryptjs"); // For hashing passwords
 const jwt = require("jsonwebtoken"); // For generating JWT tokens
 const Admin = require("../models/adminModel"); // Mongoose Admin model
 const authMiddleware = require("../middlewares/authMiddleware"); // Middleware for protected routes
@@ -21,8 +22,12 @@ router.post("/admin-register", async (req, res) => {
       return res.status(400).json({ message: "Admin already exists" });
     }
 
+    // **Hash the password before saving it to the database**
+    const hashedPassword = await bcrypt.hash(password, 12); // 12 salt rounds for hashing
+    console.log("Hashed password for new admin:", hashedPassword); // Log the hashed password
+
     // Create a new admin and save to the database
-    const admin = new Admin({ email, password }); // Pass the plain password
+    const admin = new Admin({ email, password: hashedPassword });
     await admin.save();
 
     // Generate a JWT token with the isAdmin flag
@@ -48,33 +53,33 @@ router.post("/admin-login", async (req, res) => {
     // Check if the admin exists in the database
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      console.log("Admin not found with this email:", email);
+      console.log("Admin not found with this email:", email); // Log if the admin is not found
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    console.log("Admin found:", admin);
+    console.log("Admin found:", admin); // Log the found admin
 
     // Compare the entered password with the hashed password in the database
-    const isMatch = await admin.comparePassword(password);
-    console.log("Password comparison result:", isMatch);
+    const isMatch = await bcrypt.compare(password, admin.password); // Compare the plain password with the hashed password
+    console.log("Password comparison result:", isMatch); // Log the result of the comparison
 
     if (!isMatch) {
-      console.log("Password mismatch for admin:", email);
+      console.log("Password mismatch for admin:", email); // Log if the password doesn't match
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Generate a JWT token with the isAdmin flag
     const token = jwt.sign(
       { id: admin._id, isAdmin: true },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      process.env.JWT_SECRET, // Use the secret from environment variables
+      { expiresIn: "1d" } // Token expiration time of 1 day
     );
 
-    console.log("Login successful, token generated:", token);
-    return res.status(200).json({ token });
+    console.log("Login successful, token generated:", token); // Log the success message
+    return res.status(200).json({ token }); // Respond with the token
   } catch (error) {
-    console.error("Server error during login:", error); // Log the error
-    return res.status(500).json({ message: "Server error during login" });
+    console.error("Server error during login:", error); // Log any server error
+    return res.status(500).json({ message: "Server error" }); // Respond with server error
   }
 });
 

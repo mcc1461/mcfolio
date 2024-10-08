@@ -14,7 +14,7 @@ const adminSchema = new mongoose.Schema({
   },
 });
 
-// Hash the password before saving to the database
+// **Hash the password before saving to the database**
 adminSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next(); // Only hash if the password is new or modified
   const salt = await bcrypt.genSalt(12); // Generate salt with 12 rounds

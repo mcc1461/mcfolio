@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// import axios from "axios"; // Axios for sending HTTP requests
-import axiosInstance from "../../utilities/axiosInstance";
+import axios from "axios"; // Axios for sending HTTP requests
 import { useNavigate } from "react-router-dom"; // React Router for navigation
 
 const Login = () => {
@@ -15,13 +14,10 @@ const Login = () => {
 
     try {
       // Make a POST request to your backend API for login
-      const response = await axiosInstance.post(
-        "https://musco.dev/api/admin-login",
-        {
-          email: admin.email,
-          password: admin.password,
-        }
-      );
+      const response = await axios.post("https://musco.dev/api/admin-login", {
+        email: admin.email,
+        password: admin.password,
+      });
 
       console.log("Login response received:", response.data);
 
@@ -36,7 +32,7 @@ const Login = () => {
       setError(
         error.response?.data?.message || "An error occurred. Please try again."
       );
-      console.error("Login error:", error); // Log the full error object
+      console.error("Login error:", error.response?.data?.message);
     }
   };
 
