@@ -15,11 +15,11 @@ const {
 
 // *********** AUTH ROUTES *********** //
 
-router.get("/login", async (req, res) => {
+router.get("/admin-login", async (req, res) => {
   res.send("Login page");
 });
 
-router.post("/register", async (req, res) => {
+router.post("/admin-register", async (req, res) => {
   try {
     const { email, password, specialCode } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
