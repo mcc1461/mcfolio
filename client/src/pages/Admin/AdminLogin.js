@@ -88,7 +88,7 @@ const Login = () => {
                 className="absolute text-gray-500 cursor-pointer right-2 top-2"
                 onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
               >
-                {showPassword ? "🙈" : "👁️"} {/* Toggle eye icon */}
+                {showPassword ? "👁️" : "🙈"} {/* Toggle eye icon */}
               </span>
             </div>
           </div>
