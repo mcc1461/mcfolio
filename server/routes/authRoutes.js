@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcryptjs"); // For hashing passwords
 const jwt = require("jsonwebtoken"); // For generating JWT tokens
 const Admin = require("../models/adminModel"); // Mongoose Admin model
 const authMiddleware = require("../middlewares/authMiddleware"); // Middleware for protected routes
@@ -21,15 +22,18 @@ router.post("/admin-register", async (req, res) => {
       return res.status(400).json({ message: "Admin already exists" });
     }
 
+    // Hash the password before saving to the database
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     // Create a new admin and save to the database
-    const admin = new Admin({ email, password });
+    const admin = new Admin({ email, password: hashedPassword });
     await admin.save();
 
     // Generate a JWT token with the isAdmin flag
     const token = jwt.sign(
       { id: admin._id, isAdmin: true },
       process.env.JWT_SECRET, // Use the secret from environment variables
-      { expiresIn: "3h" } // Token expiration time of 3 hours
+      { expiresIn: "5h" } // Token expiration time of 5 hours
     );
 
     console.log("Admin registered successfully, token generated:", token); // Log the success message
@@ -54,8 +58,9 @@ router.post("/admin-login", async (req, res) => {
 
     console.log("Admin found:", admin); // Log the found admin
 
-    // Compare the entered password directly (without bcrypt)
-    if (password !== admin.password) {
+    // Compare the entered password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
       console.log("Password mismatch for admin:", email); // Log if the password doesn't match
       return res.status(400).json({ message: "Invalid credentials" });
     }
