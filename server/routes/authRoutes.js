@@ -29,7 +29,7 @@ router.post("/admin-register", async (req, res) => {
     const token = jwt.sign(
       { id: admin._id, isAdmin: true },
       process.env.JWT_SECRET, // Use the secret from environment variables
-      { expiresIn: "5h" } // Token expiration time of 5 hours
+      { expiresIn: "3h" } // Token expiration time of 3 hours
     );
 
     console.log("Admin registered successfully, token generated:", token); // Log the success message
