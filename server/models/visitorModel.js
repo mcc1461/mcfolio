@@ -8,7 +8,7 @@ const VisitorSchema = new mongoose.Schema({
   date: { type: String, required: true },
   // createdAt: { type: Date, default: Date.now, expires: "7d" }, // Expire document after 7 days
   // This line includes expiration of the document after 7 days which causes decrement on the count of visitors after 7 days of the visit, so that the count of visitors is not accurate. For this reason, this line is commented out and changed with the line below which does not include expiration of the document.
-  createdAt: { type: Date, default: Date.now, expires: "7d" }, // Expire document after 7 days
+  createdAt: { type: Date, default: Date.now }, // Expire document after 7 days
 });
 VisitorSchema.index({ ip: 1, date: 1 }, { unique: true }); // Ensure unique visitor per day
 const Visitor = mongoose.model("Visitor", VisitorSchema);
