@@ -6,6 +6,9 @@ const cors = require("cors");
 const createError = require("http-errors"); // To handle 404 errors
 const dbConnection = require("./config/dbConnection"); // Ensure database connection function is imported
 
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("MongoDB URI:", process.env.MONGODB_URI);
+
 // Determine the environment and load the corresponding .env file
 const envFile =
   process.env.NODE_ENV === "production"
