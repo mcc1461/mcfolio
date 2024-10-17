@@ -6,9 +6,6 @@ const cors = require("cors");
 const createError = require("http-errors"); // To handle 404 errors
 const dbConnection = require("./config/dbConnection"); // Ensure database connection function is imported
 
-console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("MongoDB URI:", process.env.MONGODB_URI);
-
 // Determine the environment and load the corresponding .env file
 const envFile =
   process.env.NODE_ENV === "production"
@@ -17,6 +14,11 @@ const envFile =
 
 // Configure dotenv to load environment variables from the specified file
 dotenv.config({ path: path.resolve(__dirname, envFile) });
+
+// Log environment variables after loading dotenv
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("MongoDB URI:", process.env.MONGODB_URI);
+console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
 
 // Initialize Express app
 const app = express();
@@ -29,9 +31,6 @@ const allowedOrigins = [
   "https://musco.dev",
   process.env.CLIENT_ORIGIN, // Ensure CLIENT_ORIGIN is defined
 ].filter(Boolean); // Removes undefined entries
-
-// Log CLIENT_ORIGIN for debugging
-console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
 
 // Database connection
 dbConnection(); // Make sure database connection is established
