@@ -58,7 +58,7 @@ app.use("/api", visitorRoutes);
 
 // Default root route
 app.get("/", (req, res) => {
-  res.send("Hello World from MusCo Portfolio API");
+  res.send("Hello World from MusCo ßPortfolio API");
 });
 
 // Handle 404 errors for unknown routes
