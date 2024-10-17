@@ -17,7 +17,7 @@ dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 // Log environment variables after loading dotenv
 console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("MongoDB URI:", process.env.MONGODB_URI);
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
 console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
 
 // Initialize Express app
