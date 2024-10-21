@@ -28,7 +28,11 @@ const VisitorCounter = () => {
 
     const updateVisitorCount = async () => {
       const userIP = await getUserIP();
-      if (userIP) {
+
+      // Check if the visitor has already been counted this session
+      const countedInSession = sessionStorage.getItem("visitorCounted");
+
+      if (userIP && !countedInSession) {
         try {
           // Get the token from local storage (if needed)
           const token = localStorage.getItem("authToken");
@@ -48,8 +52,31 @@ const VisitorCounter = () => {
 
           const data = await response.json();
           setVisitorCount(data.count);
+
+          // Mark this visitor as counted for this session
+          sessionStorage.setItem("visitorCounted", "true");
         } catch (error) {
           console.error("Error updating visitor count:", error);
+          setVisitorCount("Error");
+        } finally {
+          setLoading(false);
+        }
+      } else if (countedInSession) {
+        // If already counted, simply fetch the current count without incrementing
+        try {
+          const response = await fetch("https://musco.dev/api/visitor-count", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+          setVisitorCount(data.count);
+        } catch (error) {
+          console.error("Error fetching visitor count:", error);
           setVisitorCount("Error");
         } finally {
           setLoading(false);

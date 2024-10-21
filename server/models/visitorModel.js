@@ -6,9 +6,7 @@ const { enforceDailyLimit } = require("../config/dailyLimiting"); // Or use envi
 const VisitorSchema = new mongoose.Schema({
   ip: { type: String, required: true },
   date: { type: String, required: true },
-  // createdAt: { type: Date, default: Date.now, expires: "7d" }, // Expire document after 7 days
-  // This line includes expiration of the document after 7 days which causes decrement on the count of visitors after 7 days of the visit, so that the count of visitors is not accurate. For this reason, this line is commented out and changed with the line below which does not include expiration of the document.
-  createdAt: { type: Date, default: Date.now }, // Expire document after 7 days
+  createdAt: { type: Date, default: Date.now },
 });
 VisitorSchema.index({ ip: 1, date: 1 }, { unique: true }); // Ensure unique visitor per day
 const Visitor = mongoose.model("Visitor", VisitorSchema);
@@ -33,19 +31,16 @@ const incrementVisitorCount = async (ip) => {
       const newVisitor = new Visitor({ ip: hash, date: today });
       await newVisitor.save();
 
-      // If successful, count the total number of unique visitors
-      const count = await Visitor.countDocuments();
-      return count;
+      // If successful, update and return the global count
+      return await updateGlobalVisitorCount();
     } else {
       // If daily limit is not enforced, increment the global counter
-      const count = await incrementGlobalCounter();
-      return count;
+      return await incrementGlobalCounter();
     }
   } catch (error) {
     if (error.code === 11000 && enforceDailyLimit) {
-      // Duplicate key error: visitor already counted today
-      const count = await Visitor.countDocuments();
-      return count;
+      // Duplicate key error: visitor already counted today, return current count
+      return await getCurrentVisitorCount();
     } else {
       console.error("Error accessing MongoDB:", error);
       throw error;
@@ -53,7 +48,21 @@ const incrementVisitorCount = async (ip) => {
   }
 };
 
-// Helper function to increment the global counter
+// Helper function to update global visitor count based on Visitor collection
+const updateGlobalVisitorCount = async () => {
+  const count = await Visitor.countDocuments();
+
+  // Store the latest count in Counter collection
+  await Counter.findOneAndUpdate(
+    { _id: "visitorCount" },
+    { count },
+    { upsert: true, new: true }
+  );
+
+  return count;
+};
+
+// Helper function to increment the global counter when daily limit is not enforced
 const incrementGlobalCounter = async () => {
   const result = await Counter.findOneAndUpdate(
     { _id: "visitorCount" },
