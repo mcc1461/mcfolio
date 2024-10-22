@@ -79,7 +79,8 @@ const Contact = () => {
   };
 
   const showModal = (e) => {
-    e.stopPropagation(); // Prevent the LinkedIn link from triggering
+    e.preventDefault(); // Prevent default link behavior
+    e.stopPropagation(); // Stop other handlers like the LinkedIn link
     setIsModalVisible(true);
   };
 
@@ -192,6 +193,7 @@ const Contact = () => {
                   ? "text-quaternary-300 underline cursor-pointer"
                   : "text-mc-white"
               }`}
+              onClick={(e) => e.preventDefault()} // Disable LinkedIn activation by touch
             >
               {user.name}
               <span className="inline-block px-2">
@@ -210,7 +212,7 @@ const Contact = () => {
               <p className="mb-2">Location: {user.location}</p>
               <button
                 className="px-4 py-2 mt-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                onClick={showModal}
+                onClick={showModal} // Prevents LinkedIn conflict
               >
                 Write to Me
               </button>
