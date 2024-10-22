@@ -14,6 +14,7 @@ const Contact = () => {
     message: "",
   });
   const [alert, setAlert] = useState(null);
+  const [isMobile, setIsMobile] = useState(false); // Detect mobile device
 
   const videoRef = useRef(null);
   const formRef = useRef(null);
@@ -22,6 +23,12 @@ const Contact = () => {
   useEffect(() => {
     emailjs.init(publicKey);
   }, [publicKey]);
+
+  useEffect(() => {
+    // Detect if the user is on a mobile device
+    const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+    setIsMobile(isMobileDevice);
+  }, []);
 
   const isVideoPlaying = (video) => {
     return !!(
@@ -79,7 +86,7 @@ const Contact = () => {
   };
 
   const showModal = (e) => {
-    e.preventDefault(); // Prevent default link behavior
+    e.preventDefault();
     e.stopPropagation(); // Stop other handlers like the LinkedIn link
     setIsModalVisible(true);
   };
@@ -132,6 +139,12 @@ const Contact = () => {
   };
 
   const closeAlert = () => setAlert(null);
+
+  // Double-click handler for the "Write to Me" button
+  const handleDoubleClick = (e) => {
+    e.preventDefault();
+    showModal(e); // Show modal on double-click
+  };
 
   const handleTouch = () => {
     setEntered(true);
@@ -193,7 +206,6 @@ const Contact = () => {
                   ? "text-quaternary-300 underline cursor-pointer"
                   : "text-mc-white"
               }`}
-              onClick={(e) => e.preventDefault()} // Disable LinkedIn activation by touch
             >
               {user.name}
               <span className="inline-block px-2">
@@ -212,10 +224,16 @@ const Contact = () => {
               <p className="mb-2">Location: {user.location}</p>
               <button
                 className="px-4 py-2 mt-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                onClick={showModal} // Prevents LinkedIn conflict
+                onDoubleClick={handleDoubleClick} // Trigger modal on double-click
               >
                 Write to Me
               </button>
+              {/* Show double-click message for mobile users */}
+              {isMobile && (
+                <p className="mt-2 text-sm text-gray-400">
+                  Double-click to send a message
+                </p>
+              )}
             </div>
           </div>
         </div>
