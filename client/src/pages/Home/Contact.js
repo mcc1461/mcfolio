@@ -78,7 +78,10 @@ const Contact = () => {
     location: "Location not available",
   };
 
-  const showModal = () => setIsModalVisible(true);
+  const showModal = (e) => {
+    e.stopPropagation(); // Prevent the LinkedIn link from triggering
+    setIsModalVisible(true);
+  };
 
   const handleCancel = () => setIsModalVisible(false);
 
