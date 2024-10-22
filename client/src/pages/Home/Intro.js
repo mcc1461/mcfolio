@@ -60,9 +60,7 @@ const Intro = () => {
       const yOffset = -headerHeight - additionalOffset; // Adjust with header height and additional offset
 
       const y =
-        projectsSection.getBoundingClientRect().top +
-        window.pageYOffset +
-        yOffset;
+        projectsSection.getBoundingClientRect().top + window.scrollY + yOffset;
 
       // Scroll the page manually to adjust for the header height and extra space
       window.scrollTo({ top: y, behavior: "smooth" });
