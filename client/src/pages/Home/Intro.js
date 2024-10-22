@@ -56,7 +56,7 @@ const Intro = () => {
 
       // Add additional offset for header and any fine-tuning
       const headerHeight = document.querySelector("header").offsetHeight || 0;
-      const additionalOffset = 20; // Adjust this value if needed to fine-tune
+      const additionalOffset = 28; // Adjust this value if needed to fine-tune
       const yOffset = -headerHeight - additionalOffset; // Adjust with header height and additional offset
 
       const y =
