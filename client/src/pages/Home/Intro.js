@@ -49,22 +49,23 @@ const Intro = () => {
     setIsModalVisible(false);
   };
 
-  // Function to scroll to the Projects section with offset
+  // Function to scroll to the Projects section with header offset
   const scrollToProjects = () => {
     const projectsSection = document.getElementById("Projects");
     if (projectsSection) {
-      const headerHeight = document.querySelector("header").offsetHeight || 0; // Get the height of the header
+      // First, scroll into view
+      projectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
-      // Scroll with offset, considering the header's height
-      const scrollPosition =
+      // After the smooth scroll, adjust the position by adding some offset
+      const headerHeight = document.querySelector("header").offsetHeight || 0;
+      const yOffset = -headerHeight; // Negative offset for header height
+      const y =
         projectsSection.getBoundingClientRect().top +
-        window.pageYOffset -
-        headerHeight;
+        window.pageYOffset +
+        yOffset;
 
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      });
+      // Scroll the page manually to adjust for the header height
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
