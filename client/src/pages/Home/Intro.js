@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import photo from "../../assets/photo.jpg";
 
@@ -7,6 +7,7 @@ const Intro = () => {
     "https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/photo.jpg?alt=media&token=bf7055f0-a54d-4302-ae4c-ddf672167b4e"
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // Track if the device is mobile
 
   const { portfolioData } = useSelector((state) => state.root);
 
@@ -47,7 +48,21 @@ const Intro = () => {
     setIsModalVisible(false);
   };
 
-  // Function to scroll to the Projects section with manual control
+  useEffect(() => {
+    // Detect if the device is mobile (using screen width)
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768); // Mobile if width is <= 768px
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  // Function to scroll to the Projects section
   const scrollToProjects = () => {
     const projectsSection = document.getElementById("Projects");
     if (projectsSection) {
@@ -58,11 +73,19 @@ const Intro = () => {
       const targetPosition =
         projectsSection.getBoundingClientRect().top + window.scrollY - yOffset;
 
-      // Manually scroll to the precise position without relying on scrollIntoView
-      window.scrollTo({
-        top: targetPosition,
-        behavior: "smooth",
-      });
+      if (isMobile) {
+        // On mobile, use the current approach
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
+        });
+      } else {
+        // On desktop, adjust scroll for different behavior
+        window.scrollTo({
+          top: targetPosition - 50, // Additional offset for desktop/tablet
+          behavior: "smooth",
+        });
+      }
     }
   };
 
