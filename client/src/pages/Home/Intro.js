@@ -47,27 +47,22 @@ const Intro = () => {
     setIsModalVisible(false);
   };
 
-  // Function to scroll to the Projects section with additional offset
+  // Function to scroll to the Projects section with manual control
   const scrollToProjects = () => {
     const projectsSection = document.getElementById("Projects");
     if (projectsSection) {
-      // First, scroll into view smoothly
-      projectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      // Add additional offset for header and any fine-tuning
       const headerHeight = document.querySelector("header")?.offsetHeight || 0;
-      const additionalOffset = 20; // Adjust this value if needed to fine-tune
+      const additionalOffset = 20; // Adjust this value if needed
+      const yOffset = headerHeight + additionalOffset;
 
-      setTimeout(() => {
-        const yOffset = -headerHeight - additionalOffset;
-        const y =
-          projectsSection.getBoundingClientRect().top +
-          window.scrollY +
-          yOffset;
+      const targetPosition =
+        projectsSection.getBoundingClientRect().top + window.scrollY - yOffset;
 
-        // Scroll the page manually to adjust for the header height and extra space
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }, 500); // Add timeout to ensure smooth scroll has completed
+      // Manually scroll to the precise position without relying on scrollIntoView
+      window.scrollTo({
+        top: targetPosition,
+        behavior: "smooth",
+      });
     }
   };
 
