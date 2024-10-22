@@ -51,19 +51,23 @@ const Intro = () => {
   const scrollToProjects = () => {
     const projectsSection = document.getElementById("Projects");
     if (projectsSection) {
-      // First, scroll into view
+      // First, scroll into view smoothly
       projectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
       // Add additional offset for header and any fine-tuning
-      const headerHeight = document.querySelector("header").offsetHeight || 0;
-      const additionalOffset = 28; // Adjust this value if needed to fine-tune
-      const yOffset = -headerHeight - additionalOffset; // Adjust with header height and additional offset
+      const headerHeight = document.querySelector("header")?.offsetHeight || 0;
+      const additionalOffset = 20; // Adjust this value if needed to fine-tune
 
-      const y =
-        projectsSection.getBoundingClientRect().top + window.scrollY + yOffset;
+      setTimeout(() => {
+        const yOffset = -headerHeight - additionalOffset;
+        const y =
+          projectsSection.getBoundingClientRect().top +
+          window.scrollY +
+          yOffset;
 
-      // Scroll the page manually to adjust for the header height and extra space
-      window.scrollTo({ top: y, behavior: "smooth" });
+        // Scroll the page manually to adjust for the header height and extra space
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }, 500); // Add timeout to ensure smooth scroll has completed
     }
   };
 
