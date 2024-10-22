@@ -15,6 +15,7 @@ const Contact = () => {
   });
   const [alert, setAlert] = useState(null);
   const [isMobile, setIsMobile] = useState(false); // Detect mobile device
+  const [clickCount, setClickCount] = useState(0); // Track click count for mobile
 
   const videoRef = useRef(null);
   const formRef = useRef(null);
@@ -140,10 +141,24 @@ const Contact = () => {
 
   const closeAlert = () => setAlert(null);
 
-  // Double-click handler for the "Write to Me" button
-  const handleDoubleClick = (e) => {
-    e.preventDefault();
-    showModal(e); // Show modal on double-click
+  // Double-click handler for mobile
+  const handleClick = (e) => {
+    if (isMobile) {
+      e.preventDefault();
+      setClickCount(clickCount + 1);
+
+      // Only open the modal if clicked twice
+      if (clickCount === 1) {
+        showModal(e);
+        setClickCount(0); // Reset after opening
+      }
+
+      // Reset click count after 300ms to register it as a single click
+      setTimeout(() => setClickCount(0), 300);
+    } else {
+      // For web, trigger the modal on the first click
+      showModal(e);
+    }
   };
 
   const handleTouch = () => {
@@ -224,7 +239,7 @@ const Contact = () => {
               <p className="mb-2">Location: {user.location}</p>
               <button
                 className="px-4 py-2 mt-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                onDoubleClick={handleDoubleClick} // Trigger modal on double-click
+                onClick={handleClick} // Handle click for both mobile and web
               >
                 Write to Me
               </button>
