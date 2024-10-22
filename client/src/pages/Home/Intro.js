@@ -30,9 +30,7 @@ const Intro = () => {
     setIsModalVisible(true);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  const handleCancel = () => setIsModalVisible(false);
 
   const handleView = () => {
     window.open(cvLinkPdf, "_blank");
@@ -49,22 +47,24 @@ const Intro = () => {
     setIsModalVisible(false);
   };
 
-  // Function to scroll to the Projects section with header offset
+  // Function to scroll to the Projects section with additional offset
   const scrollToProjects = () => {
     const projectsSection = document.getElementById("Projects");
     if (projectsSection) {
       // First, scroll into view
       projectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
-      // After the smooth scroll, adjust the position by adding some offset
+      // Add additional offset for header and any fine-tuning
       const headerHeight = document.querySelector("header").offsetHeight || 0;
-      const yOffset = -headerHeight; // Negative offset for header height
+      const additionalOffset = 20; // Adjust this value if needed to fine-tune
+      const yOffset = -headerHeight - additionalOffset; // Adjust with header height and additional offset
+
       const y =
         projectsSection.getBoundingClientRect().top +
         window.pageYOffset +
         yOffset;
 
-      // Scroll the page manually to adjust for the header height
+      // Scroll the page manually to adjust for the header height and extra space
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
