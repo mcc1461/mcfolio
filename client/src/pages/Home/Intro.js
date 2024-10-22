@@ -49,6 +49,14 @@ const Intro = () => {
     setIsModalVisible(false);
   };
 
+  // Function to scroll to the Projects section smoothly
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById("Projects");
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="homepage pt-[7vh] min-h-[100vh] bg-mc-blue pl-7 flex items-center justify-center md:flex-col-reverse sm:flex-col-reverse">
       {/* Ensure adequate padding from the header */}
@@ -66,10 +74,8 @@ const Intro = () => {
         <h1 className="w-4/5 p-3 text-3xl italic font-bold text-justify sm:text-lg md:text-xl lg:text-2xl md:text-center sm:text-center md:w-[90vw] sm:w-[90vw] text-quinary-100">
           {description}
         </h1>
+
         {/* Display the details */}
-        {/* <h1 className="w-4/5 p-3 font-bold text-justify text-ms lg:text-lg xl:text-xl 2xl:text-2xl md:hidden sm:hidden xs:hidden text-quinary-100">
-          {details}
-        </h1> */}
         <h1 className="hidden w-4/5 p-3 text-sm font-bold text-justify lg:text-lg xl:text-xl 2xl:text-2xl lg:block xl:block 2xl:block text-quinary-100">
           {details}
         </h1>
@@ -77,11 +83,13 @@ const Intro = () => {
         {/* Buttons container */}
         <div className="flex flex-wrap justify-end w-4/5 gap-4 mt-4 sm:w-full md:w-full md:justify-center sm:justify-center">
           {/* Button to navigate to the Projects section */}
-          <a href="#Projects">
-            <button className="px-5 py-1 text-xl font-bold tracking-wider transition-colors duration-300 border-2 rounded border-quinary-300 text-quinary-300 hover:bg-quinary-300 hover:text-mc-blue">
-              Projects
-            </button>
-          </a>
+          <button
+            onClick={scrollToProjects}
+            className="px-5 py-1 text-xl font-bold tracking-wider transition-colors duration-300 border-2 rounded border-quinary-300 text-quinary-300 hover:bg-quinary-300 hover:text-mc-blue"
+          >
+            Projects
+          </button>
+
           {/* Button for CV */}
           <button
             onClick={showModal}
