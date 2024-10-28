@@ -1,9 +1,10 @@
 // Import required modules
+const express = require("express"); // Import express
 const dotenv = require("dotenv"); // Import dotenv
+dotenv.config(); // Use dotenv config
 const path = require("path"); // Import path module
-const express = require("express");
-const cors = require("cors");
-const createError = require("http-errors"); // To handle 404 errors
+const cors = require("cors"); // Import cors
+const createError = require("http-errors"); // Import http-errors
 const dbConnection = require("./config/dbConnection"); // Ensure database connection function is imported
 
 // Determine the environment and load the corresponding .env file
@@ -12,9 +13,6 @@ const envFile =
     ? ".env.production"
     : ".env.development";
 
-// Configure dotenv to load environment variables from the specified file
-dotenv.config({ path: path.resolve(__dirname, envFile) });
-
 // Log environment variables after loading dotenv
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("MONGODB_URI:", process.env.MONGODB_URI);
@@ -22,6 +20,15 @@ console.log("CLIENT_ORIGIN:", process.env.CLIENT_ORIGIN);
 
 // Initialize Express app
 const app = express();
+app.use(express.json()); // Parse JSON request body
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request body
+
+// Import and use required modules
+app.use(cors()); // Enable CORS
+
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files  from the public directory
+
+// Define the port for the server
 const port = process.env.PORT || 8000;
 
 // Define allowed origins for CORS
@@ -43,9 +50,6 @@ app.use(
     credentials: true, // Allows cookies and authentication headers
   })
 );
-
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.static("public")); // Serve static files
 
 // Import and use your route files
 const portfolioRoutes = require("./routes/portfolioRoutes");

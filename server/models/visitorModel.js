@@ -18,29 +18,22 @@ const CounterSchema = new mongoose.Schema({
 });
 const Counter = mongoose.model("Counter", CounterSchema);
 
-// Function to increment visitor count
 const incrementVisitorCount = async (ip) => {
   try {
-    // Hash the IP address for privacy
     const hash = crypto.createHash("sha256").update(ip).digest("hex");
 
     if (enforceDailyLimit) {
-      const today = new Date().toISOString().slice(0, 10); // Format date as 'YYYY-MM-DD'
-
-      // Attempt to create a new visitor document
+      const today = new Date().toISOString().slice(0, 10);
       const newVisitor = new Visitor({ ip: hash, date: today });
-      await newVisitor.save();
 
-      // If successful, update and return the global count
-      return await updateGlobalVisitorCount();
+      await newVisitor.save();
+      return await updateGlobalVisitorCount(); // Update global count only if new visitor is added
     } else {
-      // If daily limit is not enforced, increment the global counter
       return await incrementGlobalCounter();
     }
   } catch (error) {
     if (error.code === 11000 && enforceDailyLimit) {
-      // Duplicate key error: visitor already counted today, return current count
-      return await getCurrentVisitorCount();
+      return await getCurrentVisitorCount(); // Visitor already counted today
     } else {
       console.error("Error accessing MongoDB:", error);
       throw error;
@@ -72,16 +65,13 @@ const incrementGlobalCounter = async () => {
   return result.count;
 };
 
-// Function to retrieve the current visitor count
+// Updated getCurrentVisitorCount to ensure fallback
 const getCurrentVisitorCount = async () => {
   if (enforceDailyLimit) {
-    // Return the number of unique visitors in the database
-    const count = await Visitor.countDocuments();
-    return count;
+    return await Visitor.countDocuments();
   } else {
-    // Return the global counter value
     const result = await Counter.findOne({ _id: "visitorCount" });
-    return result ? result.count : 0;
+    return result ? result.count : 0; // Fallback to 0 if no record exists
   }
 };
 
