@@ -29,57 +29,69 @@ const VisitorCounter = () => {
     const updateVisitorCount = async () => {
       const userIP = await getUserIP();
 
-      // Check if the visitor has already been counted this session
-      const countedInSession = sessionStorage.getItem("visitorCounted");
+      // Get today's date in 'YYYY-MM-DD' format
+      const today = new Date().toISOString().slice(0, 10);
 
-      if (userIP && !countedInSession) {
-        try {
-          // Get the token from local storage (if needed)
-          const token = localStorage.getItem("authToken");
+      // Retrieve the last counted date from localStorage
+      const lastCountedDate = localStorage.getItem("lastCountedDate");
 
-          const response = await fetch("https://musco.dev/api/visitor-count", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token ? `Bearer ${token}` : "", // Include the token if available
-            },
-            body: JSON.stringify({ ip: userIP }),
-          });
+      if (userIP) {
+        if (lastCountedDate !== today) {
+          // If the last counted date is not today, increment the count
+          try {
+            // Get the token from local storage (if needed)
+            const token = localStorage.getItem("authToken");
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            const response = await fetch(
+              "https://musco.dev/api/visitor-count",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token ? `Bearer ${token}` : "", // Include the token if available
+                },
+                body: JSON.stringify({ ip: userIP }),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setVisitorCount(data.count);
+
+            // Update the last counted date to today
+            localStorage.setItem("lastCountedDate", today);
+          } catch (error) {
+            console.error("Error updating visitor count:", error);
+            setVisitorCount("Error");
+          } finally {
+            setLoading(false);
           }
-
-          const data = await response.json();
-          setVisitorCount(data.count);
-
-          // Mark this visitor as counted for this session
-          sessionStorage.setItem("visitorCounted", "true");
-        } catch (error) {
-          console.error("Error updating visitor count:", error);
-          setVisitorCount("Error");
-        } finally {
-          setLoading(false);
-        }
-      } else if (countedInSession) {
-        // If already counted, simply fetch the current count without incrementing
-        try {
-          const response = await fetch("https://musco.dev/api/visitor-count", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+          // If already counted today, simply fetch the current count without incrementing
+          try {
+            const response = await fetch(
+              "https://musco.dev/api/visitor-count",
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setVisitorCount(data.count);
+          } catch (error) {
+            console.error("Error fetching visitor count:", error);
+            setVisitorCount("Error");
+          } finally {
+            setLoading(false);
           }
-          const data = await response.json();
-          setVisitorCount(data.count);
-        } catch (error) {
-          console.error("Error fetching visitor count:", error);
-          setVisitorCount("Error");
-        } finally {
-          setLoading(false);
         }
       } else {
         console.error("User IP not available.");
