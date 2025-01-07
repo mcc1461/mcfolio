@@ -118,7 +118,7 @@ const Projects = () => {
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                Link
+                                Project Link
                               </a>
                             </button>
                           )}
