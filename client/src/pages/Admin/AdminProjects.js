@@ -17,6 +17,7 @@ const AdminProject = () => {
     desc: "",
     image: "",
     link: "",
+    live: "",
     order: 0,
   });
   const [alert, setAlert] = useState({ message: "", type: "" });
@@ -32,6 +33,7 @@ const AdminProject = () => {
           desc: "",
           image: "",
           link: "",
+          live: "",
           order: 0,
         });
       }
@@ -175,6 +177,7 @@ const AdminProject = () => {
               desc: "",
               image: "",
               link: "",
+              live: "",
               order: 0,
             });
             setShowEditModal(true);
@@ -321,6 +324,25 @@ const AdminProject = () => {
                     value={formData.link}
                     onChange={(e) =>
                       setFormData({ ...formData, link: e.target.value })
+                    }
+                    required
+                    autoComplete="off"
+                    className="block w-full mt-1 bg-blue-100 border-gray-500 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="live"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Project Live
+                  </label>
+                  <input
+                    type="text"
+                    id="link"
+                    value={formData.live}
+                    onChange={(e) =>
+                      setFormData({ ...formData, live: e.target.value })
                     }
                     required
                     autoComplete="off"
