@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import SectionTitle from "../../components/SectionTitle";
-import { ArrowDownCircleIcon } from "@heroicons/react/24/outline"; // New icon
+import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 
 const Experiences = () => {
   const [activeId, setActiveId] = useState(null);
@@ -9,30 +9,30 @@ const Experiences = () => {
   const { portfolioData } = useSelector((state) => state.root);
   const experiences = portfolioData?.experiences || [];
 
-  // Detect mobile device (simple user-agent check)
+  // Detect mobile device
   useEffect(() => {
     const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
     setIsMobile(isMobileDevice);
   }, []);
 
-  // Sort experiences by 'order' field ascending
+  // Sort experiences by 'order' ascending
   const sortedExperiences = [...experiences].sort((a, b) => {
     const orderA = a.order !== undefined ? Number(a.order) : Infinity;
     const orderB = b.order !== undefined ? Number(b.order) : Infinity;
     return orderA - orderB;
   });
 
-  // For mobile: toggle on tap
-  const handleToggle = (id) => {
-    setActiveId((prevId) => (prevId === id ? null : id));
-  };
-
-  // For desktop: set active on hover, clear on leave
+  // Desktop: expand on hover, collapse on leave
   const handleMouseEnter = (id) => {
     setActiveId(id);
   };
   const handleMouseLeave = () => {
     setActiveId(null);
+  };
+
+  // Mobile: toggle on tap
+  const handleToggle = (id) => {
+    setActiveId((prevId) => (prevId === id ? null : id));
   };
 
   return (
@@ -47,11 +47,6 @@ const Experiences = () => {
               <div
                 key={experience._id}
                 className="w-full p-4 mb-4 rounded-lg shadow-lg bg-mc-blue-darker1"
-                /*
-                  Conditionally attach event handlers by device type:
-                  - Desktop: onMouseEnter/onMouseLeave
-                  - Mobile: onClick (tap) to expand/collapse
-                */
                 onMouseEnter={
                   !isMobile ? () => handleMouseEnter(experience._id) : undefined
                 }
@@ -60,7 +55,7 @@ const Experiences = () => {
                   isMobile ? () => handleToggle(experience._id) : undefined
                 }
               >
-                {/* HEADER SECTION: period/location + icon */}
+                {/* HEADER: period/location + icon */}
                 <div
                   className={`flex justify-between items-center border-l-4 pl-2 py-2 ${
                     isExpanded
@@ -68,13 +63,13 @@ const Experiences = () => {
                       : "border-[#258d54] text-mc-white"
                   }`}
                 >
-                  {/* Left: Period + Location */}
+                  {/* LEFT: Period + Locations */}
                   <div>
-                    {/* Period -> Larger font */}
+                    {/* Period -> Larger fonts to match Projects */}
                     <h2
                       className={`
                         font-semibold
-                        text-xl sm:text-2xl md:text-3xl lg:text-4xl
+                        text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-4xl
                         ${isExpanded ? "text-quaternary-300" : "text-mc-white"}
                       `}
                     >
@@ -89,7 +84,7 @@ const Experiences = () => {
                               ? "text-secondary-300 font-semibold"
                               : "text-secondary-100"
                           }
-                          text-base sm:text-lg md:text-xl lg:text-2xl
+                          text-base sm:text-lg md:text-xl lg:text-xl xl:text-2xl 2xl:text-2xl
                         `}
                       >
                         {location}
@@ -97,10 +92,10 @@ const Experiences = () => {
                     ))}
                   </div>
 
-                  {/* Right: ArrowDownCircleIcon -> bigger + rotate when expanded */}
+                  {/* RIGHT: ArrowDownCircleIcon -> rotates if expanded */}
                   <ArrowDownCircleIcon
                     className={`
-                      w-8 h-8 md:w-10 md:h-10
+                      w-8 h-8 sm:w-10 sm:h-10
                       transition-transform duration-300
                       ${
                         isExpanded
@@ -111,16 +106,22 @@ const Experiences = () => {
                   />
                 </div>
 
-                {/* BODY SECTION: Role + Description if expanded */}
+                {/* BODY: Role + Description if expanded */}
                 <div className="w-full mt-2">
                   <p
-                    className="text-lg font-bold  text-quaternary-200 sm:text-xl md:text-2xl lg:text-3xl"
+                    className="
+                      text-lg font-bold text-quaternary-200
+                      sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl
+                    "
                   >
                     {experience.role}
                   </p>
                   {isExpanded && (
                     <p
-                      className="text-base text-justify transition-opacity duration-300  text-quaternary-100 sm:text-lg md:text-xl lg:text-2xl"
+                      className="
+                        text-base text-justify transition-opacity duration-300 text-quaternary-100
+                        sm:text-lg md:text-xl lg:text-xl xl:text-2xl 2xl:text-2xl
+                      "
                     >
                       {experience.desc}
                     </p>
