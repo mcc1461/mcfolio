@@ -1,93 +1,146 @@
-import React, { useState } from "react";
-import SectionTitle from "../../components/SectionTitle";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import SectionTitle from "../../components/SectionTitle";
+import { ArrowDownCircleIcon } from "@heroicons/react/24/outline"; // Icon
 
-const Projects = () => {
-  const [hoveredId, setHoveredId] = useState(null);
-
-  // Correctly access the projects array from portfolioData
+const Experiences = () => {
+  const [activeId, setActiveId] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const { portfolioData } = useSelector((state) => state.root);
+  const experiences = portfolioData?.experiences || [];
 
-  // Create a shallow copy of the projects array before sorting
-  const projects = [...(portfolioData?.projects || [])].sort(
-    (a, b) => (a.order || 0) - (b.order || 0)
-  );
+  // Detect mobile device (simple user-agent approach)
+  useEffect(() => {
+    const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+    setIsMobile(isMobileDevice);
+  }, []);
+
+  // Sort experiences by 'order' field (ascending)
+  const sortedExperiences = [...experiences].sort((a, b) => {
+    const orderA = a.order !== undefined ? Number(a.order) : Infinity;
+    const orderB = b.order !== undefined ? Number(b.order) : Infinity;
+    return orderA - orderB;
+  });
+
+  // For mobile: toggle on tap
+  const handleToggle = (id) => {
+    setActiveId((prevId) => (prevId === id ? null : id));
+  };
+
+  // For desktop: expand on hover, collapse on mouse leave
+  const handleMouseEnter = (id) => {
+    setActiveId(id);
+  };
+  const handleMouseLeave = () => {
+    setActiveId(null);
+  };
 
   return (
-    <div id="Projects">
-      <SectionTitle title="Projects" />
-      <div className="flex flex-col items-center justify-center h-full overflow-hidden bg-mc-blue">
-        <div className="flex flex-col w-full max-w-5xl px-4 mx-auto md:px-6 lg:px-8">
-          {projects.length > 0 ? (
-            projects.map((project) => (
+    <>
+      <SectionTitle title="Experiences" />
+      <div className="flex flex-col items-center justify-center h-full bg-mc-blue">
+        <div className="flex flex-col w-full max-w-5xl px-4 py-4 mx-auto md:px-6 lg:px-8">
+          {sortedExperiences.map((experience) => {
+            const isExpanded = activeId === experience._id;
+
+            return (
               <div
-                key={project._id} // Use the actual _id from each project as the key
-                className="flex flex-col items-center justify-center w-full p-4 mb-4 rounded-lg shadow-lg gap-7 bg-mc-blue-darker1"
-                onMouseEnter={() => setHoveredId(project._id)}
-                onMouseLeave={() => setHoveredId(null)}
+                key={experience._id}
+                className="w-full p-4 mb-4 rounded-lg shadow-lg bg-mc-blue-darker1"
+                /*
+                  Conditionally attach event handlers based on device:
+                  - Desktop: onMouseEnter / onMouseLeave
+                  - Mobile: onClick
+                */
+                onMouseEnter={
+                  !isMobile ? () => handleMouseEnter(experience._id) : undefined
+                }
+                onMouseLeave={!isMobile ? handleMouseLeave : undefined}
+                onClick={
+                  isMobile ? () => handleToggle(experience._id) : undefined
+                }
               >
-                {/* Project Type */}
+                {/* HEADER: Period & Locations + Icon */}
                 <div
-                  className={`w-full border-l-4 pl-2 cursor-pointer ${
-                    hoveredId === project._id
-                      ? "text-quaternary-300 border-quaternary-200"
-                      : "text-mc-white border-[#258d54]"
+                  className={`flex justify-between items-center border-l-4 pl-2 py-2 ${
+                    isExpanded
+                      ? "border-quaternary-200 text-quaternary-300"
+                      : "border-[#258d54] text-mc-white"
                   }`}
                 >
-                  <h2
-                    className={`text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-4xl font-semibold ${
-                      hoveredId === project._id
-                        ? "text-quaternary-300"
-                        : "text-mc-white"
-                    }`}
-                  >
-                    {project.type}
-                  </h2>
+                  {/* LEFT: Period & Locations */}
+                  <div>
+                    {/* PERIOD -> Large on bigger screens */}
+                    <h2
+                      className={`
+                        font-semibold
+                        text-lg
+                        sm:text-2xl
+                        md:text-4xl
+                        lg:text-5xl
+                        xl:text-6xl
+                        ${isExpanded ? "text-quaternary-300" : "text-mc-white"}
+                      `}
+                    >
+                      {experience.period}
+                    </h2>
+                    {experience.location.map((loc, idx) => (
+                      <p
+                        key={`${experience._id}-${idx}`}
+                        className={`
+                          ${
+                            isExpanded
+                              ? "text-secondary-300 font-semibold"
+                              : "text-secondary-100"
+                          }
+                          text-sm
+                          sm:text-lg
+                          md:text-2xl
+                          lg:text-3xl
+                          xl:text-4xl
+                        `}
+                      >
+                        {loc}
+                      </p>
+                    ))}
+                  </div>
+
+                  {/* RIGHT: Icon -> Larger on bigger breakpoints */}
+                  <ArrowDownCircleIcon
+                    className={`
+                      transition-transform duration-300
+                      ${
+                        isExpanded
+                          ? "rotate-180 text-quaternary-200"
+                          : "text-secondary-100"
+                      }
+                      w-8 h-8
+                      sm:w-10 sm:h-10
+                      md:w-12 md:h-12
+                      lg:w-14 lg:h-14
+                      xl:w-16 xl:h-16
+                    `}
+                  />
                 </div>
 
-                {/* Image Section */}
-                {hoveredId === project._id && (
-                  <div className="flex flex-col w-full text-lg">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-auto rounded-lg"
-                    />
-                  </div>
-                )}
-
-                {/* Project Title and Description */}
-                <div className="w-full">
-                  <p className="mb-3 text-lg font-bold sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl text-quaternary-200">
-                    {project.title}
+                {/* BODY: Role & Description (visible if expanded) */}
+                <div className="w-full mt-2">
+                  <p className="text-base font-bold  text-quaternary-200 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+                    {experience.role}
                   </p>
-                  {hoveredId === project._id && (
-                    <>
-                      <p className="text-sm text-justify sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-xl text-quaternary-100">
-                        {project.desc}
-                      </p>
-                      <button className="px-3 py-1 mt-3 text-lg font-bold tracking-wider border-2 rounded sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl border-quinary-300 text-quinary-300 hover:border-quinary-500 hover:bg-quinary-200 hover:text-quinary-700">
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-lg"
-                        >
-                          Link
-                        </a>
-                      </button>
-                    </>
+                  {isExpanded && (
+                    <p className="text-sm text-justify transition-opacity duration-300  text-quaternary-100 sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl">
+                      {experience.desc}
+                    </p>
                   )}
                 </div>
               </div>
-            ))
-          ) : (
-            <p className="text-lg text-quaternary-300">No projects available</p>
-          )}
+            );
+          })}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Projects;
+export default Experiences;
