@@ -21,20 +21,16 @@ const Contact = () => {
   const formRef = useRef(null);
   const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
-  // Initialize EmailJS with your Public Key (if required).
   useEffect(() => {
-    if (publicKey) {
-      emailjs.init(publicKey);
-    }
+    emailjs.init(publicKey);
   }, [publicKey]);
 
-  // Detect if the user is on a mobile device
   useEffect(() => {
+    // Detect if the user is on a mobile device
     const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
     setIsMobile(isMobileDevice);
   }, []);
 
-  // Check if video is already playing
   const isVideoPlaying = (video) => {
     return !!(
       video.currentTime > 0 &&
@@ -44,7 +40,6 @@ const Contact = () => {
     );
   };
 
-  // Use Intersection Observer to play/pause video based on visibility
   useEffect(() => {
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {
@@ -70,18 +65,18 @@ const Contact = () => {
       threshold: 0.5,
     });
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    const currentVideoRef = videoRef.current;
+    if (currentVideoRef) {
+      observer.observe(currentVideoRef);
     }
 
     return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
+      if (currentVideoRef) {
+        observer.unobserve(currentVideoRef);
       }
     };
   }, []);
 
-  // Retrieve contact data from Redux (optional if your code uses it)
   const { portfolioData } = useSelector((state) => state.root);
   const user = portfolioData?.contacts?.[0] || {
     name: "Unavailable",
@@ -91,21 +86,19 @@ const Contact = () => {
     location: "Location not available",
   };
 
-  // Show/hide modal
   const showModal = (e) => {
     e.preventDefault();
-    e.stopPropagation();
+    e.stopPropagation(); // Stop other handlers like the LinkedIn link
     setIsModalVisible(true);
   };
+
   const handleCancel = () => setIsModalVisible(false);
 
-  // Handle form input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEmailData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Send the form email to yourself (no auto-reply to the sender)
   const handleSendEmail = async (e) => {
     e.preventDefault();
     if (!emailData.user_name || !emailData.user_email || !emailData.message) {
@@ -115,10 +108,26 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm(
-        "service_musco777", // Your EmailJS service ID
-        "template_n19oxg6", // Your EmailJS template ID
+        "service_musco777", // Ensure this is the correct service ID
+        "template_n19oxg6", // Ensure this is the correct template ID
         formRef.current,
-        publicKey // Your public key (user ID) if needed
+        publicKey // Pass the public key as the user ID
+      );
+
+      const templateParams = {
+        user_name: emailData.user_name,
+        user_email: emailData.user_email,
+        message: emailData.message, // Include the user's message here
+        reply_to: emailData.user_email, // Set reply-to as the user's email
+        from_email: "info@musco.dev", // Set the sender's email
+        contact_number: Math.floor(Math.random() * 10000), // Random number
+      };
+
+      // Send auto-reply
+      await emailjs.send(
+        "service_musco777", // Service ID
+        "template_skv7rk8", // Auto-reply template ID
+        templateParams
       );
 
       setAlert({ type: "success", message: "Email sent successfully!" });
@@ -130,7 +139,6 @@ const Contact = () => {
     }
   };
 
-  // Close alert
   const closeAlert = () => setAlert(null);
 
   // Double-click handler for mobile
@@ -142,18 +150,17 @@ const Contact = () => {
       // Only open the modal if clicked twice
       if (clickCount === 1) {
         showModal(e);
-        setClickCount(0);
+        setClickCount(0); // Reset after opening
       }
 
       // Reset click count after 300ms to register it as a single click
       setTimeout(() => setClickCount(0), 300);
     } else {
-      // For desktops, open on first click
+      // For web, trigger the modal on the first click
       showModal(e);
     }
   };
 
-  // Simulate hover on touch
   const handleTouch = () => {
     setEntered(true);
     setTimeout(() => {
@@ -171,18 +178,18 @@ const Contact = () => {
         />
       )}
       <SectionTitle title="Contact" />
-      <div className="grid w-full grid-cols-2 py-10 gap-7 bg-mc-blue md:grid-cols-1 sm:grid-cols-1 justify-items-center">
+      <div className="grid items-center w-full grid-cols-2 py-10 gap-7 md:grid-cols-1 sm:grid-cols-1 justify-items-center bg-mc-blue">
         {/* Video Section */}
         <div className="flex justify-end w-full sm:justify-center md:justify-center">
           <video
             ref={videoRef}
-            className="w-[75%] max-w-[500px] min-w-[250px] rounded-lg"
+            className=" w-[75%] rounded-lg min-w-[250px] max-w-[500px]"
             controls={false}
             muted
             playsInline
             onMouseEnter={() => videoRef.current.play()}
             onMouseLeave={() => videoRef.current.pause()}
-            onTouchStart={handleTouch}
+            onTouchStart={handleTouch} // Handle touch to simulate hover
           >
             <source
               src="https://firebasestorage.googleapis.com/v0/b/musco-portfolio.appspot.com/o/MusCo_WebDev.mp4?alt=media&token=fdfdbce7-3449-44a1-819c-8f8c03bd6a30"
@@ -194,16 +201,16 @@ const Contact = () => {
         </div>
 
         {/* Text Section */}
-        <div className="flex justify-start w-full px-4 lg:max-w-[600px] md:justify-center sm:justify-center">
+        <div className="w-full lg:max-w-[600px] px-4 flex justify-start md:justify-center sm:justify-center ">
           <div
-            className={`w-fit max-w-[70%] flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 border-l-4 pl-2 ${
+            className={`w-max-[70%] w-fit flex flex-col items-start py-4 px-10 rounded-lg shadow-lg gap-3 ${
               entered
                 ? "bg-mc-blue-darker3 text-quaternary-300 border-quaternary-200"
                 : "bg-mc-blue-darker1 text-mc-white border-[#258d54]"
-            }`}
+            } border-l-4 pl-2 justify-self-start`}
             onMouseEnter={() => setEntered(true)}
             onMouseLeave={() => setEntered(false)}
-            onTouchStart={handleTouch}
+            onTouchStart={handleTouch} // Handle touch to simulate hover
           >
             <a
               href={user.linkedinUrl}
@@ -211,7 +218,7 @@ const Contact = () => {
               rel="noreferrer noopener"
               className={`flex items-center text-2xl sm:text-xl md:text-2xl font-bold ${
                 entered
-                  ? "underline cursor-pointer text-quaternary-300"
+                  ? "text-quaternary-300 underline cursor-pointer"
                   : "text-mc-white"
               }`}
             >
@@ -232,10 +239,11 @@ const Contact = () => {
               <p className="mb-2">Location: {user.location}</p>
               <button
                 className="px-4 py-2 mt-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-                onClick={handleClick}
+                onClick={handleClick} // Handle click for both mobile and web
               >
                 Write to Me
               </button>
+              {/* Show double-click message for mobile users */}
               {isMobile && (
                 <p className="mt-2 text-sm text-gray-400">
                   Click 3 times to send a message
