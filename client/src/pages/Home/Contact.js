@@ -124,11 +124,11 @@ const Contact = () => {
       };
 
       // Send auto-reply
-      await emailjs.send(
-        "service_musco777", // Service ID
-        "template_skv7rk8", // Auto-reply template ID
-        templateParams
-      );
+      // await emailjs.send(
+      //   "service_musco777", // Service ID
+      //   "template_skv7rk8", // Auto-reply template ID
+      //   templateParams
+      // );
 
       setAlert({ type: "success", message: "Email sent successfully!" });
       setEmailData({ user_name: "", user_email: "", message: "" });
