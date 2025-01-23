@@ -108,8 +108,8 @@ const Contact = () => {
 
     try {
       await emailjs.sendForm(
-        "service_musco777", // Ensure this is the correct service ID
-        "template_n19oxg6", // Ensure this is the correct template ID
+        "service_musco777",
+        "template_n19oxg6",
         formRef.current,
         publicKey // Pass the public key as the user ID
       );
@@ -246,7 +246,7 @@ const Contact = () => {
               {/* Show double-click message for mobile users */}
               {isMobile && (
                 <p className="mt-2 text-sm text-gray-400">
-                  Double-click to send a message
+                  Click 3 times to send a message
                 </p>
               )}
             </div>
